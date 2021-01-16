@@ -1,0 +1,19 @@
+{
+  "name": "enigma",
+  "version": "1.0.0",
+  "description": "An implementation of enigma machine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "enigma",
+    "enctrypt",
+    "decrypt"
+  ],
+  "author": "Marlon Barcarol",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
