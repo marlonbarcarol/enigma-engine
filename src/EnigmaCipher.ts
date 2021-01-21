@@ -9,7 +9,7 @@ class EngimaCipher {
   }
 
   /**
-   * Enigma machine is actually a symmetrical cipher, 
+   * Enigma machine is actually a symmetrical cipher,
    * meaning the decryption method is the same as the encryption.
    */
   public encrypt(plaintext: string): string {
@@ -26,7 +26,7 @@ class EngimaCipher {
     let textArray = treatedText.split('');
 
     textArray = textArray.map((letter: string): string => {
-      let result = '';
+      const result = '';
 
       for (const rotor of this.configuration.rotors) {
         for (const r of rotor) {

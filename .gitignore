@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+build
 
 # Local env files
 .env.local
@@ -8,3 +9,4 @@ node_modules
 # Editor directories and files
 .idea
 .vscode
+*.code-workspace

@@ -19,27 +19,28 @@ Position          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
 ```
 **Wired alphabet**
 ```
-Shuffled Alphabet Q  W  E  R  T  Z  U  I  O  A  S  D  F  G  H  J  K  P  Y  X  C  V  B  N  M  L\
+Shuffled Alphabet Q  W  E  R  T  Z  U  I  O  A  S  D  F  G  H  J  K  P  Y  X  C  V  B  N  M  L
 Position          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 ```
 Resulting on `A=Q, B=W, C=E, D=R, [...]`.
 
 # Reflector
-Works like a bi-directional map. The reflector is fixed and non configurable as oposed to the rotor rings. 
+Works like a bi-directional map. The reflector is fixed and non configurable as oposed to the rotor rings.
 ```
 A maps B then
 B maps A
 ```
 
 # Plugboard
-Maps a letter to another letter for theirs substitution, same property seem by the reflector. The major benefit is the possibility of having many letters mapped, thus adding another complexity as well as layer to the cypher. 
+Maps a letter to another letter for theirs substitution, same property seem by the reflector. The major benefit is the possibility of having many letters mapped, thus adding another complexity as well as layer to the cypher.
 
 ```
 A maps B then
 B maps A
 ```
 
-#### Sources: 
+#### Sources:
 - Hackaday - THE ENIGMA ENIGMA: HOW THE ENIGMA MACHINE WORKED: https://hackaday.com/2017/08/22/the-enigma-enigma-how-the-enigma-machine-worked/
 - CryptoMuseum - Enigma wiring: https://www.cryptomuseum.com/crypto/enigma/wiring.htm
 - A1: Enigma https://www.cs.cornell.edu/courses/cs3110/2018sp/a1/a1.html
+-  detailed working through of Enigma encipherment: https://www.codesandciphers.org.uk/enigma/example1.htm
