@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"include": [".", ".eslintrc.js"],
+	"ignorePatterns": ["node_modules", "build"],
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true
+	}
+}

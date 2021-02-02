@@ -1,44 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "esnext",                    /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
-    "module": "esnext",                    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
 
-    "allowJs": false,                      /* Allow javascript files to be compiled. */
-    "checkJs": false,                      /* Report errors in .js files. */
-    "declaration": true,                   /* Generates corresponding '.d.ts' file. */
-    "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    "sourceMap": true,                     /* Generates corresponding '.map' file. */
-    "removeComments": true,                /* Do not emit comments to output. */
-    "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
-    "noEmit": false,                       /* Do not emit outputs. */
-    "composite": true,                     /* Enable project compilation */
-    "outDir": "./build",                   /* Redirect output structure to the directory. */
-    "baseUrl": "./src",                       /* Base directory to resolve non-absolute module names. */
-    "tsBuildInfoFile": "./build/.cache.json",   /* Specify file to store incremental compilation information */
-    "paths": {
-      "@/*": [
-        "src/*",
-      ],
-    },
+		"allowJs": false,
+		"checkJs": false,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"removeComments": false,
+		"importHelpers": true,
+		"noEmit": true,
+		"composite": true,
+		"outDir": "./build",
+		"baseUrl": ".",
+		"tsBuildInfoFile": "./build/.cache.json",
+		"paths": {
+			"@/*": ["src/*"],
+		},
 
-    "strict": true,
-    "noUnusedLocals": true,                /* Report errors on unused locals. */
-    "noUnusedParameters": true,            /* Report errors on unused parameters. */
-    "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
-    "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
-    // "noUncheckedIndexedAccess": true,      /* Include 'undefined' in index signature results */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
 
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
-  },
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+	},
 
-  "include": [
-    "./src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+	"include": ["."],
+	"exclude": [
+		"node_modules",
+		"build",
+	]
 }

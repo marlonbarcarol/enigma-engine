@@ -6,7 +6,10 @@ default: \
 	node_modules/.bin/tsc --noEmit ./src/**
 
 code:
-	node_modules/.bin/eslint --cache --format codeframe ./
+	&& node_modules/.bin/prettier -c . \
+	&& node_modules/.bin/eslint --cache --format codeframe .
 
 code.fix:
-	node_modules/.bin/eslint --fix --format codeframe ./
+	node_modules/.bin/prettier -w . \
+	&& node_modules/.bin/prettier -c . \
+	&& node_modules/.bin/eslint --fix --format codeframe .

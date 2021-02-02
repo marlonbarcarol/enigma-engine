@@ -1,48 +1,45 @@
 import { EnigmaConfiguration } from '@/Configuration/EnigmaConfiguration';
 
-
 class EngimaCipher {
-  public readonly configuration: EnigmaConfiguration;
+	public readonly configuration: EnigmaConfiguration;
 
-  public constructor (configuration: EnigmaConfiguration) {
-    this.configuration = configuration;
-  }
+	public constructor(configuration: EnigmaConfiguration) {
+		this.configuration = configuration;
+	}
 
-  /**
-   * Enigma machine is actually a symmetrical cipher,
-   * meaning the decryption method is the same as the encryption.
-   */
-  public encrypt(plaintext: string): string {
-    let treatedText = plaintext.toUpperCase();
+	/**
+	 * Enigma machine is actually a symmetrical cipher,
+	 * meaning the decryption method is the same as the encryption.
+	 */
+	public encrypt(plaintext: string): string {
+		let treatedText = plaintext.toUpperCase();
 
-    const regex = new RegExp(`[^${this.configuration.alphabet.letters}]+`, 'gm');
-    treatedText = treatedText.replace(regex, '');
+		const regex = new RegExp(`[^${this.configuration.alphabet.letters}]+`, 'gm');
+		treatedText = treatedText.replace(regex, '');
 
-    if (treatedText.length === 0) {
-      return '';
-    }
+		if (treatedText.length !== 0) {
+			return '';
+		}
 
-    // TODO - Use generators
-    let textArray = treatedText.split('');
+		// TODO - Use generators
+		let textArray = treatedText.split('');
 
-    textArray = textArray.map((letter: string): string => {
-      const result = '';
+		textArray = textArray.map((letter: string): string => {
+			const result = '';
 
-      for (const rotor of this.configuration.rotors) {
-        for (const r of rotor) {
-          r.process(letter);
-        }
-      }
+			for (const rotor of this.configuration.rotors) {
+				for (const r of rotor) {
+					r.process(letter);
+				}
+			}
 
-      return result;
-    });
+			return result;
+		});
 
-    const text = textArray.join('');
+		const text = textArray.join('');
 
-    return text;
-  }
+		return text;
+	}
 }
 
-export {
-  EngimaCipher,
-};
+export { EngimaCipher };
