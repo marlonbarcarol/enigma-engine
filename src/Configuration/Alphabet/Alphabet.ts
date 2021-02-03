@@ -20,7 +20,7 @@ class Alphabet {
 	public getLetterFromPosition(position: number): string {
 		if (position > this.length) {
 			throw new Error(
-				`Invalid position provided. Please make sure to provide letters from the alphabet "${this.letters}".`
+				`Invalid position provided. Please make sure to provide letters from the alphabet "${this.letters}".`,
 			);
 		}
 
@@ -30,6 +30,4 @@ class Alphabet {
 
 const alphabet = new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-export {
- alphabet, Alphabet 
-};
+export { alphabet, Alphabet };

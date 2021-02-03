@@ -20,8 +20,8 @@ class Rotor implements IterableIterator<Rotor> {
 		++this.pointer;
 
 		return {
-			'value': this,
-			'done': false // Endless 🔁 rotation 🤷‍♂️
+			value: this,
+			done: false, // Endless 🔁 rotation 🤷‍♂️
 		};
 	}
 

@@ -2,23 +2,19 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "esnext",
-		"moduleResolution": "node",
+
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"outDir": "./build",
 
 		"allowJs": false,
 		"checkJs": false,
 		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
+		"importHelpers": false,
 		"removeComments": false,
-		"importHelpers": true,
-		"noEmit": true,
-		"composite": true,
-		"outDir": "./build",
-		"baseUrl": ".",
-		"tsBuildInfoFile": "./build/.cache.json",
-		"paths": {
-			"@/*": ["src/*"],
-		},
+		"sourceMap": true,
 
 		"strict": true,
 		"noUnusedLocals": true,
@@ -28,12 +24,17 @@
 
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
+		"forceConsistentCasingInFileNames": true
 	},
 
-	"include": ["."],
+	"include": [
+		".",
+		".eslintrc.*",
+		"jest.config.js"
+	],
 	"exclude": [
-		"node_modules",
-		"build",
+		"./node_modules",
+		"./build",
+		"*.spec.ts"
 	]
 }

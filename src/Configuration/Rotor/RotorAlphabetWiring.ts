@@ -13,7 +13,7 @@ class RotorAlphabetWiring {
 	public constructor(ring: Alphabet, wired: Alphabet) {
 		if (ring.length !== wired.length) {
 			throw new Error(
-				'Invalid alphabet provided. Please make sure that the ring and wired alphabets have the same length.'
+				'Invalid alphabet provided. Please make sure that the ring and wired alphabets have the same length.',
 			);
 		}
 
