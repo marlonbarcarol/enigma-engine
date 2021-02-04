@@ -5,14 +5,14 @@
 	pretty pretty.check \
 	lint lint.check \
 	test test.watch \
-	build.prepare
+	clean
 
 default: \
 	build
 
 build:
 	@ node --version
-	@ $(MAKE) clean -s
+	@ $(MAKE) clean
 	@ echo "👀 Checking code"
 	@ $(MAKE) build.prepare -s
 	@ echo "👷 Typescript build"
@@ -27,7 +27,7 @@ code: pretty.check lint.check
 code.fix: pretty lint pretty
 
 pretty:
-	nprettier '.' -w \
+	node_modules/.bin/prettier '.' -w \
 	&& $(MAKE) pretty.check
 
 pretty.check:
@@ -49,6 +49,6 @@ test.watch:
 # Cleaning
 clean:
 	@rm -rf ./build/*
-	rm -rf ./.cache/*
-	rm -rf ./node_modules/.cache/*
-	echo "🧹 Marie Kondo finally found joy. All tidied up."
+	@rm -rf ./.cache/*
+	@rm -rf ./node_modules/.cache/*
+	@echo "🧹 Marie Kondo finally found joy. All tidied up."
