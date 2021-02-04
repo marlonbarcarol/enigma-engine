@@ -2,16 +2,18 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "esnext",
+		"moduleResolution": "Node",
 
 		"baseUrl": "./",
 		"paths": {
 			"@/*": ["src/*"]
 		},
 		"outDir": "./build",
+		"declaration": true,
+		"declarationDir": "./build/types",
 
 		"allowJs": false,
 		"checkJs": false,
-		"declaration": true,
 		"importHelpers": false,
 		"removeComments": false,
 		"sourceMap": true,
@@ -28,13 +30,12 @@
 	},
 
 	"include": [
-		".",
-		".eslintrc.*",
-		"jest.config.js"
+		"src/**/*.ts"
 	],
 	"exclude": [
-		"./node_modules",
-		"./build",
-		"*.spec.ts"
+		"node_modules",
+		"build",
+		"*.spec.ts",
+		"**/*.spec.ts"
 	]
 }

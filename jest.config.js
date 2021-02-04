@@ -6,6 +6,12 @@ const { compilerOptions } = require('./tsconfig.json');
 module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
-  cacheDirectory: '<rootDir>/.cache/jest',
+	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
+	modulePathIgnorePatterns: ['<rootDir>/build'],
+	cacheDirectory: '<rootDir>/.cache/jest',
+	globals: {
+		'ts-jest': {
+			tsconfig: 'tsconfig.tools.json',
+		},
+	},
 };
