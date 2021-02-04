@@ -1,27 +1,41 @@
 
 .PHONY: \
+	compile \
 	build build.prepare \
+	clean \
 	code code.fix \
 	pretty pretty.check \
 	lint lint.check \
 	test test.watch \
-	clean
 
-default: \
-	build
+default: compile
 
-build:
+# 🎉 Compile stuffs
+
+compile:
 	@ node --version
 	@ $(MAKE) clean
 	@ echo "👀 Checking code"
 	@ $(MAKE) build.prepare -s
 	@ echo "👷 Typescript build"
+	@ $(MAKE) build -s
+	@ echo "🎉 Compile complete 🎉"
+
+# 👷 Build
+
+build:
 	@ node_modules/.bin/tsc --listEmittedFiles | awk '{print $$2}'
-	@ echo "🎉 Build complete 🎉"
 
 build.prepare: code test
 
-# Code standards
+# 🧹 Cleaning
+clean:
+	@ rm -rf ./build/*
+	@ rm -rf ./.cache/*
+	@ rm -rf ./node_modules/.cache/*
+	@ echo "🧹 Marie Kondo finally found joy. All tidied up."
+
+# 🕵️‍♂️ Code standards
 code: pretty.check lint.check
 
 code.fix: pretty lint pretty
@@ -39,16 +53,9 @@ lint:
 lint.check:
 	node_modules/.bin/eslint '.' --format codeframe
 
-# Test
+# 🚦 Test
 test:
 	node_modules/.bin/jest --no-cache
 
 test.watch:
 	node_modules/.bin/jest --watch
-
-# Cleaning
-clean:
-	@rm -rf ./build/*
-	@rm -rf ./.cache/*
-	@rm -rf ./node_modules/.cache/*
-	@echo "🧹 Marie Kondo finally found joy. All tidied up."

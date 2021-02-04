@@ -4,9 +4,9 @@
 		"module": "esnext",
 		"moduleResolution": "Node",
 
-		"baseUrl": "./",
+		"baseUrl": "./src",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./*"]
 		},
 		"outDir": "./build",
 		"declaration": true,
@@ -17,6 +17,7 @@
 		"importHelpers": false,
 		"removeComments": false,
 		"sourceMap": true,
+		"noEmit": false,
 
 		"strict": true,
 		"noUnusedLocals": true,
