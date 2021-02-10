@@ -3,9 +3,7 @@ class Alphabet {
 	public length: number;
 
 	public static createEnglish(): Alphabet {
-		const alphabet = new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-
-		return alphabet;
+		return new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 	}
 
 	public constructor(letters: string) {
@@ -28,6 +26,4 @@ class Alphabet {
 	}
 }
 
-const alphabet = new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-
-export { alphabet, Alphabet };
+export { Alphabet };

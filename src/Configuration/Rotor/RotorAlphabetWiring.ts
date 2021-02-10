@@ -10,6 +10,10 @@ class RotorAlphabetWiring {
 
 	private readonly capacity: number;
 
+	public static withEnglish(alphabet: Alphabet): RotorAlphabetWiring {
+		return new RotorAlphabetWiring(Alphabet.createEnglish(), alphabet);
+	}
+
 	public constructor(ring: Alphabet, wired: Alphabet) {
 		if (ring.length !== wired.length) {
 			throw new Error(
