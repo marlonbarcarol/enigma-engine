@@ -1,7 +1,7 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
 import { Rotor } from '@/Configuration/Rotor/Rotor';
 
-class EnigmaConfiguration {
+export class EnigmaConfiguration {
 	public readonly alphabet: Alphabet;
 	public readonly rotors: Rotor[];
 
@@ -14,5 +14,3 @@ class EnigmaConfiguration {
 		this.rotors = rotors;
 	}
 }
-
-export { EnigmaConfiguration };

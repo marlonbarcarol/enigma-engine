@@ -1,6 +1,6 @@
 import { EnigmaConfiguration } from '@/Configuration/EnigmaConfiguration';
 
-class EnigmaCipher {
+export class EnigmaCipher {
 	public readonly configuration: EnigmaConfiguration;
 
 	public constructor(configuration: EnigmaConfiguration) {
@@ -41,5 +41,3 @@ class EnigmaCipher {
 		return text;
 	}
 }
-
-export { EnigmaCipher };

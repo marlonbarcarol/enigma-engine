@@ -1,4 +1,5 @@
-class Alphabet {
+
+export class Alphabet {
 	public letters: string;
 	public length: number;
 
@@ -26,4 +27,3 @@ class Alphabet {
 	}
 }
 
-export { Alphabet };
