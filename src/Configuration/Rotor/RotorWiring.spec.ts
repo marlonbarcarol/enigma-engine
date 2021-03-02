@@ -5,18 +5,17 @@ describe('RotorWiring.ts', () => {
 	test('Can shift wiring', () => {
 		const wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
 
-
 		let newWiring: RotorWiring = wiring;
 
 		// EKMFLGDQVZNTOWYHXUSPAIBRCJ -> FLNGMHERWAOUPXZIYVTQBJCSDK
 		newWiring = newWiring.shift();
-		expect(newWiring.input.letters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-		expect(newWiring.output.letters).toEqual('FLNGMHERWAOUPXZIYVTQBJCSDK');
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('FLNGMHERWAOUPXZIYVTQBJCSDK');
 
 		// FLNGMHERWAOUPXZIYVTQBJCSDK -> GMOHNIFSXBPVQYAJZWURCKDTEL
 		newWiring = newWiring.shift();
-		expect(newWiring.input.letters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-		expect(newWiring.output.letters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
 	});
 
 	test('Can rotate wiring', () => {
@@ -26,13 +25,13 @@ describe('RotorWiring.ts', () => {
 
 		// GMOHNIFSXBPVQYAJZWURCKDTEL -> LGMOHNIFSXBPVQYAJZWURCKDTE
 		newWiring = newWiring.rotate();
-		expect(newWiring.input.letters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-		expect(newWiring.output.letters).toEqual('LGMOHNIFSXBPVQYAJZWURCKDTE');
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('LGMOHNIFSXBPVQYAJZWURCKDTE');
 
 		// LGMOHNIFSXBPVQYAJZWURCKDTE -> ELGMOHNIFSXBPVQYAJZWURCKDT
 		newWiring = newWiring.rotate();
-		expect(newWiring.input.letters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-		expect(newWiring.output.letters).toEqual('ELGMOHNIFSXBPVQYAJZWURCKDT');
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('ELGMOHNIFSXBPVQYAJZWURCKDT');
 	});
 
 	test('Can convert to string', () => {

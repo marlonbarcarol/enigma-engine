@@ -1,4 +1,3 @@
-
 export class RotorRing {
 	public setting: number;
 

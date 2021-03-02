@@ -7,14 +7,10 @@ import { EnigmaCipher } from '@/EnigmaCipher';
 
 describe('EnigmaCipher.ts', () => {
 	test('Can instantiate', () => {
-		const ring = new RotorRing(Alphabet.createEnglish().getLetterPosition('A'));
+		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 		const wiring = RotorWiring.withEnglish(new Alphabet('MOQFBCJSKVXLREYTGUDNIWHAPZ'));
 		const configuration = EnigmaConfiguration.withEnglish([
-			new Rotor(
-				ring,
-				wiring,
-				wiring.getOutputLetter(0)
-			)
+			new Rotor(ring, wiring, wiring.input.positionOf(wiring.input.at(0))),
 		]);
 
 		const cipher = new EnigmaCipher(configuration);

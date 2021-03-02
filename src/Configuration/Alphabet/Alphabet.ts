@@ -1,29 +1,37 @@
-
 export class Alphabet {
-	public letters: string;
+	public characters: string;
 	public length: number;
 
 	public static createEnglish(): Alphabet {
 		return new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 	}
 
-	public constructor(letters: string) {
-		this.letters = letters;
-		this.length = letters.length;
+	public constructor(characters: string) {
+		this.characters = characters;
+		this.length = characters.length;
 	}
 
-	public getLetterPosition(letter: string): number {
-		return this.letters.indexOf(letter);
-	}
+	public positionOf(char: string): number {
+		const position = this.characters.indexOf(char);
 
-	public getLetterFromPosition(position: number): string {
-		if (position > this.length) {
+		if (position === -1) {
 			throw new Error(
-				`Invalid position provided. Please make sure to provide letters from the alphabet "${this.letters}".`,
+				`Invalid letter provided. Please make sure to provide characters from the alphabet "${this.characters}".`,
 			);
 		}
 
-		return this.letters[position];
+		return this.characters.indexOf(char);
+	}
+
+	public at(position: number): string {
+		const char = this.characters[position];
+
+		if (char === undefined) {
+			throw new Error(
+				`Invalid position provided. Please make sure to provide characters from the alphabet "${this.characters}".`,
+			);
+		}
+
+		return char;
 	}
 }
-

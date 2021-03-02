@@ -6,6 +6,7 @@
 	code code.fix \
 	pretty pretty.check \
 	lint lint.check \
+	type.check \
 	test test.watch \
 
 default: compile
@@ -26,7 +27,7 @@ compile:
 build:
 	@ node_modules/.bin/tsc --listEmittedFiles | awk '{print $$2}'
 
-build.prepare: code test
+build.prepare: code test type.check
 
 # 🧹 Cleaning
 clean:
@@ -36,7 +37,7 @@ clean:
 	@ echo "🧹 Marie Kondo finally found joy. All tidied up."
 
 # 🕵️‍♂️ Code standards
-code: pretty.check lint.check
+code: pretty.check lint.check type.check
 
 code.fix: pretty lint pretty
 
@@ -52,6 +53,9 @@ lint:
 
 lint.check:
 	node_modules/.bin/eslint '.' --format codeframe
+
+type.check:
+	node_modules/.bin/tsc --noEmit
 
 # 🚦 Test
 test:

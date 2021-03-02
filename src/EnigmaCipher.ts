@@ -14,7 +14,7 @@ export class EnigmaCipher {
 	public encrypt(plaintext: string): string {
 		let treatedText = plaintext.toUpperCase();
 
-		const regex = new RegExp(`[^${this.configuration.alphabet.letters}]+`, 'gm');
+		const regex = new RegExp(`[^${this.configuration.alphabet.characters}]+`, 'gm');
 		treatedText = treatedText.replace(regex, '');
 
 		if (treatedText.length !== 0) {
@@ -24,13 +24,20 @@ export class EnigmaCipher {
 		// TODO - Use generators
 		let textArray = treatedText.split('');
 
+		for (const [index, rotor] of this.configuration.rotors.entries()) {
+			const previous = this.configuration.rotors[index - 1] ?? null;
+			const next = this.configuration.rotors[index + 1] ?? null;
+
+			rotor.connect(previous, next);
+			rotor.configureWiring();
+		}
+
 		textArray = textArray.map((letter: string): string => {
-			const result = '';
+			let result = '';
 
 			for (const rotor of this.configuration.rotors) {
-				for (const r of rotor) {
-					r.process(letter);
-				}
+				const char: string = rotor.process(letter);
+				result = result.concat(char);
 			}
 
 			return result;

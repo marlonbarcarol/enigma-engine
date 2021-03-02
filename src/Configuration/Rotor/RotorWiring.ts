@@ -1,11 +1,10 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
 
-// A rotor contains a ring alphabet wired to a shuffled alphabet.
+// A rotor contains an alphabet (input) wired to a shuffled alphabet (output).
 export class RotorWiring {
-	// The ring alphabet.
+	// The input associated with the output.
 	public readonly input: Alphabet;
-
-	// The alphabet sequence that the ring alphabet is wired to.
+	// The output associated with the input.
 	public readonly output: Alphabet;
 
 	private readonly capacity: number;
@@ -17,7 +16,7 @@ export class RotorWiring {
 	public constructor(input: Alphabet, output: Alphabet) {
 		if (input.length !== output.length) {
 			throw new Error(
-				`Invalid alphabet provided. Please make sure that the input (${input.letters}) and output (${output.letters}) alphabets have the same length.`,
+				`Invalid alphabet provided. Please make sure that the input (${input.characters}) and output (${output.characters}) alphabets have the same length.`,
 			);
 		}
 
@@ -26,18 +25,24 @@ export class RotorWiring {
 		this.capacity = output.length;
 	}
 
+	/**
+	 * Creates a new rotor wiring keeping the current input.
+	 */
 	public withOutput(alphabet: Alphabet): RotorWiring {
 		return new RotorWiring(this.input, alphabet);
 	}
 
+	/**
+	 * Moves the wiring output letters up.
+	 */
 	public shift(): RotorWiring {
-		let output: string = '';
+		let output = '';
 
-		for(let letter of this.output.letters) {
-			let position: number = this.input.getLetterPosition(letter);
+		for (const letter of this.output.characters) {
+			let position: number = this.input.positionOf(letter);
 			position = (position + 1) % this.size();
 
-			const newLetter: string = this.input.getLetterFromPosition(position);
+			const newLetter: string = this.input.at(position);
 
 			output = output.concat(newLetter);
 		}
@@ -48,12 +53,14 @@ export class RotorWiring {
 		return rotorWiring;
 	}
 
-
+	/**
+	 * Moves the wiring letters as a looping queue: last to first, first to second, and so on.
+	 */
 	public rotate(): RotorWiring {
-		let newWiring: string = '';
+		let newWiring = '';
 
-		newWiring = newWiring.concat(this.output.letters.slice(-1));
-		newWiring = newWiring.concat(this.output.letters.slice(0, -1));
+		newWiring = newWiring.concat(this.output.characters.slice(-1));
+		newWiring = newWiring.concat(this.output.characters.slice(0, -1));
 
 		const alphabet = new Alphabet(newWiring);
 		const rotorWiring = this.withOutput(alphabet);
@@ -61,67 +68,32 @@ export class RotorWiring {
 		return rotorWiring;
 	}
 
-	public toString(): string {
-		return `
-		${this.input.letters}
-		${this.output.letters}
-		`;
+	/**
+	 * Return the output letter mapped by the input wiring.
+	 */
+	public getMappedCharAt(position: number): string {
+		const pointer = this.input.positionOf(this.input.at(position));
+
+		return this.output.at(pointer);
 	}
 
 	/**
-	 * Return the position of the marked letter, usually A, in the wiring.
+	 * Return the input letter mapped by the output wiring.
 	 */
-	public getStartMarkingLetter(): string {
-		return this.input.getLetterFromPosition(0);
-	}
+	public getReverseMappedCharAt(position: number): string {
+		const pointer = this.output.positionOf(this.output.at(position));
 
-	public getOutputPosition(letter: string): number {
-		const index = this.input.letters.indexOf(letter);
-
-		if (index <= -1) {
-			throw new Error(`Could not find letter "${letter}" in the alphabet ${this.input.letters}`);
-		}
-
-		return index;
-	}
-
-	public getOutputLetter(position: number): string {
-		const letter = this.output.letters[position];
-
-		if (position > this.size() || position < 0) {
-			throw new Error(`Cannot get output letter for an out of boundary (0-${this.size()}) position "${position}".`);
-		}
-
-		return letter;
-	}
-
-	/**
-	 * Return the ring position of a given letter.
-	 */
-	public getInputPosition(letter: string): number {
-		const index = this.input.letters.indexOf(letter);
-
-		if (index <= -1) {
-			throw new Error(`Could not find letter "${letter}" in the alphabet ${this.input.letters}`);
-		}
-
-		return index;
-	}
-
-	/**
-	 * Return the letter for the ring alphabet of a given position.
-	 */
-	public getInputLetter(position: number): string {
-		const letter = this.input.letters[position];
-
-		if (position > this.size() || position < 0) {
-			throw new Error(`Cannot get input letter for an out of boundary (0-${this.size()}) position "${position}".`);
-		}
-
-		return letter;
+		return this.input.at(pointer);
 	}
 
 	public size(): number {
 		return this.capacity;
+	}
+
+	public toString(): string {
+		return `
+		${this.input.characters}
+		${this.output.characters}
+		`;
 	}
 }
