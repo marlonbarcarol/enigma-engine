@@ -37,7 +37,7 @@ export class Rotor {
 	}
 
 	/**
-	 * The rotors are linked to this rotor.
+	 * The rotors are linked to between each other.
 	 */
 	public connect(previous: Nullable<Rotor>, next: Nullable<Rotor>): void {
 		this.connection = { previous, next };
@@ -45,6 +45,7 @@ export class Rotor {
 
 	public turnover(): void {
 		this.pointer++;
+		this.wiring = this.wiring.rotate();
 
 		if (this.notches.includes(this.pointer) === true) {
 			this.connection.next?.turnover();
@@ -59,7 +60,7 @@ export class Rotor {
 		this.turnover();
 
 		let position: number = this.wiring.input.positionOf(letter);
-		position = position + this.pointer;
+		position = (this.pointer - position) % this.maxRotation;
 
 		const char = this.wiring.getMappedCharAt(position);
 
@@ -81,7 +82,7 @@ export class Rotor {
 
 		for (let i = 0; i < this.ring.setting; i++) {
 			let wiring = wiringShifts[wiringShifts.length - 1];
-			wiring = wiring.shift();
+			wiring = wiring.shiftUp();
 
 			wiringShifts.push(wiring);
 		}

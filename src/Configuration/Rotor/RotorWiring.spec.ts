@@ -8,12 +8,12 @@ describe('RotorWiring.ts', () => {
 		let newWiring: RotorWiring = wiring;
 
 		// EKMFLGDQVZNTOWYHXUSPAIBRCJ -> FLNGMHERWAOUPXZIYVTQBJCSDK
-		newWiring = newWiring.shift();
+		newWiring = newWiring.shiftUp();
 		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		expect(newWiring.output.characters).toEqual('FLNGMHERWAOUPXZIYVTQBJCSDK');
 
 		// FLNGMHERWAOUPXZIYVTQBJCSDK -> GMOHNIFSXBPVQYAJZWURCKDTEL
-		newWiring = newWiring.shift();
+		newWiring = newWiring.shiftUp();
 		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
 	});

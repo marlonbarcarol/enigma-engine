@@ -35,7 +35,7 @@ export class RotorWiring {
 	/**
 	 * Moves the wiring output letters up.
 	 */
-	public shift(): RotorWiring {
+	public shiftUp(): RotorWiring {
 		let output = '';
 
 		for (const letter of this.output.characters) {
