@@ -59,7 +59,7 @@ type.check:
 
 # 🚦 Test
 test:
-	node_modules/.bin/jest --no-cache
+	node_modules/.bin/jest --no-cache --verbose
 
 test.watch:
-	node_modules/.bin/jest --watch
+	node_modules/.bin/jest --watch --verbose
