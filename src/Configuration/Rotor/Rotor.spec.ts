@@ -7,9 +7,9 @@ describe('Rotor.ts', () => {
 	test('Can configure wiring', () => {
 		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 		let wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
-		const rotor = new Rotor(ring, wiring, wiring.input.positionOf(wiring.input.at(0)));
+		const rotor = new Rotor(ring, wiring, wiring.input.positionOf('A'));
 
-		rotor.configureWiring();
+		rotor.configureRingWiring();
 
 		wiring = rotor.wiring;
 
@@ -17,32 +17,53 @@ describe('Rotor.ts', () => {
 		expect(wiring.output.characters).toEqual('EKMFLGDQVZNTOWYHXUSPAIBRCJ');
 	});
 
-	test('Can turnover', () => {
+	describe('Can turnover', () => {
 		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 		const wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
-		const rotor = new Rotor(ring, wiring, wiring.input.positionOf(wiring.input.at(0)));
+		const rotor = new Rotor(ring, wiring, wiring.input.positionOf('A'));
 
-		rotor.configureWiring();
-
-		expect(rotor.pointer).toStrictEqual(0);
+		rotor.configureRingWiring();
 
 		for (let i = 0; i < 100; i++) {
-			expect(rotor.pointer).toStrictEqual(i);
-			rotor.turnover();
+			test(`Turning over #${i}`, () => {
+				expect(rotor.pointer).toStrictEqual(i);
+				rotor.turnover();
+				expect(rotor.pointer).toStrictEqual(i + 1);
+			});
 		}
-
-		expect(rotor.pointer).toStrictEqual(100);
 	});
 
 	test('Can process', () => {
 		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
-		const wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
-		const rotor = new Rotor(ring, wiring, wiring.input.positionOf(wiring.input.at(0)));
+		const wiring = RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO'));
+		const rotor = new Rotor(ring, wiring, wiring.input.positionOf('A'));
 
-		rotor.configureWiring();
+		rotor.configureRingWiring();
 
-		const char = rotor.process('A');
+		let char: string;
 
-		expect(char).toEqual('J');
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('C');
+
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('D');
+
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('E');
+
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('F');
+
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('G');
+
+		rotor.turnover();
+		char = rotor.process('A');
+		expect(char).toEqual('W');
 	});
 });

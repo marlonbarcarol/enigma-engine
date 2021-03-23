@@ -16,7 +16,7 @@ export class Alphabet {
 
 		if (position === -1) {
 			throw new Error(
-				`Invalid letter provided. Please make sure to provide characters from the alphabet "${this.characters}".`,
+				`Invalid letter provided "${char}". Please make sure to provide characters from the alphabet "${this.characters}".`,
 			);
 		}
 
@@ -28,7 +28,7 @@ export class Alphabet {
 
 		if (char === undefined) {
 			throw new Error(
-				`Invalid position provided. Please make sure to provide characters from the alphabet "${this.characters}".`,
+				`Invalid position provided "${position}". Please make sure to provide characters from the alphabet "${this.characters}".`,
 			);
 		}
 

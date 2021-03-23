@@ -21,29 +21,41 @@ export class EnigmaCipher {
 			return '';
 		}
 
-		// TODO - Use generators
-		let textArray = treatedText.split('');
-
 		for (const [index, rotor] of this.configuration.rotors.entries()) {
 			const previous = this.configuration.rotors[index - 1] ?? null;
 			const next = this.configuration.rotors[index + 1] ?? null;
 
 			rotor.connect(previous, next);
-			rotor.configureWiring();
+			rotor.configureRingWiring();
 		}
 
-		textArray = textArray.map((letter: string): string => {
-			let result = '';
+		let characters: string[] = Array.from(treatedText);
 
-			for (const rotor of this.configuration.rotors) {
-				const char: string = rotor.process(letter);
-				result = result.concat(char);
+		characters = characters.map((letter: string): string => {
+			let char: string = letter;
+
+			char = plugboard.process(char);
+
+			char = entry.process(char);
+
+			for (const rotor of this.configuration.rotors.reverse()) {
+				char = rotor.process(char);
 			}
 
-			return result;
+			char = reflector.process(char);
+
+			for (const rotor of this.configuration.rotors) {
+				char = rotor.process(char);
+			}
+
+			char = entry.process(char);
+
+			char = plugboard.process(char);
+
+			return char;
 		});
 
-		const text = textArray.join('');
+		const text: string = characters.join('');
 
 		return text;
 	}

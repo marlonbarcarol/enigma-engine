@@ -49,6 +49,11 @@ A maps B then
 B maps A
 ```
 
+## Debug
+
+**VSCode example**
+`F1` > `Debug: Toggle Auto Attach` > `Always` > inside vscode own terminal > `node --inspect ./node_modules/.bin/jest src/Configuration/Rotor/Rotor.spec.ts`
+
 #### Sources:
 
 - Hackaday - THE ENIGMA ENIGMA: HOW THE ENIGMA MACHINE WORKED: https://hackaday.com/2017/08/22/the-enigma-enigma-how-the-enigma-machine-worked/

@@ -1,35 +1,29 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { Wiring } from '@/Configuration/Wiring/Wiring';
+
+export enum RotorWiringDirectionEnum {
+	FORWARD = 0,
+	BACKWARD = 1,
+}
 
 // A rotor contains an alphabet (input) wired to a shuffled alphabet (output).
-export class RotorWiring {
-	// The input associated with the output.
-	public readonly input: Alphabet;
-	// The output associated with the input.
-	public readonly output: Alphabet;
-
-	private readonly capacity: number;
-
-	public static withEnglish(alphabet: Alphabet): RotorWiring {
-		return new RotorWiring(Alphabet.createEnglish(), alphabet);
-	}
-
+export class RotorWiring extends Wiring {
 	public constructor(input: Alphabet, output: Alphabet) {
-		if (input.length !== output.length) {
-			throw new Error(
-				`Invalid alphabet provided. Please make sure that the input (${input.characters}) and output (${output.characters}) alphabets have the same length.`,
-			);
-		}
-
-		this.input = input;
-		this.output = output;
-		this.capacity = output.length;
+		super(input, output);
 	}
 
 	/**
-	 * Creates a new rotor wiring keeping the current input.
+	 * Creates a new wiring keeping current input.
 	 */
-	public withOutput(alphabet: Alphabet): RotorWiring {
-		return new RotorWiring(this.input, alphabet);
+	public withInput(input: Alphabet): RotorWiring {
+		return new RotorWiring(input, this.output);
+	}
+
+	/**
+	 * Creates a new wiring keeping current output.
+	 */
+	public withOutput(output: Alphabet): RotorWiring {
+		return new RotorWiring(this.input, output);
 	}
 
 	/**
@@ -54,13 +48,52 @@ export class RotorWiring {
 	}
 
 	/**
-	 * Moves the wiring letters as a looping queue: last to first, first to second, and so on.
+	 * Moves the wiring letters sideways as a looping queue.
 	 */
-	public rotate(): RotorWiring {
+	public rotateInput(direction: RotorWiringDirectionEnum): RotorWiring {
 		let newWiring = '';
 
-		newWiring = newWiring.concat(this.output.characters.slice(-1));
-		newWiring = newWiring.concat(this.output.characters.slice(0, -1));
+		switch (direction) {
+			case RotorWiringDirectionEnum.FORWARD:
+				newWiring = newWiring.concat(this.input.characters.slice(1, Infinity));
+				newWiring = newWiring.concat(this.input.characters.slice(0, 1));
+				break;
+
+			case RotorWiringDirectionEnum.BACKWARD:
+				newWiring = newWiring.concat(this.input.characters.slice(-1));
+				newWiring = newWiring.concat(this.input.characters.slice(0, -1));
+				break;
+
+			default:
+				throw new Error(`Invalid input rotation direction ${direction as string}.`);
+		}
+
+		const alphabet = new Alphabet(newWiring);
+		const rotorWiring = this.withInput(alphabet);
+
+		return rotorWiring;
+	}
+
+	/**
+	 * Moves the wiring letters sideways as a looping queue.
+	 */
+	public rotateOutput(direction: RotorWiringDirectionEnum): RotorWiring {
+		let newWiring = '';
+
+		switch (direction) {
+			case RotorWiringDirectionEnum.FORWARD:
+				newWiring = newWiring.concat(this.output.characters.slice(1, Infinity));
+				newWiring = newWiring.concat(this.output.characters.slice(0, 1));
+				break;
+
+			case RotorWiringDirectionEnum.BACKWARD:
+				newWiring = newWiring.concat(this.output.characters.slice(-1));
+				newWiring = newWiring.concat(this.output.characters.slice(0, -1));
+				break;
+
+			default:
+				throw new Error(`Invalid output rotation direction ${direction as string}.`);
+		}
 
 		const alphabet = new Alphabet(newWiring);
 		const rotorWiring = this.withOutput(alphabet);
@@ -68,32 +101,7 @@ export class RotorWiring {
 		return rotorWiring;
 	}
 
-	/**
-	 * Return the output letter mapped by the input wiring.
-	 */
-	public getMappedCharAt(position: number): string {
-		const pointer = this.input.positionOf(this.input.at(position));
-
-		return this.output.at(pointer);
-	}
-
-	/**
-	 * Return the input letter mapped by the output wiring.
-	 */
-	public getReverseMappedCharAt(position: number): string {
-		const pointer = this.output.positionOf(this.output.at(position));
-
-		return this.input.at(pointer);
-	}
-
 	public size(): number {
-		return this.capacity;
-	}
-
-	public toString(): string {
-		return `
-		${this.input.characters}
-		${this.output.characters}
-		`;
+		return this.quantity;
 	}
 }

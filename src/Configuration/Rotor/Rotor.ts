@@ -1,5 +1,6 @@
 import { RotorRing } from '@/Configuration/Rotor/RotorRing';
-import { RotorWiring } from '@/Configuration/Rotor/RotorWiring';
+import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
+import { AbstractWiringProcessor } from '@/Configuration/Wiring/AbstractWiringProcessor';
 import { Nullable } from '@/types/type';
 
 export interface RotorHistory {
@@ -14,7 +15,7 @@ export interface RotorConnection {
 	next: Nullable<Rotor>;
 }
 
-export class Rotor {
+export class Rotor extends AbstractWiringProcessor {
 	public wiring: RotorWiring;
 	public readonly ring: RotorRing;
 	public readonly notches: number[];
@@ -24,6 +25,8 @@ export class Rotor {
 	private configured: boolean;
 
 	public constructor(ring: RotorRing, wiring: RotorWiring, position: number) {
+		super(wiring);
+
 		this.ring = ring;
 		this.wiring = wiring;
 		this.maxRotation = wiring.size();
@@ -43,38 +46,28 @@ export class Rotor {
 		this.connection = { previous, next };
 	}
 
-	public turnover(): void {
+	public rotate(): void {
 		this.pointer++;
-		this.wiring = this.wiring.rotate();
 
-		if (this.notches.includes(this.pointer) === true) {
-			this.connection.next?.turnover();
+		const position = this.pointer % this.wiring.size();
+
+		if (this.notches.includes(position) === true) {
+			this.connection.next?.rotate();
 		}
 	}
 
 	public process(letter: string): string {
 		if (this.configured === false) {
-			throw new Error('Rotor is not configured. Please first configure the rotor before processing.');
+			throw new Error('Rotor is not configured. Please first configure the rotor ring wiring before processing.');
 		}
 
-		this.turnover();
-
-		let position: number = this.wiring.input.positionOf(letter);
-		position = (this.pointer - position) % this.maxRotation;
-
-		const char = this.wiring.getMappedCharAt(position);
-
-		return char;
-	}
-
-	public isFirstRotation(): boolean {
-		return this.pointer % this.maxRotation === 0;
+		return super.process(letter, this.pointer);
 	}
 
 	/**
 	 * Configure the ring settings and wirings.
 	 */
-	public configureWiring(): RotorHistory {
+	public configureRingWiring(): RotorHistory {
 		const wiringShifts: RotorWiring[] = [];
 		const wiringRotations: RotorWiring[] = [];
 
@@ -91,7 +84,7 @@ export class Rotor {
 
 		for (let i = 0; i < this.ring.setting; i++) {
 			let wiring = wiringRotations[wiringRotations.length - 1];
-			wiring = wiring.rotate();
+			wiring = wiring.rotateOutput(RotorWiringDirectionEnum.BACKWARD);
 
 			wiringRotations.push(wiring);
 		}

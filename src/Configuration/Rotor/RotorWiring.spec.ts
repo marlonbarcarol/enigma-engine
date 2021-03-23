@@ -1,5 +1,5 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { RotorWiring } from '@/Configuration/Rotor/RotorWiring';
+import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
 
 describe('RotorWiring.ts', () => {
 	test('Can shift wiring', () => {
@@ -18,18 +18,40 @@ describe('RotorWiring.ts', () => {
 		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
 	});
 
-	test('Can rotate wiring', () => {
+	test('Can rotate wiring input', () => {
 		const wiring = RotorWiring.withEnglish(new Alphabet('GMOHNIFSXBPVQYAJZWURCKDTEL'));
 
 		let newWiring: RotorWiring = wiring;
 
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
+
+		// ABCDEFGHIJKLMNOPQRSTUVWXYZ -> BCDEFGHIJKLMNOPQRSTUVWXYZA
+		newWiring = newWiring.rotateInput(RotorWiringDirectionEnum.FORWARD);
+		expect(newWiring.input.characters).toEqual('BCDEFGHIJKLMNOPQRSTUVWXYZA');
+		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
+
+		// BCDEFGHIJKLMNOPQRSTUVWXYZA -> CDEFGHIJKLMNOPQRSTUVWXYZAB
+		newWiring = newWiring.rotateInput(RotorWiringDirectionEnum.FORWARD);
+		expect(newWiring.input.characters).toEqual('CDEFGHIJKLMNOPQRSTUVWXYZAB');
+		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
+	});
+
+	test('Can rotate wiring output', () => {
+		const wiring = RotorWiring.withEnglish(new Alphabet('GMOHNIFSXBPVQYAJZWURCKDTEL'));
+
+		let newWiring: RotorWiring = wiring;
+
+		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+		expect(newWiring.output.characters).toEqual('GMOHNIFSXBPVQYAJZWURCKDTEL');
+
 		// GMOHNIFSXBPVQYAJZWURCKDTEL -> LGMOHNIFSXBPVQYAJZWURCKDTE
-		newWiring = newWiring.rotate();
+		newWiring = newWiring.rotateOutput(RotorWiringDirectionEnum.BACKWARD);
 		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		expect(newWiring.output.characters).toEqual('LGMOHNIFSXBPVQYAJZWURCKDTE');
 
 		// LGMOHNIFSXBPVQYAJZWURCKDTE -> ELGMOHNIFSXBPVQYAJZWURCKDT
-		newWiring = newWiring.rotate();
+		newWiring = newWiring.rotateOutput(RotorWiringDirectionEnum.BACKWARD);
 		expect(newWiring.input.characters).toEqual('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 		expect(newWiring.output.characters).toEqual('ELGMOHNIFSXBPVQYAJZWURCKDT');
 	});
