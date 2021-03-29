@@ -27,7 +27,7 @@ describe('Rotor.ts', () => {
 		for (let i = 0; i < 100; i++) {
 			test(`Turning over #${i}`, () => {
 				expect(rotor.pointer).toStrictEqual(i);
-				rotor.turnover();
+				rotor.rotate();
 				expect(rotor.pointer).toStrictEqual(i + 1);
 			});
 		}
@@ -42,27 +42,27 @@ describe('Rotor.ts', () => {
 
 		let char: string;
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('C');
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('D');
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('E');
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('F');
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('G');
 
-		rotor.turnover();
+		rotor.rotate();
 		char = rotor.process('A');
 		expect(char).toEqual('W');
 	});

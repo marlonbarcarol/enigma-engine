@@ -19,7 +19,7 @@ export class EnigmaCipher {
 
 		if (treatedText.length !== 0) {
 			return '';
-		}
+		}Ì
 
 		for (const [index, rotor] of this.configuration.rotors.entries()) {
 			const previous = this.configuration.rotors[index - 1] ?? null;
@@ -34,23 +34,13 @@ export class EnigmaCipher {
 		characters = characters.map((letter: string): string => {
 			let char: string = letter;
 
-			char = plugboard.process(char);
-
-			char = entry.process(char);
-
 			for (const rotor of this.configuration.rotors.reverse()) {
 				char = rotor.process(char);
 			}
 
-			char = reflector.process(char);
-
 			for (const rotor of this.configuration.rotors) {
 				char = rotor.process(char);
 			}
-
-			char = entry.process(char);
-
-			char = plugboard.process(char);
 
 			return char;
 		});

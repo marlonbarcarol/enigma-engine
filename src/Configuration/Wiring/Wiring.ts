@@ -20,6 +20,10 @@ export class Wiring {
 		this.quantity = output.length;
 	}
 
+	public static withEnglish(output: Alphabet): Wiring {
+		return new this(Alphabet.createEnglish(), output);
+	}
+
 	/**
 	 * Creates a new wiring keeping current input.
 	 */
