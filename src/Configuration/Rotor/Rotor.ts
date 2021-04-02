@@ -61,7 +61,13 @@ export class Rotor extends AbstractWiringProcessor {
 			throw new Error('Rotor is not configured. Please first configure the rotor ring wiring before processing.');
 		}
 
-		return super.process(letter, this.pointer);
+		const char = super.process(letter, this.pointer);
+
+		if (this.connection.next !== null) {
+			// return this.connection.next.process(char);
+		}
+
+		return char;
 	}
 
 	/**

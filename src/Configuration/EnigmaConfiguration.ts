@@ -1,16 +1,13 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { Plugboard } from '@/Configuration/Plugboard/Plugboard';
+import { Reflector } from '@/Configuration/Reflector/Reflector';
 import { Rotor } from '@/Configuration/Rotor/Rotor';
+import { Wheel } from '@/Configuration/Wheel/Wheel';
 
-export class EnigmaConfiguration {
-	public readonly alphabet: Alphabet;
-	public readonly rotors: Rotor[];
-
-	public static withEnglish(rotors: Rotor[]): EnigmaConfiguration {
-		return new EnigmaConfiguration(Alphabet.createEnglish(), rotors);
-	}
-
-	public constructor(alphabet: Alphabet, rotors: Rotor[]) {
-		this.alphabet = alphabet;
-		this.rotors = rotors;
-	}
+export interface EnigmaConfiguration {
+	readonly alphabet: Alphabet;
+	readonly plugboard: Plugboard;
+	readonly entry: Wheel;
+	readonly rotors: Rotor[];
+	readonly reflector: Reflector;
 }

@@ -2,9 +2,9 @@ import { AbstractWiringProcessor } from '@/Configuration/Wiring/AbstractWiringPr
 import { Wiring } from '@/Configuration/Wiring/Wiring';
 
 export class Reflector extends AbstractWiringProcessor {
-	public pointer?: number;
+	public pointer: number;
 
-	public constructor(wiring: Wiring, pointer?: number) {
+	public constructor(wiring: Wiring, pointer: number = 0) {
 		super(wiring);
 
 		this.pointer = pointer;
@@ -12,5 +12,9 @@ export class Reflector extends AbstractWiringProcessor {
 
 	public process(letter: string): string {
 		return super.process(letter, this.pointer ?? 0);
+	}
+
+	public rotate(): void {
+		this.pointer++;
 	}
 }
