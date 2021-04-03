@@ -52,7 +52,7 @@ export class Rotor extends AbstractWiringProcessor {
 		const position = this.pointer % this.wiring.size();
 
 		if (this.notches.includes(position) === true) {
-			this.connection.next?.rotate();
+			// this.connection.next?.rotate();
 		}
 	}
 

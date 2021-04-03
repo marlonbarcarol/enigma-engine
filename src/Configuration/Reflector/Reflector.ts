@@ -4,7 +4,7 @@ import { Wiring } from '@/Configuration/Wiring/Wiring';
 export class Reflector extends AbstractWiringProcessor {
 	public pointer: number;
 
-	public constructor(wiring: Wiring, pointer: number = 0) {
+	public constructor(wiring: Wiring, pointer = 0) {
 		super(wiring);
 
 		this.pointer = pointer;

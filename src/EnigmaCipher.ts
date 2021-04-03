@@ -42,8 +42,9 @@ export class EnigmaCipher {
 		characters = characters.map((letter: string): string => {
 			let char: string = letter;
 
-			this.configuration.rotors.forEach((rotor) => rotor.rotate());
-			this.configuration.reflector.rotate();
+			// this.configuration.rotors.forEach((rotor) => rotor.rotate());
+			// this.configuration.reflector.rotate();
+			this.configuration.rotors[2].rotate();
 
 			char = this.configuration.plugboard.process(char);
 			char = this.configuration.entry.process(char);
@@ -57,6 +58,7 @@ export class EnigmaCipher {
 
 			// char = this.configuration.rotors.reduce((result, rotor) => rotor.process(result), char);
 			char = this.configuration.reflector.process(char);
+
 			// char = this.configuration.rotors.reverse().reduce((result, rotor) => rotor.process(result), char);
 			char = this.configuration.rotors[0].process(char);
 			char = this.configuration.rotors[1].process(char);

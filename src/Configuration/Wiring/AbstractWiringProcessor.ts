@@ -23,19 +23,17 @@ export abstract class AbstractWiringProcessor {
 		switch (this.order) {
 			case WiringProcessOrderEnum.INPUT_OUTPUT:
 				char = this.wiring.getInputMappedCharAt(position);
-				position = this.wiring.input.positionOf(char) - (pointer % this.wiring.quantity);
-
 				break;
 
 			case WiringProcessOrderEnum.OUTPUT_INPUT:
 				char = this.wiring.getOutputMappedCharAt(position);
-				position = this.wiring.output.positionOf(char) - (pointer % this.wiring.quantity);
-
 				break;
 
 			default:
 				throw new Error(`Cannot process unsupported wiring order "${this.order as string}".`);
 		}
+
+		position = this.wiring.input.positionOf(char) - (pointer % this.wiring.quantity);
 
 		if (position < 0) {
 			position = this.wiring.quantity - Math.abs(position);

@@ -43,17 +43,19 @@ export class Wiring {
 	 */
 	public getInputMappedCharAt(position: number): string {
 		const pointer = this.input.positionOf(this.input.at(position));
+		const char = this.output.at(pointer);
 
-		return this.output.at(pointer);
+		return char;
 	}
 
 	/**
 	 * Return the input letter mapped by the output wiring.
 	 */
 	public getOutputMappedCharAt(position: number): string {
-		const pointer = this.output.positionOf(this.output.at(position));
+		const pointer = this.output.positionOf(this.input.at(position));
+		const char = this.input.at(pointer);
 
-		return this.input.at(pointer);
+		return char;
 	}
 
 	public toString(): string {

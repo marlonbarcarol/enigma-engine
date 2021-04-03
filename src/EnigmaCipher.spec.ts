@@ -42,9 +42,12 @@ describe('EnigmaCipher.ts', () => {
 
 		const ring = new RotorRing(alphabet.positionOf('A'));
 		const rotors: Rotor[] = [
+			// ABCDEFGHIJKLMNOPQRSTUVWXYZ
 			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0),
+			// ABCDEFGHIJKLMNOPQRSTUVWXYZ
 			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0),
 			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0),
+			// ABCDEFGHIJKLMNOPQRSTUVWXYZ
 		];
 
 		const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
