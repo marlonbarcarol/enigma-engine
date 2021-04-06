@@ -3,11 +3,12 @@ import { Plugboard } from '@/Configuration/Plugboard/Plugboard';
 import { Reflector } from '@/Configuration/Reflector/Reflector';
 import { Rotor } from '@/Configuration/Rotor/Rotor';
 import { Wheel } from '@/Configuration/Wheel/Wheel';
+import { Nullable } from '@/types/type';
 
 export interface EnigmaConfiguration {
 	readonly alphabet: Alphabet;
-	readonly plugboard: Plugboard;
-	readonly entry: Wheel;
+	readonly plugboard: Nullable<Plugboard>;
+	readonly entry: Nullable<Wheel>;
 	readonly rotors: Rotor[];
-	readonly reflector: Reflector;
+	readonly reflector: Nullable<Reflector>;
 }

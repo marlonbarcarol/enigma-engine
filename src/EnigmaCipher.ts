@@ -42,32 +42,41 @@ export class EnigmaCipher {
 		characters = characters.map((letter: string): string => {
 			let char: string = letter;
 
-			// this.configuration.rotors.forEach((rotor) => rotor.rotate());
-			// this.configuration.reflector.rotate();
-			this.configuration.rotors[2].rotate();
+			if (this.configuration.plugboard) {
+				char = this.configuration.plugboard.process(char);
+				this.configuration.plugboard.flipOrder();
+			}
 
-			char = this.configuration.plugboard.process(char);
-			char = this.configuration.entry.process(char);
-			char = this.configuration.rotors[2].process(char);
-			char = this.configuration.rotors[1].process(char);
-			char = this.configuration.rotors[0].process(char);
+			if (this.configuration.entry) {
+				char = this.configuration.entry.process(char);
+				this.configuration.entry.flipOrder();
+			}
 
-			this.configuration.plugboard.flipOrder();
-			this.configuration.entry.flipOrder();
+			// Rotors are processed from reverse order
+			if (this.configuration.rotors.length > 0) {
+				char = this.configuration.rotors[this.configuration.rotors.length - 1].process(char);
+			}
+
 			this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
 
-			// char = this.configuration.rotors.reduce((result, rotor) => rotor.process(result), char);
-			char = this.configuration.reflector.process(char);
+			if (this.configuration.reflector) {
+				char = this.configuration.reflector.process(char);
+			}
 
-			// char = this.configuration.rotors.reverse().reduce((result, rotor) => rotor.process(result), char);
-			char = this.configuration.rotors[0].process(char);
-			char = this.configuration.rotors[1].process(char);
-			char = this.configuration.rotors[2].process(char);
-			char = this.configuration.entry.process(char);
-			char = this.configuration.plugboard.process(char);
+			if (this.configuration.rotors.length > 0) {
+				char = this.configuration.rotors[0].process(char);
+			}
 
-			this.configuration.plugboard.flipOrder();
-			this.configuration.entry.flipOrder();
+			if (this.configuration.entry) {
+				char = this.configuration.entry.process(char);
+				this.configuration.entry.flipOrder();
+			}
+
+			if (this.configuration.plugboard) {
+				char = this.configuration.plugboard.process(char);
+				this.configuration.plugboard.flipOrder();
+			}
+
 			this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
 
 			return char;

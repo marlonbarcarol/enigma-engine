@@ -11,7 +11,13 @@ module.exports = {
 	rules: {
 		// Code analysis
 		'no-unused-vars': ['off'],
-		'@typescript-eslint/no-unused-vars': ['error'],
+		'@typescript-eslint/no-unused-vars': [
+			'error',
+			{
+				args: 'none',
+				ignoreRestSiblings: true,
+			},
+		],
 
 		'no-throw-literal': 'off',
 		'@typescript-eslint/no-throw-literal': ['error'],

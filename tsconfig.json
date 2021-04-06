@@ -4,6 +4,11 @@
 		"module": "esnext",
 		"moduleResolution": "Node",
 
+		"types": [
+			"node",
+			"jest"
+		],
+
 		"baseUrl": "./src",
 		"paths": {
 			"@/*": ["./*"]
@@ -21,7 +26,7 @@
 
 		"strict": true,
 		"noUnusedLocals": true,
-		"noUnusedParameters": true,
+		"noUnusedParameters": false,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 

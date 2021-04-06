@@ -1,6 +1,7 @@
+import { Logger } from '@/Common/Logger';
 import { RotorRing } from '@/Configuration/Rotor/RotorRing';
 import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
-import { AbstractWiringProcessor } from '@/Configuration/Wiring/AbstractWiringProcessor';
+import { AbstractWiringProcessor, WiringProcessOrderEnum } from '@/Configuration/Wiring/AbstractWiringProcessor';
 import { Nullable } from '@/types/type';
 
 export interface RotorHistory {
@@ -24,13 +25,13 @@ export class Rotor extends AbstractWiringProcessor {
 	private connection: RotorConnection;
 	private configured: boolean;
 
-	public constructor(ring: RotorRing, wiring: RotorWiring, position: number) {
+	public constructor(ring: RotorRing, wiring: RotorWiring, position: number, notches: number[] = []) {
 		super(wiring);
 
 		this.ring = ring;
 		this.wiring = wiring;
 		this.maxRotation = wiring.size();
-		this.notches = [position];
+		this.notches = notches.length === 0 ? [this.maxRotation - 1] : notches;
 		this.pointer = position;
 		this.connection = {
 			previous: null,
@@ -47,13 +48,31 @@ export class Rotor extends AbstractWiringProcessor {
 	}
 
 	public rotate(): void {
+		Logger.info(`Rotating from ${this.pointer} to ${this.pointer + 1}. Wiring ${this.wiring.toString()}`);
+
 		this.pointer++;
 
-		const position = this.pointer % this.wiring.size();
+		const position = (this.pointer + 1) % this.maxRotation;
 
 		if (this.notches.includes(position) === true) {
-			// this.connection.next?.rotate();
+			this.connection.previous?.rotate();
 		}
+	}
+
+	public shouldRotate(): boolean {
+		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
+			return false;
+		}
+
+		if (this.connection.next === null) {
+			return true;
+		}
+
+		if ((this.pointer + 1) % this.maxRotation === 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public process(letter: string): string {
@@ -61,13 +80,40 @@ export class Rotor extends AbstractWiringProcessor {
 			throw new Error('Rotor is not configured. Please first configure the rotor ring wiring before processing.');
 		}
 
-		const char = super.process(letter, this.pointer);
-
-		if (this.connection.next !== null) {
-			// return this.connection.next.process(char);
+		if (this.shouldRotate()) {
+			this.rotate();
 		}
 
-		return char;
+		if (this.order === WiringProcessOrderEnum.INPUT_OUTPUT) {
+			const char = super.process(letter, this.pointer);
+
+			if (this.connection.previous !== null) {
+				return this.connection.previous.process(char);
+			}
+
+			return char;
+		}
+
+		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
+			const char = super.process(letter, this.pointer);
+
+			if (this.connection.next !== null) {
+				return this.connection.next.process(char);
+			}
+
+			return char;
+		}
+
+		throw new Error(`Could not process unsupported wiring order ${this.order as string}.`);
+	}
+
+	public flipOrder(): void {
+		super.flipOrder();
+
+		// this.connection = {
+		// 	previous: this.connection.next,
+		// 	next: this.connection.previous,
+		// };
 	}
 
 	/**
