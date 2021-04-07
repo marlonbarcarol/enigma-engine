@@ -8,15 +8,17 @@ export enum WiringProcessOrderEnum {
 export abstract class AbstractWiringProcessor {
 	public readonly wiring: Wiring;
 	public order: WiringProcessOrderEnum;
+	protected max: number;
 
 	protected constructor(wiring: Wiring) {
 		this.wiring = wiring;
 		this.order = WiringProcessOrderEnum.INPUT_OUTPUT;
+		this.max = wiring.quantity;
 	}
 
 	public process(letter: string, pointer: number): string {
 		let position: number = this.wiring.input.positionOf(letter);
-		position = (position + pointer) % this.wiring.quantity;
+		position = (position + pointer) % this.max;
 
 		let char: string;
 
@@ -33,7 +35,7 @@ export abstract class AbstractWiringProcessor {
 				throw new Error(`Cannot process unsupported wiring order "${this.order as string}".`);
 		}
 
-		position = this.wiring.input.positionOf(char) - (pointer % this.wiring.quantity);
+		position = this.wiring.input.positionOf(char) - (pointer % this.max);
 
 		if (position < 0) {
 			position = this.wiring.quantity - Math.abs(position);
@@ -42,6 +44,10 @@ export abstract class AbstractWiringProcessor {
 		char = this.wiring.input.at(position);
 
 		return char;
+	}
+
+	protected cap(pointer: number): number {
+		return pointer % this.max;
 	}
 
 	/**

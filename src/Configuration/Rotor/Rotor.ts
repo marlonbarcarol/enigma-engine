@@ -31,7 +31,7 @@ export class Rotor extends AbstractWiringProcessor {
 		this.ring = ring;
 		this.wiring = wiring;
 		this.maxRotation = wiring.size();
-		this.notches = notches.length === 0 ? [this.maxRotation - 1] : notches;
+		this.notches = notches.length === 0 ? [this.maxRotation] : notches;
 		this.pointer = position;
 		this.connection = {
 			previous: null,
@@ -52,7 +52,7 @@ export class Rotor extends AbstractWiringProcessor {
 
 		this.pointer++;
 
-		const position = (this.pointer + 1) % this.maxRotation;
+		const position = this.pointer % this.maxRotation;
 
 		if (this.notches.includes(position) === true) {
 			this.connection.previous?.rotate();
@@ -68,10 +68,6 @@ export class Rotor extends AbstractWiringProcessor {
 			return true;
 		}
 
-		if ((this.pointer + 1) % this.maxRotation === 0) {
-			return true;
-		}
-
 		return false;
 	}
 
@@ -84,9 +80,9 @@ export class Rotor extends AbstractWiringProcessor {
 			this.rotate();
 		}
 
-		if (this.order === WiringProcessOrderEnum.INPUT_OUTPUT) {
-			const char = super.process(letter, this.pointer);
+		const char = super.process(letter, this.pointer);
 
+		if (this.order === WiringProcessOrderEnum.INPUT_OUTPUT) {
 			if (this.connection.previous !== null) {
 				return this.connection.previous.process(char);
 			}
@@ -95,8 +91,6 @@ export class Rotor extends AbstractWiringProcessor {
 		}
 
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
-			const char = super.process(letter, this.pointer);
-
 			if (this.connection.next !== null) {
 				return this.connection.next.process(char);
 			}
@@ -107,13 +101,8 @@ export class Rotor extends AbstractWiringProcessor {
 		throw new Error(`Could not process unsupported wiring order ${this.order as string}.`);
 	}
 
-	public flipOrder(): void {
-		super.flipOrder();
-
-		// this.connection = {
-		// 	previous: this.connection.next,
-		// 	next: this.connection.previous,
-		// };
+	public cap(pointer?: number): number {
+		return super.cap(pointer ?? this.pointer);
 	}
 
 	/**

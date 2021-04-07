@@ -82,6 +82,8 @@ export class EnigmaCipher {
 			return char;
 		});
 
+		console.log(this.configuration.rotors);
+
 		const text: string = characters.join('');
 
 		return text;

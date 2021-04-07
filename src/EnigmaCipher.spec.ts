@@ -70,9 +70,9 @@ describe('EnigmaCipher.ts', () => {
 
 			const ring = new RotorRing(alphabet.positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, [21]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, [4]),
 				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, [16]),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, [4]),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, [21]),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
