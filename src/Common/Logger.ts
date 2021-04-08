@@ -11,10 +11,6 @@ export class Logger extends Static {
 			return;
 		}
 
-		if (Environment.isEnvironment(EnvironmentEnum.TEST)) {
-			return;
-		}
-
 		console.info(message);
 	}
 }

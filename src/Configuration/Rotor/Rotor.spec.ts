@@ -17,26 +17,34 @@ describe('Rotor.ts', () => {
 		expect(wiring.output.characters).toEqual('EKMFLGDQVZNTOWYHXUSPAIBRCJ');
 	});
 
-	xdescribe('Can rotate', () => {
-		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
-		const wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
-		const rotor = new Rotor(ring, wiring, wiring.input.positionOf('A'));
-
-		rotor.configureRingWiring();
-
-		for (let i = 0; i < 100; i++) {
-			test(`Turning over #${i}`, () => {
-				expect(rotor.pointer).toStrictEqual(i);
-				rotor.rotate();
-				expect(rotor.pointer).toStrictEqual(i + 1);
-			});
-		}
-
-		test("with connected rotors", () => {
+	describe('Can rotate', () => {
+		test('with few rotations', () => {
+			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, [16]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, [4]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, [21]),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+			];
+
+			rotors[0].connect(null, rotors[1]);
+			rotors[1].connect(rotors[0], rotors[2]);
+			rotors[2].connect(rotors[1], null);
+
+			for (let index = 0; index < 100; index++) {
+				rotors[2].rotate();
+			}
+
+			expect(rotors[0].pointer).toBe(0);
+			expect(rotors[1].pointer).toBe(4);
+			expect(rotors[2].pointer).toBe(100);
+		});
+
+		test('with connected rotors', () => {
+			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
+			const rotors: Rotor[] = [
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
 			];
 
 			rotors[0].connect(null, rotors[1]);
@@ -47,39 +55,38 @@ describe('Rotor.ts', () => {
 				rotors[2].rotate();
 			}
 
-			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[0].pointer % 26]).toBe('C')
-			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[1].pointer % 26]).toBe('A')
-			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[2].pointer % 26]).toBe('A')
+			expect([rotors[0].pointer, rotors[1].pointer, rotors[2].pointer]).toStrictEqual([2, 52, 1300]);
 
-			expect(rotors[0].pointer).toBe(2);
-			expect(rotors[1].pointer).toBe(52);
-			expect(rotors[2].pointer).toBe(1300);
+			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[0].pointer % 26]).toBe('C');
+			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[1].pointer % 26]).toBe('A');
+			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[2].pointer % 26]).toBe('A');
 		});
 
-		test("on correct notches", () => {
+		test('on correct notches', () => {
+			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, [16]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, [4]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, [21]),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
+				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
 			];
 
 			rotors[0].connect(null, rotors[1]);
 			rotors[1].connect(rotors[0], rotors[2]);
 			rotors[2].connect(rotors[1], null);
 
-			const rotationOriginal = rotors[0].rotate;
-			rotors[0].rotate = function() {
-				rotationOriginal.bind(this)();
-
+			const rotor1Rotation = rotors[0].rotate.bind(rotors[0]);
+			const rotor2Rotation = rotors[1].rotate.bind(rotors[1]);
+			const rotor3Rotation = rotors[2].rotate.bind(rotors[2]);
+			rotors[0].rotate = function () {
+				rotor1Rotation();
 				expect(this.wiring.input.at(this.cap())).toEqual('Q');
 			};
-			rotors[1].rotate = function() {
-				rotationOriginal.bind(this)();
-
+			rotors[1].rotate = function () {
+				rotor2Rotation();
 				expect(this.wiring.input.at(this.cap())).toEqual('V');
 			};
-			rotors[2].rotate = function() {
-				rotationOriginal.bind(this)();
+			rotors[2].rotate = function () {
+				rotor3Rotation();
 			};
 
 			for (let index = 0; index < 1300; index++) {
@@ -95,14 +102,14 @@ describe('Rotor.ts', () => {
 
 		rotor.configureRingWiring();
 
-		let char: string;
+		let characters = '';
 
- // const expected = 'CDEFGWIJKNKNAKPSFOHQRZWTQCDEFGHXJ';
-		const expected = 'CDEFGWIJKNKNAKPSFOHQRYDTQCDEFGHXJ';
+		const expected = 'CDEFGWIJKNKNAKPSFOHQRYVSPBCDEFGWI';
 
-		for(const letter of expected) {
-			char = rotor.process('A');
-			expect(char).toEqual(letter);
+		for (let index = 0; index < expected.length; index++) {
+			characters = characters.concat(rotor.process('A'));
 		}
+
+		expect(characters).toBe(expected);
 	});
 });

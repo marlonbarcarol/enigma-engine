@@ -18,7 +18,7 @@ export abstract class AbstractWiringProcessor {
 
 	public process(letter: string, pointer: number): string {
 		let position: number = this.wiring.input.positionOf(letter);
-		position = (position + pointer) % this.max;
+		position = this.cap(position + pointer);
 
 		let char: string;
 
@@ -35,7 +35,7 @@ export abstract class AbstractWiringProcessor {
 				throw new Error(`Cannot process unsupported wiring order "${this.order as string}".`);
 		}
 
-		position = this.wiring.input.positionOf(char) - (pointer % this.max);
+		position = this.wiring.input.positionOf(char) - this.cap(pointer);
 
 		if (position < 0) {
 			position = this.wiring.quantity - Math.abs(position);

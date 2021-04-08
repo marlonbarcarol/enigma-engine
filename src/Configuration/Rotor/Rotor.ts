@@ -1,4 +1,3 @@
-import { Logger } from '@/Common/Logger';
 import { RotorRing } from '@/Configuration/Rotor/RotorRing';
 import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
 import { AbstractWiringProcessor, WiringProcessOrderEnum } from '@/Configuration/Wiring/AbstractWiringProcessor';
@@ -19,19 +18,19 @@ export interface RotorConnection {
 export class Rotor extends AbstractWiringProcessor {
 	public wiring: RotorWiring;
 	public readonly ring: RotorRing;
-	public readonly notches: number[];
+	public readonly notches: string[];
 	public pointer: number;
 	public readonly maxRotation: number;
 	private connection: RotorConnection;
 	private configured: boolean;
 
-	public constructor(ring: RotorRing, wiring: RotorWiring, position: number, notches: number[] = []) {
+	public constructor(ring: RotorRing, wiring: RotorWiring, position: number, notches: string[] = []) {
 		super(wiring);
 
 		this.ring = ring;
 		this.wiring = wiring;
-		this.maxRotation = wiring.size();
-		this.notches = notches.length === 0 ? [this.maxRotation] : notches;
+		this.maxRotation = this.max;
+		this.notches = notches;
 		this.pointer = position;
 		this.connection = {
 			previous: null,
@@ -47,16 +46,37 @@ export class Rotor extends AbstractWiringProcessor {
 		this.connection = { previous, next };
 	}
 
+	public connectionRotate(): void {
+		if (this.connection.previous === null) {
+			return;
+		}
+
+		let position: number;
+		let char: string;
+
+		if (this.connection.previous.connection.previous !== null) {
+			position = this.cap(this.connection.previous.pointer);
+			char = this.wiring.input.at(position);
+
+			// fuckin double step
+			if (this.connection.previous.notches.includes(char) === true) {
+				this.connection.previous.connection.previous.pointer++;
+				this.connection.previous.pointer++;
+			}
+		}
+
+		position = this.cap(this.pointer);
+		char = this.wiring.input.at(position);
+
+		if (this.notches.includes(char) === true) {
+			this.connection.previous.pointer++;
+		}
+	}
+
 	public rotate(): void {
-		Logger.info(`Rotating from ${this.pointer} to ${this.pointer + 1}. Wiring ${this.wiring.toString()}`);
+		this.connectionRotate();
 
 		this.pointer++;
-
-		const position = this.pointer % this.maxRotation;
-
-		if (this.notches.includes(position) === true) {
-			this.connection.previous?.rotate();
-		}
 	}
 
 	public shouldRotate(): boolean {
@@ -73,7 +93,7 @@ export class Rotor extends AbstractWiringProcessor {
 
 	public process(letter: string): string {
 		if (this.configured === false) {
-			throw new Error('Rotor is not configured. Please first configure the rotor ring wiring before processing.');
+			this.configured = false;
 		}
 
 		if (this.shouldRotate()) {
