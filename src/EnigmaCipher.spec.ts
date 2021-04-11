@@ -38,7 +38,7 @@ describe('EnigmaCipher.ts', () => {
 	});
 
 	describe('Can encrypt', () => {
-		test('Simple text', () => {
+		test('simple text', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const ring = new RotorRing(alphabet.positionOf('A'));
@@ -65,7 +65,7 @@ describe('EnigmaCipher.ts', () => {
 			expect(cipher.encrypt('AAAAA')).toEqual('BDZGO');
 		});
 
-		test('Lenghty text (1300 chars)', () => {
+		test('lenghty text (1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const ring = new RotorRing(alphabet.positionOf('A'));
@@ -169,7 +169,7 @@ describe('EnigmaCipher.ts', () => {
 	});
 
 	describe('Can decrypt', () => {
-		test('Lenghty text(1300 chars)', () => {
+		test('lenghty text(1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const ring = new RotorRing(alphabet.positionOf('A'));

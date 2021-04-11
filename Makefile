@@ -17,27 +17,27 @@ compile:
 	@ node --version
 	@ $(MAKE) clean
 	@ echo "👀 Checking code"
-	@ $(MAKE) build.prepare -s
+	@ $(MAKE) build.prepare
 	@ echo "👷 Typescript build"
-	@ $(MAKE) build -s
+	@ $(MAKE) build
 	@ echo "🎉 Compile complete 🎉"
 
 # 👷 Build
 
 build:
-	@ node_modules/.bin/tsc --listEmittedFiles | awk '{print $$2}'
+	node_modules/.bin/tsc --listEmittedFiles | awk '{print $$2}'
 
-build.prepare: code test type.check
+build.prepare: code.check test type.check
 
 # 🧹 Cleaning
 clean:
-	@ rm -rf ./build/*
-	@ rm -rf ./.cache/*
-	@ rm -rf ./node_modules/.cache/*
-	@ echo "🧹 Marie Kondo finally found joy. All tidied up."
+	rm -rf ./build/*
+	rm -rf ./.cache/*
+	rm -rf ./node_modules/.cache/*
+	echo "🧹 Marie Kondo finally found joy. All tidied up."
 
 # 🕵️‍♂️ Code standards
-code: pretty.check lint.check type.check
+code.check: pretty.check lint.check type.check
 
 code.fix: pretty lint pretty
 

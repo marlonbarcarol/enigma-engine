@@ -2,9 +2,13 @@
 	"name": "enigma",
 	"version": "1.0.0",
 	"description": "An implementation of enigma machine",
-	"main": "index.js",
+	"main": "build/EnigmaCipher.js",
+	"types": "build/types/EnigmaCipher.d.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"code": "make code.fix",
+		"test": "make test",
+		"build": "make build",
+		"compile": "make compile"
 	},
 	"keywords": [
 		"enigma",
