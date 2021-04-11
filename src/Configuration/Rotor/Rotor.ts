@@ -43,25 +43,25 @@ export class Rotor extends AbstractWiringProcessor {
 	 * The rotors are linked to between each other.
 	 */
 	public connect(previous: Nullable<Rotor>, next: Nullable<Rotor>): void {
-		this.connection = { previous, next };
+		// Internally reverts the order
+		this.connection = { previous: next, next: previous };
 	}
 
-	public connectionRotate(): void {
-		if (this.connection.previous === null) {
+	public rotateConnection(): void {
+		if (this.connection.next === null) {
 			return;
 		}
 
 		let position: number;
 		let char: string;
 
-		if (this.connection.previous.connection.previous !== null) {
-			position = this.cap(this.connection.previous.pointer);
+		if (this.connection.next.connection.next !== null) {
+			position = this.cap(this.connection.next.pointer);
 			char = this.wiring.input.at(position);
 
-			// fuckin double step
-			if (this.connection.previous.notches.includes(char) === true) {
-				this.connection.previous.connection.previous.pointer++;
-				this.connection.previous.pointer++;
+			if (this.connection.next.notches.includes(char) === true) {
+				this.connection.next.connection.next.pointer++;
+				this.connection.next.pointer++;
 			}
 		}
 
@@ -69,22 +69,24 @@ export class Rotor extends AbstractWiringProcessor {
 		char = this.wiring.input.at(position);
 
 		if (this.notches.includes(char) === true) {
-			this.connection.previous.pointer++;
+			this.connection.next.pointer++;
 		}
 	}
 
 	public rotate(): void {
-		this.connectionRotate();
+		this.rotateConnection();
 
 		this.pointer++;
 	}
 
 	public shouldRotate(): boolean {
+		// When circuit goes back from it should never rotate
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
 			return false;
 		}
 
-		if (this.connection.next === null) {
+		// First rotor always rotate
+		if (this.connection.previous === null) {
 			return true;
 		}
 
@@ -103,16 +105,16 @@ export class Rotor extends AbstractWiringProcessor {
 		const char = super.process(letter, this.pointer);
 
 		if (this.order === WiringProcessOrderEnum.INPUT_OUTPUT) {
-			if (this.connection.previous !== null) {
-				return this.connection.previous.process(char);
+			if (this.connection.next !== null) {
+				return this.connection.next.process(char);
 			}
 
 			return char;
 		}
 
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
-			if (this.connection.next !== null) {
-				return this.connection.next.process(char);
+			if (this.connection.previous !== null) {
+				return this.connection.previous.process(char);
 			}
 
 			return char;
@@ -123,6 +125,16 @@ export class Rotor extends AbstractWiringProcessor {
 
 	public cap(pointer?: number): number {
 		return super.cap(pointer ?? this.pointer);
+	}
+
+	public flipOrder(): void {
+		super.flipOrder();
+
+		// Rearranging rotor ordering
+		this.connection = {
+			previous: this.connection.previous,
+			next: this.connection.next,
+		};
 	}
 
 	/**
