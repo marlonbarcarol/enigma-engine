@@ -21,7 +21,7 @@ export class Rotor extends AbstractWiringProcessor {
 	public readonly notches: string[];
 	public pointer: number;
 	public readonly maxRotation: number;
-	private connection: RotorConnection;
+	public connection: RotorConnection;
 	private configured: boolean;
 
 	public constructor(ring: RotorRing, wiring: RotorWiring, position: number, notches: string[] = []) {
@@ -55,21 +55,20 @@ export class Rotor extends AbstractWiringProcessor {
 		let position: number;
 		let char: string;
 
-		if (this.connection.next.connection.next !== null) {
-			position = this.cap(this.connection.next.pointer);
-			char = this.wiring.input.at(position);
+		position = this.cap(this.connection.next.pointer);
+		char = this.wiring.input.at(position);
 
-			if (this.connection.next.notches.includes(char) === true) {
-				this.connection.next.connection.next.pointer++;
-				this.connection.next.pointer++;
-			}
+		if (this.connection.next.notches.includes(char) === true) {
+			this.connection.next.rotate();
+
+			return;
 		}
 
 		position = this.cap(this.pointer);
 		char = this.wiring.input.at(position);
 
 		if (this.notches.includes(char) === true) {
-			this.connection.next.pointer++;
+			this.connection.next.rotate();
 		}
 	}
 

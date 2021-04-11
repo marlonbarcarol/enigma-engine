@@ -77,15 +77,26 @@ describe('Rotor.ts', () => {
 			const rotor1Rotation = rotors[0].rotate.bind(rotors[0]);
 			const rotor2Rotation = rotors[1].rotate.bind(rotors[1]);
 			const rotor3Rotation = rotors[2].rotate.bind(rotors[2]);
-			rotors[0].rotate = function () {
+			rotors[0].rotate = function (): void {
 				rotor1Rotation();
-				expect(this.wiring.input.at(this.cap())).toEqual('Q');
+				if (this.connection.previous === null) {
+					throw new Error('Expected previous connection');
+				}
+				expect(this.wiring.input.at(this.connection.previous.cap())).toEqual('E');
 			};
-			rotors[1].rotate = function () {
+			rotors[1].rotate = function (): void {
 				rotor2Rotation();
-				expect(this.wiring.input.at(this.cap())).toEqual('V');
+				if (this.connection.previous === null || this.connection.next === null) {
+					throw new Error('Expected next/previous connection');
+				}
+
+				const current = this.wiring.input.at(this.cap());
+				const previous = this.wiring.input.at(this.connection.previous.cap());
+
+				// cause double stepping
+				expect(current === 'F' || previous === 'V').toBeTruthy();
 			};
-			rotors[2].rotate = function () {
+			rotors[2].rotate = function (): void {
 				rotor3Rotation();
 			};
 
