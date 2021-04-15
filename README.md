@@ -12,11 +12,13 @@ The point at which the next rotor position should be moved forward.
 ### Rotor processing representation
 
 We will assume the position AAA and rings AAA as well as the following wired alphabet.
+
 ```
 Position          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 Alphabet          A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
 Shuffled Alphabet B  D  F  H  J  L  C  P  R  T  X  V  Z  N  Y  E  I  W  G  A  K  M  U  S  Q  O
 ```
+
 So we initially have the following mapping `A=B, B=D, C=F, D=H, [...]`.
 
 **Rotation**
@@ -24,6 +26,7 @@ Before processing anything the machine will rotate from 0 to 1.
 
 **Wiring shift**
 The mapping will happen from position 1 (A) outputing D.
+
 ```
                      ⬇️
 Position          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -52,11 +55,12 @@ A maps B then
 B maps A
 ```
 
-----
+---
 
 The code output has been tested against the following existing machines:
-* Universal Enigma: http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v25_en.html
-* Cryptii enigma machine: https://cryptii.com/pipes/enigma-machine
+
+- Universal Enigma: http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v25_en.html
+- Cryptii enigma machine: https://cryptii.com/pipes/enigma-machine
 
 **Note:** This application currently does not support ring settings.
 

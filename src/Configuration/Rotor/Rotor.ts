@@ -20,7 +20,7 @@ export interface RotorConfiguration {
 	position?: string;
 	notches?: string[];
 	ring?: RotorRing;
-	locked?: boolean; // defaults to false, when true prevents wheel rotation.
+	lock?: boolean; // defaults to false, when true prevents wheel rotation.
 }
 
 export class Rotor extends AbstractWiringProcessor {
@@ -39,7 +39,7 @@ export class Rotor extends AbstractWiringProcessor {
 		this.notches = configuration.notches ?? [];
 		this.pointer = this.wiring.input.positionOf(configuration.position ?? this.wiring.input.at(0));
 		this.ring = configuration.ring ?? new RotorRing(0);
-		this.locked = configuration.locked ?? false;
+		this.locked = configuration.lock ?? false;
 		this.connection = {
 			previous: null,
 			next: null,
@@ -81,6 +81,10 @@ export class Rotor extends AbstractWiringProcessor {
 	}
 
 	public rotate(): void {
+		if (this.locked === true) {
+			throw new Error(`Rotor should not rotate when lock mechanism is activated.`);
+		}
+
 		this.rotateConnection();
 
 		this.pointer++;

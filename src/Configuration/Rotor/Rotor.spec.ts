@@ -127,6 +127,44 @@ describe('Rotor.ts', () => {
 			}
 		});
 	});
+	describe('Cannot rotate', () => {
+		test('with lock mechanism', () => {
+			const rotors: Rotor[] = [
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+					lock: true,
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+					lock: true,
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+					lock: true,
+				}),
+			];
+
+			rotors[0].connect(null, rotors[1]);
+			rotors[1].connect(rotors[0], rotors[2]);
+			rotors[2].connect(rotors[1], null);
+
+			const rotor1Rotation = jest.fn(rotors[0].rotate.bind(rotors[0]));
+			expect(rotor1Rotation as jest.Mock).not.toHaveBeenCalled();
+
+			const rotor2Rotation = jest.fn(rotors[1].rotate.bind(rotors[1]));
+			expect(rotor2Rotation as jest.Mock).not.toHaveBeenCalled();
+
+			const rotor3Rotation = jest.fn(rotors[2].rotate.bind(rotors[2]));
+			expect(rotor3Rotation as jest.Mock).not.toHaveBeenCalled();
+
+			for (let index = 0; index < 1300; index++) {
+				rotors[2].process('A');
+			}
+		});
+	});
 
 	test('Can process', () => {
 		const wiring = RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO'));
