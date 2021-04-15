@@ -13,11 +13,10 @@ describe('EnigmaCipher.ts', () => {
 	test('Can instantiate', () => {
 		const alphabet = Alphabet.createEnglish();
 
-		const ring = new RotorRing(alphabet.positionOf('A'));
 		const rotors: Rotor[] = [
-			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0),
-			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0),
-			new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0),
+			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
 		];
 
 		const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
@@ -41,11 +40,10 @@ describe('EnigmaCipher.ts', () => {
 		test('simple text', () => {
 			const alphabet = Alphabet.createEnglish();
 
-			const ring = new RotorRing(alphabet.positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
@@ -68,11 +66,19 @@ describe('EnigmaCipher.ts', () => {
 		test('lenghty text (1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
-			const ring = new RotorRing(alphabet.positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
@@ -101,17 +107,22 @@ describe('EnigmaCipher.ts', () => {
 		test('with rotor position', () => {
 			const alphabet = Alphabet.createEnglish();
 
-			const ring = new RotorRing(alphabet.positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), alphabet.positionOf('Z'), [
-					'V',
-				]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), alphabet.positionOf('M'), [
-					'E',
-				]),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), alphabet.positionOf('A'), [
-					'Q',
-				]),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					position: 'Z',
+					notches: ['V'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					position: 'M',
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					position: 'A',
+					notches: ['Q'],
+				}),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
@@ -145,9 +156,9 @@ describe('EnigmaCipher.ts', () => {
 			const ringB = new RotorRing(alphabet.positionOf('B'));
 			const ringC = new RotorRing(alphabet.positionOf('C'));
 			const rotors: Rotor[] = [
-				new Rotor(ringA, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0),
-				new Rotor(ringB, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0),
-				new Rotor(ringC, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0),
+				new Rotor({ ring: ringA, wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+				new Rotor({ ring: ringB, wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+				new Rotor({ ring: ringC, wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
@@ -172,11 +183,19 @@ describe('EnigmaCipher.ts', () => {
 		test('lenghty text(1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
-			const ring = new RotorRing(alphabet.positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
 			];
 
 			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));

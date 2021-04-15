@@ -1,13 +1,11 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
 import { Rotor } from '@/Configuration/Rotor/Rotor';
-import { RotorRing } from '@/Configuration/Rotor/RotorRing';
 import { RotorWiring } from '@/Configuration/Rotor/RotorWiring';
 
 describe('Rotor.ts', () => {
 	test('Can configure wiring', () => {
-		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 		let wiring = RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ'));
-		const rotor = new Rotor(ring, wiring, wiring.input.positionOf('A'));
+		const rotor = new Rotor({ wiring });
 
 		rotor.configureRingWiring();
 
@@ -19,11 +17,19 @@ describe('Rotor.ts', () => {
 
 	describe('Can rotate', () => {
 		test('with few rotations', () => {
-			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
 			];
 
 			rotors[0].connect(null, rotors[1]);
@@ -40,11 +46,19 @@ describe('Rotor.ts', () => {
 		});
 
 		test('with connected rotors', () => {
-			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
 			];
 
 			rotors[0].connect(null, rotors[1]);
@@ -63,11 +77,19 @@ describe('Rotor.ts', () => {
 		});
 
 		test('on correct notches', () => {
-			const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 			const rotors: Rotor[] = [
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')), 0, ['Q']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')), 0, ['E']),
-				new Rotor(ring, RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')), 0, ['V']),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
 			];
 
 			rotors[0].connect(null, rotors[1]);
@@ -107,9 +129,8 @@ describe('Rotor.ts', () => {
 	});
 
 	test('Can process', () => {
-		const ring = new RotorRing(Alphabet.createEnglish().positionOf('A'));
 		const wiring = RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO'));
-		const rotor = new Rotor(ring, wiring, 0);
+		const rotor = new Rotor({ wiring });
 
 		rotor.configureRingWiring();
 

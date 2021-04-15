@@ -15,23 +15,31 @@ export interface RotorConnection {
 	next: Nullable<Rotor>;
 }
 
+export interface RotorConfiguration {
+	wiring: RotorWiring;
+	position?: string;
+	notches?: string[];
+	ring?: RotorRing;
+	locked?: boolean; // defaults to false, when true prevents wheel rotation.
+}
+
 export class Rotor extends AbstractWiringProcessor {
 	public wiring: RotorWiring;
-	public readonly ring: RotorRing;
-	public readonly notches: string[];
 	public pointer: number;
-	public readonly maxRotation: number;
+	public readonly notches: string[];
+	public readonly ring: RotorRing;
 	public connection: RotorConnection;
+	public readonly locked: boolean;
 	private configured: boolean;
 
-	public constructor(ring: RotorRing, wiring: RotorWiring, position: number, notches: string[] = []) {
-		super(wiring);
+	public constructor(configuration: RotorConfiguration) {
+		super(configuration.wiring);
 
-		this.ring = ring;
-		this.wiring = wiring;
-		this.maxRotation = this.max;
-		this.notches = notches;
-		this.pointer = position;
+		this.wiring = configuration.wiring;
+		this.notches = configuration.notches ?? [];
+		this.pointer = this.wiring.input.positionOf(configuration.position ?? this.wiring.input.at(0));
+		this.ring = configuration.ring ?? new RotorRing(0);
+		this.locked = configuration.locked ?? false;
 		this.connection = {
 			previous: null,
 			next: null,
@@ -81,6 +89,11 @@ export class Rotor extends AbstractWiringProcessor {
 	public shouldRotate(): boolean {
 		// When circuit goes back from it should never rotate
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
+			return false;
+		}
+
+		// When the wheel is locked it does not rotates.
+		if (this.locked === true) {
 			return false;
 		}
 
