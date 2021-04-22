@@ -19,7 +19,7 @@ describe('Wiring.ts', () => {
 			expect(() => new Wiring(input, output)).toThrowError(InvalidWiringLengthError);
 		});
 
-		test('with non associated characteres', () => {
+		test('with non associated characters', () => {
 			let output: Alphabet;
 			let input: Alphabet;
 
@@ -41,7 +41,7 @@ describe('Wiring.ts', () => {
 			expect(new Wiring(input, output)).toBeInstanceOf(Wiring);
 		});
 
-		test('with non ordered characteres', () => {
+		test('with non ordered characters', () => {
 			const input = new Alphabet('FEDCBA');
 			const output = new Alphabet('ABCDEF');
 
