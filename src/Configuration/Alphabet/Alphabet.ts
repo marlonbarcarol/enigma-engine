@@ -1,3 +1,5 @@
+import { UniqueAlphabetCharacterError } from '@/Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
+
 export class Alphabet {
 	public characters: string;
 	public length: number;
@@ -7,6 +9,12 @@ export class Alphabet {
 	}
 
 	public constructor(characters: string) {
+		const charSet = new Set(characters.toUpperCase());
+
+		if (charSet.size !== characters.length) {
+			throw UniqueAlphabetCharacterError.create(characters);
+		}
+
 		this.characters = characters.toUpperCase();
 		this.length = characters.length;
 	}

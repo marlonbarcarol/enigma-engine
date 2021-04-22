@@ -1,4 +1,5 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { UniqueAlphabetCharacterError } from '@/Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
 
 describe('Alphabet.ts', () => {
 	describe('Can instantiate', () => {
@@ -16,6 +17,12 @@ describe('Alphabet.ts', () => {
 		test('with any casing', () => {
 			const alphabet = new Alphabet('aBcDEFG');
 			expect(alphabet.characters).toBe('ABCDEFG');
+		});
+	});
+
+	describe('Cannot instantiate', () => {
+		test('with same characters', () => {
+			expect(() => new Alphabet('AABBCCDDDEEEE')).toThrowError(UniqueAlphabetCharacterError);
 		});
 	});
 
