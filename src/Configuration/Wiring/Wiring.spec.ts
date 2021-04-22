@@ -42,56 +42,43 @@ describe('Wiring.ts', () => {
 		});
 
 		test('with non ordered characters', () => {
-			const input = new Alphabet('FEDCBA');
-			const output = new Alphabet('ABCDEF');
+			const wiring = new Wiring(new Alphabet('FEDCBA'), new Alphabet('ABCDEF'));
 
-			expect(new Wiring(input, output)).toBeInstanceOf(Wiring);
+			expect(wiring).toBeInstanceOf(Wiring);
 		});
 	});
 
 	test('Cannot map from out of range input position', () => {
-		const input = new Alphabet('FEDCBA');
-		const output = new Alphabet('ABCDEF');
-
-		const wiring = new Wiring(input, output);
+		const wiring = new Wiring(new Alphabet('FEDCBA'), new Alphabet('ABCDEF'));
 
 		expect(wiring.getInputMappedCharAt.bind(wiring, 6)).toThrow();
 	});
 
 	test('Can map from input position', () => {
-		const input = new Alphabet('FEDCBA');
-		const output = new Alphabet('ABCDEF');
+		const wiring = new Wiring(new Alphabet('ABCDEF'), new Alphabet('CFAEBD'));
 
-		const wiring = new Wiring(input, output);
-
-		expect(wiring.getInputMappedCharAt(0)).toBe('A');
-		expect(wiring.getInputMappedCharAt(1)).toBe('B');
-		expect(wiring.getInputMappedCharAt(2)).toBe('C');
-		expect(wiring.getInputMappedCharAt(3)).toBe('D');
-		expect(wiring.getInputMappedCharAt(4)).toBe('E');
-		expect(wiring.getInputMappedCharAt(5)).toBe('F');
+		expect(wiring.getInputMappedCharAt(0)).toBe('C');
+		expect(wiring.getInputMappedCharAt(1)).toBe('F');
+		expect(wiring.getInputMappedCharAt(2)).toBe('A');
+		expect(wiring.getInputMappedCharAt(3)).toBe('E');
+		expect(wiring.getInputMappedCharAt(4)).toBe('B');
+		expect(wiring.getInputMappedCharAt(5)).toBe('D');
 	});
 
 	test('Cannot map from out of range output position', () => {
-		const input = new Alphabet('FEDCBA');
-		const output = new Alphabet('ABCDEF');
-
-		const wiring = new Wiring(input, output);
+		const wiring = new Wiring(new Alphabet('ABCDEF'), new Alphabet('CFAEBD'));
 
 		expect(wiring.getOutputMappedCharAt.bind(wiring, 6)).toThrowError();
 	});
 
 	test('Can map from output position', () => {
-		const input = new Alphabet('FEDCBA');
-		const output = new Alphabet('ABCDEF');
+		const wiring = new Wiring(new Alphabet('ABCDEF'), new Alphabet('CFAEBD'));
 
-		const wiring = new Wiring(input, output);
-
-		expect(wiring.getOutputMappedCharAt(0)).toBe('A');
-		expect(wiring.getOutputMappedCharAt(1)).toBe('B');
-		expect(wiring.getOutputMappedCharAt(2)).toBe('C');
-		expect(wiring.getOutputMappedCharAt(3)).toBe('D');
-		expect(wiring.getOutputMappedCharAt(4)).toBe('E');
-		expect(wiring.getOutputMappedCharAt(5)).toBe('F');
+		expect(wiring.getOutputMappedCharAt(0)).toBe('C');
+		expect(wiring.getOutputMappedCharAt(1)).toBe('E');
+		expect(wiring.getOutputMappedCharAt(2)).toBe('A');
+		expect(wiring.getOutputMappedCharAt(3)).toBe('F');
+		expect(wiring.getOutputMappedCharAt(4)).toBe('D');
+		expect(wiring.getOutputMappedCharAt(5)).toBe('B');
 	});
 });
