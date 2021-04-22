@@ -1,4 +1,6 @@
 import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { InvalidWiringAssociationError } from '@/Configuration/Wiring/Error/InvalidWiringAssociationError';
+import { InvalidWiringLengthError } from '@/Configuration/Wiring/Error/InvalidWiringLengthError';
 
 export class Wiring {
 	// The input associated with the output.
@@ -10,9 +12,11 @@ export class Wiring {
 
 	public constructor(input: Alphabet, output: Alphabet) {
 		if (input.length !== output.length) {
-			throw new Error(
-				`Invalid alphabet provided. Please make sure that the input (${input.characters}) and output (${output.characters}) alphabets have the same length.`,
-			);
+			throw InvalidWiringLengthError.create(input, output);
+		}
+
+		if (input.order() !== output.order()) {
+			throw InvalidWiringAssociationError.create(input, output);
 		}
 
 		this.input = input;

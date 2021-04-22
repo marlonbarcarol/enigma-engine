@@ -7,7 +7,7 @@ export class Alphabet {
 	}
 
 	public constructor(characters: string) {
-		this.characters = characters;
+		this.characters = characters.toUpperCase();
 		this.length = characters.length;
 	}
 
@@ -33,5 +33,12 @@ export class Alphabet {
 		}
 
 		return char;
+	}
+
+	public order(): string {
+		return this.characters
+			.split('')
+			.sort((a, b) => a.localeCompare(b))
+			.join('');
 	}
 }
