@@ -1,17 +1,30 @@
 import { EnigmaConfiguration } from '@/Configuration/EnigmaConfiguration';
-
-export class EnigmaCharProcessor {
-	public readonly configuration: EnigmaConfiguration;
-
-	public constructor(configuration: EnigmaConfiguration) {
-		this.configuration = configuration;
-	}
-}
+import { InvalidEnigmaAlphabetError } from '@/Error/InvalidEnigmaAlphabetError';
 
 export class EnigmaCipher {
 	public readonly configuration: EnigmaConfiguration;
 
 	public constructor(configuration: EnigmaConfiguration) {
+		const characters = configuration.alphabet.order();
+
+		if (configuration.plugboard && characters.includes(configuration.plugboard.wiring.input.order()) === false) {
+			throw InvalidEnigmaAlphabetError.createForPlugboard(characters, configuration.plugboard);
+		}
+
+		if (configuration.entry && characters.includes(configuration.entry.wiring.input.order()) === false) {
+			throw InvalidEnigmaAlphabetError.createForEntry(characters, configuration.entry);
+		}
+
+		if (configuration.reflector && characters.includes(configuration.reflector.wiring.input.order()) === false) {
+			throw InvalidEnigmaAlphabetError.createForReflector(characters, configuration.reflector);
+		}
+
+		for (const [index, rotor] of configuration.rotors.entries()) {
+			if (characters.includes(rotor.wiring.input.order()) === false) {
+				throw InvalidEnigmaAlphabetError.createForRotor(index, characters, rotor);
+			}
+		}
+
 		this.configuration = configuration;
 	}
 
@@ -20,12 +33,12 @@ export class EnigmaCipher {
 	 * meaning the decryption method is the same as the encryption.
 	 */
 	public encrypt(plaintext: string): string {
-		let treatedText = plaintext.toUpperCase();
+		let text: string = plaintext.toUpperCase();
 
 		const regex = new RegExp(`[^${this.configuration.alphabet.characters}]+`, 'gm');
-		treatedText = treatedText.replace(regex, '');
+		text = text.replace(regex, '');
 
-		if (treatedText.length === 0) {
+		if (text.length === 0) {
 			return '';
 		}
 
@@ -37,7 +50,7 @@ export class EnigmaCipher {
 			rotor.configureRingWiring();
 		}
 
-		let characters: string[] = Array.from(treatedText);
+		let characters: string[] = Array.from(text);
 
 		characters = characters.map((letter: string): string => {
 			let char: string = letter;
@@ -82,7 +95,7 @@ export class EnigmaCipher {
 			return char;
 		});
 
-		const text: string = characters.join('');
+		text = characters.join('');
 
 		return text;
 	}

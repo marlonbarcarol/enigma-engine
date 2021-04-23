@@ -12,6 +12,10 @@ export class RotorWiring extends Wiring {
 		super(input, output);
 	}
 
+	public static create(input: Alphabet, output: Alphabet): RotorWiring {
+		return new this(input, output);
+	}
+
 	public static withEnglish(output: Alphabet): RotorWiring {
 		return new this(Alphabet.createEnglish(), output);
 	}

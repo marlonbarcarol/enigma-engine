@@ -19,6 +19,10 @@ export class Alphabet {
 		this.length = characters.length;
 	}
 
+	public static create(characters: string): Alphabet {
+		return new Alphabet(characters);
+	}
+
 	public positionOf(char: string): number {
 		const position = this.characters.indexOf(char);
 

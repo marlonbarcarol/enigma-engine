@@ -1,5 +1,10 @@
 import { Wiring } from '@/Configuration/Wiring/Wiring';
 
+/**
+ * The order of the wiring process flow.
+ * @see http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v25_en.html
+ * Check encryption with the monitor on.
+ */
 export enum WiringProcessOrderEnum {
 	INPUT_OUTPUT = 'IO',
 	OUTPUT_INPUT = 'OI',
@@ -46,6 +51,9 @@ export abstract class AbstractWiringProcessor {
 		return char;
 	}
 
+	/**
+	 * Limits the pointer to a the maximum number of possible wirings.
+	 */
 	protected cap(pointer: number): number {
 		return pointer % this.max;
 	}

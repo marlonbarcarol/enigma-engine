@@ -24,6 +24,10 @@ export class Wiring {
 		this.quantity = output.length;
 	}
 
+	public static create(input: Alphabet, output: Alphabet): Wiring {
+		return new this(input, output);
+	}
+
 	public static withEnglish(output: Alphabet): Wiring {
 		return new this(Alphabet.createEnglish(), output);
 	}

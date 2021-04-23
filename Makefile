@@ -25,7 +25,8 @@ compile:
 # 👷 Build
 
 build:
-	node_modules/.bin/tsc --listEmittedFiles | awk '{print $$2}'
+	@ $(MAKE) type.check -s
+	node_modules/.bin/tsc --build tsconfig.build.json --listEmittedFiles | awk '{print $$2}'
 
 build.prepare: code.check test type.check
 

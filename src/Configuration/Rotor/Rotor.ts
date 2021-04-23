@@ -55,6 +55,9 @@ export class Rotor extends AbstractWiringProcessor {
 		this.connection = { previous: next, next: previous };
 	}
 
+	/**
+	 * Rotate rotor connections while processing.
+	 */
 	public rotateConnection(): void {
 		if (this.connection.next === null) {
 			return;
@@ -66,6 +69,7 @@ export class Rotor extends AbstractWiringProcessor {
 		position = this.cap(this.connection.next.pointer);
 		char = this.wiring.input.at(position);
 
+		// Catering for double stepping.
 		if (this.connection.next.notches.includes(char) === true) {
 			this.connection.next.rotate();
 
@@ -80,6 +84,9 @@ export class Rotor extends AbstractWiringProcessor {
 		}
 	}
 
+	/**
+	 * 🎡 Rotate
+	 */
 	public rotate(): void {
 		if (this.locked === true) {
 			throw new Error(`Rotor should not rotate when lock mechanism is activated.`);
@@ -90,6 +97,9 @@ export class Rotor extends AbstractWiringProcessor {
 		this.pointer++;
 	}
 
+	/**
+	 * Whether it should rotate during processing.
+	 */
 	public shouldRotate(): boolean {
 		// When circuit goes back from it should never rotate
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
@@ -109,6 +119,9 @@ export class Rotor extends AbstractWiringProcessor {
 		return false;
 	}
 
+	/**
+	 * The core of a rotor is processing a letter.
+	 */
 	public process(letter: string): string {
 		if (this.configured === false) {
 			this.configured = false;

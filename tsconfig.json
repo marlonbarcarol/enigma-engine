@@ -36,12 +36,12 @@
 	},
 
 	"include": [
-		"src/**/*.ts"
+		"./.eslintrc.*",
+		"./jest.config.js",
+		"./src/**/*.ts",
 	],
 	"exclude": [
-		"node_modules",
-		"build",
-		"*.spec.ts",
-		"**/*.spec.ts"
+		"./node_modules",
+		"./build"
 	]
 }

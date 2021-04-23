@@ -11,7 +11,7 @@ module.exports = {
 	cacheDirectory: '<rootDir>/.cache/jest',
 	globals: {
 		'ts-jest': {
-			tsconfig: './src/tsconfig.json',
+			tsconfig: './tsconfig.json',
 		},
 	},
 };

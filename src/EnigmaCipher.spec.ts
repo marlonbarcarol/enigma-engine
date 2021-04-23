@@ -8,36 +8,131 @@ import { RotorWiring } from '@/Configuration/Rotor/RotorWiring';
 import { Wheel } from '@/Configuration/Wheel/Wheel';
 import { Wiring } from '@/Configuration/Wiring/Wiring';
 import { EnigmaCipher } from '@/EnigmaCipher';
+import { InvalidEnigmaAlphabetError } from '@/Error/InvalidEnigmaAlphabetError';
 
 describe('EnigmaCipher.ts', () => {
-	test('Can instantiate', () => {
-		const alphabet = Alphabet.createEnglish();
+	describe('Can instantiate', () => {
+		test('with common configuration', () => {
+			const alphabet = Alphabet.createEnglish();
 
-		const rotors: Rotor[] = [
-			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
-			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
-			new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
-		];
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
+			];
 
-		const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
-		const entry = new Wheel(Wiring.withEnglish(alphabet));
-		const reflector = new Reflector(Wiring.withEnglish(alphabet));
+			const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
+			const entry = new Wheel(Wiring.withEnglish(alphabet));
+			const reflector = new Reflector(Wiring.withEnglish(alphabet));
 
-		const configuration: EnigmaConfiguration = {
-			alphabet,
-			plugboard,
-			entry,
-			rotors,
-			reflector,
-		};
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
 
-		const cipher = new EnigmaCipher(configuration);
+			const cipher = new EnigmaCipher(configuration);
 
-		expect(cipher).toBeInstanceOf(EnigmaCipher);
+			expect(cipher).toBeInstanceOf(EnigmaCipher);
+		});
+	});
+
+	describe('Cannot instantiate', () => {
+		test('with plugboard alphabet not matching configuration alphabet', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+			];
+
+			const plugboard = new Plugboard(Wiring.create(Alphabet.create('ÀÁABCDE'), Alphabet.create('ÀÁABCDE')));
+			const entry = new Wheel(Wiring.withEnglish(alphabet));
+			const reflector = new Reflector(Wiring.withEnglish(alphabet));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
+
+			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+		});
+
+		test('with entry alphabet not matching configuration alphabet', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+			];
+
+			const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
+			const entry = new Wheel(Wiring.create(Alphabet.create('ÀÁABCDE'), Alphabet.create('ÀÁABCDE')));
+			const reflector = new Reflector(Wiring.withEnglish(alphabet));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
+
+			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+		});
+
+		test('with reflector alphabet not matching configuration alphabet', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+			];
+
+			const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
+			const entry = new Wheel(Wiring.withEnglish(alphabet));
+			const reflector = new Reflector(Wiring.create(Alphabet.create('ÀÁABCDE'), Alphabet.create('ÀÁABCDE')));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
+
+			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+		});
+
+		test('with rotor alphabet not matching configuration alphabet', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
+				new Rotor({ wiring: RotorWiring.create(Alphabet.create('ÀÁABCDE'), Alphabet.create('ÀÁABCDE')) }),
+			];
+
+			const plugboard = new Plugboard(Wiring.withEnglish(alphabet));
+			const entry = new Wheel(Wiring.withEnglish(alphabet));
+			const reflector = new Reflector(Wiring.withEnglish(alphabet));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
+
+			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+		});
 	});
 
 	describe('Can encrypt', () => {
-		test('simple text', () => {
+		test('with simple text', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const rotors: Rotor[] = [
@@ -63,7 +158,7 @@ describe('EnigmaCipher.ts', () => {
 			expect(cipher.encrypt('AAAAA')).toEqual('BDZGO');
 		});
 
-		test('lenghty text (1300 chars)', () => {
+		test('with lenghty text (1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const rotors: Rotor[] = [
@@ -209,10 +304,36 @@ describe('EnigmaCipher.ts', () => {
 				'UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU',
 			);
 		});
+
+		test('with plaintext unsupported by alphabet — will remove unsupported text', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')) }),
+				new Rotor({ wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')) }),
+			];
+
+			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
+			const entry = new Wheel(Wiring.withEnglish(Alphabet.createEnglish()));
+			const reflector = new Reflector(Wiring.withEnglish(new Alphabet('YRUHQSLDPXNGOKMIEBFZCWVJAT')));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+			};
+
+			const cipher = new EnigmaCipher(configuration);
+
+			expect(cipher.encrypt('ÆAAAA')).toEqual('BDZG');
+		});
 	});
 
 	describe('Can decrypt', () => {
-		test('lenghty text(1300 chars)', () => {
+		test('with lenghty text(1300 chars)', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const rotors: Rotor[] = [
