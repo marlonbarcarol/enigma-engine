@@ -11,7 +11,7 @@ The point at which the next rotor position should be moved forward.
 
 ### Rotor processing representation
 
-We will assume the position AAA and rings AAA as well as the following wired alphabet.
+We will assume the position AAA and rings AAA as well as the following wiring alphabet.
 
 ```
 Position          0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -21,10 +21,10 @@ Shuffled Alphabet B  D  F  H  J  L  C  P  R  T  X  V  Z  N  Y  E  I  W  G  A  K 
 
 So we initially have the following mapping `A=B, B=D, C=F, D=H, [...]`.
 
-**Rotation**
+#### **Rotation**
 Before processing anything the machine will rotate from 0 to 1.
 
-**Wiring shift**
+#### **Wiring shift**
 The mapping will happen from position 1 (A) outputing D.
 
 ```
@@ -34,7 +34,7 @@ Alphabet          A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U 
 Shuffled Alphabet B  D  F  H  J  L  C  P  R  T  X  V  Z  N  Y  E  I  W  G  A  K  M  U  S  Q  O
 ```
 
-**Rotor's position reverse shift**
+#### **Rotor's position reverse shift**
 The output D from the wiring shift, which is at alphabet position 3 will be subtracted by the rotor's position, 3 - 1 = 2, thus the final output will be the letter C, which is located at position 2.
 
 ## Reflector
