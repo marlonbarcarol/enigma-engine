@@ -15,6 +15,8 @@ default: compile
 
 compile:
 	@ node --version
+	@ npm --version
+	@ npm ls
 	@ $(MAKE) clean
 	@ echo "👀 Checking code"
 	@ $(MAKE) build.prepare
@@ -25,8 +27,7 @@ compile:
 # 👷 Build
 
 build:
-	@ $(MAKE) type.check -s
-	node_modules/.bin/tsc --build tsconfig.build.json --listEmittedFiles | awk '{print $$2}'
+	node_modules/.bin/tsc --build tsconfig.build.json --listEmittedFiles
 
 build.prepare: code.check test type.check
 
@@ -56,7 +57,7 @@ lint.check:
 	node_modules/.bin/eslint '.' --format codeframe
 
 type.check:
-	node_modules/.bin/tsc --noEmit
+	node_modules/.bin/tsc --noEmit -p .
 
 # 🚦 Test
 test:

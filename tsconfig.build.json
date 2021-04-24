@@ -2,10 +2,17 @@
 	"extends": "./tsconfig.json",
 
 	"compilerOptions": {
-		"noEmit": false
+		"noEmit": false,
+
+		"outDir": "./build",
+		"declaration": true,
+		"declarationDir": "./build/types",
+		"importHelpers": false,
+		"removeComments": false,
+		"sourceMap": true
 	},
 
 	"include": ["./src"],
 
-	"exclude": ["./*.spec.ts", "./src/**/*.spec.ts"]
+	"exclude": ["./*.spec.ts", "./src/**/*.spec.ts", "./build", "./node_modules"]
 }

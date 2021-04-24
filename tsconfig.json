@@ -13,16 +13,10 @@
 		"paths": {
 			"@/*": ["./*"]
 		},
-		"outDir": "./build",
-		"declaration": true,
-		"declarationDir": "./build/types",
 
 		"allowJs": false,
 		"checkJs": false,
-		"importHelpers": false,
-		"removeComments": false,
-		"sourceMap": true,
-		"noEmit": false,
+		"noEmit": true,
 
 		"strict": true,
 		"noUnusedLocals": true,

@@ -152,13 +152,13 @@ describe('Rotor.ts', () => {
 			rotors[2].connect(rotors[1], null);
 
 			const rotor1Rotation = jest.fn(rotors[0].rotate.bind(rotors[0]));
-			expect(rotor1Rotation as jest.Mock).not.toHaveBeenCalled();
+			expect(rotor1Rotation).not.toHaveBeenCalled();
 
 			const rotor2Rotation = jest.fn(rotors[1].rotate.bind(rotors[1]));
-			expect(rotor2Rotation as jest.Mock).not.toHaveBeenCalled();
+			expect(rotor2Rotation).not.toHaveBeenCalled();
 
 			const rotor3Rotation = jest.fn(rotors[2].rotate.bind(rotors[2]));
-			expect(rotor3Rotation as jest.Mock).not.toHaveBeenCalled();
+			expect(rotor3Rotation).not.toHaveBeenCalled();
 
 			for (let index = 0; index < 1300; index++) {
 				rotors[2].process('A');

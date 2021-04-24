@@ -22,9 +22,11 @@ Shuffled Alphabet B  D  F  H  J  L  C  P  R  T  X  V  Z  N  Y  E  I  W  G  A  K 
 So we initially have the following mapping `A=B, B=D, C=F, D=H, [...]`.
 
 #### **Rotation**
+
 Before processing anything the machine will rotate from 0 to 1.
 
 #### **Wiring shift**
+
 The mapping will happen from position 1 (A) outputing D.
 
 ```
@@ -35,6 +37,7 @@ Shuffled Alphabet B  D  F  H  J  L  C  P  R  T  X  V  Z  N  Y  E  I  W  G  A  K 
 ```
 
 #### **Rotor's position reverse shift**
+
 The output D from the wiring shift, which is at alphabet position 3 will be subtracted by the rotor's position, 3 - 1 = 2, thus the final output will be the letter C, which is located at position 2.
 
 ## Reflector
@@ -48,7 +51,7 @@ B maps A
 
 ## Plugboard
 
-Maps a letter to another letter for theirs substitution, same property seem by the reflector. The major benefit is the possibility of mapping letters as needed, thus adding another layer of complexity to the cypher. The plugboard is applied before anything as well as after everything, meaning it is the first substitution and also the last, happening twice.
+Maps a letter to another letter for its substitution, same property seem by the reflector. The major benefit is the possibility of mapping letters as needed, thus adding another layer of complexity to the cipher. The plugboard is applied before anything as well as after everything, meaning it is the first substitution and also the last, happening twice.
 
 ```
 A maps B then
