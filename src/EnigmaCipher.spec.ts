@@ -305,7 +305,7 @@ describe('EnigmaCipher.ts', () => {
 			);
 		});
 
-		test('with grouping characters every 5 positions.', () => {
+		test('with whitespace grouping characters every 5 positions.', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const rotors: Rotor[] = [
