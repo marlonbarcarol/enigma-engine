@@ -7,8 +7,9 @@ import { Nullable } from '@/types/type';
 
 export interface EnigmaConfiguration {
 	readonly alphabet: Alphabet;
-	readonly plugboard: Nullable<Plugboard>;
-	readonly entry: Nullable<Wheel>;
+	readonly plugboard?: Nullable<Plugboard>;
+	readonly entry?: Nullable<Wheel>;
 	readonly rotors: Rotor[];
-	readonly reflector: Nullable<Reflector>;
+	readonly reflector?: Nullable<Reflector>;
+	readonly chargroup?: Nullable<number>;
 }

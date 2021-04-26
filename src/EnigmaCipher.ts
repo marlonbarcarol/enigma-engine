@@ -52,7 +52,7 @@ export class EnigmaCipher {
 
 		let characters: string[] = Array.from(text);
 
-		characters = characters.map((letter: string): string => {
+		characters = characters.map((letter: string, index: number): string => {
 			let char: string = letter;
 
 			if (this.configuration.plugboard) {
@@ -92,11 +92,23 @@ export class EnigmaCipher {
 
 			this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
 
+			if (this.configuration.chargroup === undefined || this.configuration.chargroup === null) {
+				return char;
+			}
+
+			if (this.configuration.chargroup === 0) {
+				return char;
+			}
+
+			if ((index + 1) % this.configuration.chargroup === 0) {
+				return char.concat(' ');
+			}
+
 			return char;
 		});
 
 		text = characters.join('');
 
-		return text;
+		return text.trim();
 	}
 }

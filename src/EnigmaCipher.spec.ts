@@ -305,6 +305,46 @@ describe('EnigmaCipher.ts', () => {
 			);
 		});
 
+		test('with grouping characters every 5 positions.', () => {
+			const alphabet = Alphabet.createEnglish();
+
+			const rotors: Rotor[] = [
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('BDFHJLCPRTXVZNYEIWGAKMUSQO')),
+					notches: ['V'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('AJDKSIRUXBLHWTMCQGZNPYFVOE')),
+					notches: ['E'],
+				}),
+				new Rotor({
+					wiring: RotorWiring.withEnglish(new Alphabet('EKMFLGDQVZNTOWYHXUSPAIBRCJ')),
+					notches: ['Q'],
+				}),
+			];
+
+			const plugboard = new Plugboard(Wiring.withEnglish(Alphabet.createEnglish()));
+			const entry = new Wheel(Wiring.withEnglish(Alphabet.createEnglish()));
+			const reflector = new Reflector(Wiring.withEnglish(new Alphabet('YRUHQSLDPXNGOKMIEBFZCWVJAT')));
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				plugboard,
+				entry,
+				rotors,
+				reflector,
+				chargroup: 5,
+			};
+
+			const cipher = new EnigmaCipher(configuration);
+
+			expect(cipher.encrypt(
+				'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+			)).toEqual(
+				'ILFDF ARUBD ONVIS RUKOZ QMNDI YCOUH RLAWB RMPYL AZNYN GR',
+			);
+		});
+
 		test('with plaintext unsupported by alphabet — will remove unsupported text', () => {
 			const alphabet = Alphabet.createEnglish();
 
