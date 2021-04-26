@@ -58,7 +58,7 @@ A maps B then
 B maps A
 ```
 
-Usage:
+## Usage:
 
 ```ts
 const alphabet = Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
