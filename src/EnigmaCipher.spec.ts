@@ -337,12 +337,8 @@ describe('EnigmaCipher.ts', () => {
 			};
 
 			const cipher = new EnigmaCipher(configuration);
-
-			expect(cipher.encrypt(
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-			)).toEqual(
-				'ILFDF ARUBD ONVIS RUKOZ QMNDI YCOUH RLAWB RMPYL AZNYN GR',
-			);
+			const text = cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+			expect(text).toEqual('ILFDF ARUBD ONVIS RUKOZ QMNDI YCOUH RLAWB RMPYL AZNYN GR');
 		});
 
 		test('with plaintext unsupported by alphabet — will remove unsupported text', () => {

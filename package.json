@@ -1,5 +1,5 @@
 {
-	"name": "enigma-engine",
+	"name": "@enigmaciphy/engine",
 	"version": "0.0.1",
 	"description": "An implementation of the enigma machine",
 	"main": "src/EnigmaCipher.ts",
