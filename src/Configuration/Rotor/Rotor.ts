@@ -16,11 +16,11 @@ export interface RotorConnection {
 }
 
 export interface RotorConfiguration {
-	wiring: RotorWiring;
-	position?: string;
-	notches?: string[];
-	ring?: RotorRing;
-	lock?: boolean; // defaults to false, when true prevents wheel rotation.
+	wiring: RotorWiring; // Required.
+	position?: string; // Defaults to the first character of the input.
+	notches?: string[]; // Defaults to no notches when not provided.
+	ring?: RotorRing; // Defaults to the first character of the input.
+	lock?: boolean; // Defaults to false, when true prevents wheel rotation.
 }
 
 export class Rotor extends AbstractWiringProcessor {

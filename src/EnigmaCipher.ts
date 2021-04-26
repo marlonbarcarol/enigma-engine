@@ -108,7 +108,8 @@ export class EnigmaCipher {
 		});
 
 		text = characters.join('');
+		text = text.trim();
 
-		return text.trim();
+		return text;
 	}
 }
