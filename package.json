@@ -1,5 +1,5 @@
 {
-	"name": "enigma",
+	"name": "enigma-engine",
 	"version": "0.0.1",
 	"description": "An implementation of the enigma machine",
 	"main": "src/EnigmaCipher.ts",
@@ -20,12 +20,12 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/marlonbarcarol/enigma.git"
+		"url": "git+https://github.com/marlonbarcarol/enigma-engine.git"
 	},
 	"bugs": {
-		"url": "https://github.com/marlonbarcarol/enigma.git/issues"
+		"url": "https://github.com/marlonbarcarol/enigma-engine.git/issues"
 	},
-	"homepage": "https://github.com/marlonbarcarol/enigma#readme",
+	"homepage": "https://github.com/marlonbarcarol/enigma-engine#readme",
 	"devDependencies": {
 		"@types/jest": "^26.0.22",
 		"@typescript-eslint/eslint-plugin": "^4.13.0",
