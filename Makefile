@@ -1,25 +1,30 @@
 
 .PHONY: \
 	compile \
-	build build.prepare \
+	build.pre build \
 	clean \
-	code code.fix \
+	code code.fix code.check \
 	pretty pretty.check \
 	lint lint.check \
 	type.check \
 	test test.watch \
+	npm.publish npm.publish.dry-run \
 
 default: compile
 
 # 🎉 Compile stuffs
 
+ci:
+	node --version
+	npm --version
+	npm ls
+	npm ci
+	$(MAKE) compile
+
 compile:
-	@ node --version
-	@ npm --version
-	@ npm ls
 	@ $(MAKE) clean
 	@ echo "👀 Checking code"
-	@ $(MAKE) build.prepare
+	@ $(MAKE) build.pre
 	@ echo "👷 Typescript build"
 	@ $(MAKE) build
 	@ echo "🎉 Compile complete 🎉"
@@ -29,7 +34,13 @@ compile:
 build:
 	node_modules/.bin/tsc --build tsconfig.build.json --listEmittedFiles
 
-build.prepare: code.check test type.check
+build.pre:
+	$(MAKE) code.check
+	$(MAKE) type.check
+	$(MAKE) test
+	cp package*.json ./build
+	cp tsconfig*.json ./build
+	cp ./*.md ./build
 
 # 🧹 Cleaning
 clean:
@@ -44,8 +55,8 @@ code.check: pretty.check lint.check type.check
 code.fix: pretty lint pretty
 
 pretty:
-	node_modules/.bin/prettier '.' -w \
-	&& $(MAKE) pretty.check
+	node_modules/.bin/prettier '.' -w
+	$(MAKE) pretty.check
 
 pretty.check:
 	node_modules/.bin/prettier '.' -c
@@ -65,3 +76,12 @@ test:
 
 test.watch:
 	node_modules/.bin/jest --watch --verbose
+
+# 🗞 NPM
+npm.publish.dry-run:
+	$(MAKE) compile
+	npm publish './build' --access public --tag beta --dry-run
+
+npm.publish:
+	$(MAKE) compile
+	npm publish './build' --access public --tag beta

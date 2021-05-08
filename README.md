@@ -61,6 +61,18 @@ B maps A
 ## Usage:
 
 ```ts
+// Encrypting
+import *{
+	Alphabet,
+	Plugboard,
+	Reflector,
+	Rotor,
+	RotorWiring,
+	Wheel,
+	Wiring,
+  Cipher,
+} from '@enigmaciphy/engine';
+
 const alphabet = Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
 const rotors: Rotor[] = [
@@ -111,7 +123,7 @@ const configuration: EnigmaConfiguration = {
   chargroup: 5,
 };
 
-const cipher = new EnigmaCipher(configuration);
+const cipher = new Cipher(configuration);
 
 cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 // XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL

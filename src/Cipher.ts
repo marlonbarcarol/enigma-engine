@@ -1,7 +1,7 @@
 import { EnigmaConfiguration } from '@/Configuration/EnigmaConfiguration';
 import { InvalidEnigmaAlphabetError } from '@/Error/InvalidEnigmaAlphabetError';
 
-export class EnigmaCipher {
+export class Cipher {
 	public readonly configuration: EnigmaConfiguration;
 
 	public constructor(configuration: EnigmaConfiguration) {

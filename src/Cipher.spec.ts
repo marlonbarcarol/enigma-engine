@@ -1,5 +1,7 @@
+import { Cipher } from '@/Cipher';
 import {
 	Alphabet,
+	EnigmaConfiguration,
 	Plugboard,
 	Reflector,
 	Rotor,
@@ -7,13 +9,10 @@ import {
 	RotorWiring,
 	Wheel,
 	Wiring,
-	EnigmaConfiguration
 } from '@/Configuration';
+import { InvalidEnigmaAlphabetError } from '@/Error';
 
-import { EnigmaCipher } from '@/EnigmaCipher';
-import { InvalidEnigmaAlphabetError } from '@/Error/InvalidEnigmaAlphabetError';
-
-describe('EnigmaCipher.ts', () => {
+describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {
 		test('with common configuration', () => {
 			const alphabet = Alphabet.createEnglish();
@@ -36,9 +35,9 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
-			expect(cipher).toBeInstanceOf(EnigmaCipher);
+			expect(cipher).toBeInstanceOf(Cipher);
 		});
 	});
 
@@ -62,7 +61,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
 		});
 
 		test('with entry alphabet not matching configuration alphabet', () => {
@@ -84,7 +83,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
 		});
 
 		test('with reflector alphabet not matching configuration alphabet', () => {
@@ -106,7 +105,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
 		});
 
 		test('with rotor alphabet not matching configuration alphabet', () => {
@@ -130,7 +129,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new EnigmaCipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
 		});
 	});
 
@@ -156,7 +155,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(cipher.encrypt('AAAAA')).toEqual('BDZGO');
 		});
@@ -191,7 +190,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
@@ -235,7 +234,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
@@ -271,7 +270,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(cipher.encrypt('AAAAA')).toEqual('?????');
 		});
@@ -297,7 +296,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
@@ -339,7 +338,7 @@ describe('EnigmaCipher.ts', () => {
 				chargroup: 5,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 			const text = cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 			expect(text).toEqual('ILFDF ARUBD ONVIS RUKOZ QMNDI YCOUH RLAWB RMPYL AZNYN GR');
 		});
@@ -365,7 +364,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(cipher.encrypt('ÆAAAA')).toEqual('BDZG');
 		});
@@ -384,7 +383,7 @@ describe('EnigmaCipher.ts', () => {
 				rotors,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
@@ -426,7 +425,7 @@ describe('EnigmaCipher.ts', () => {
 				chargroup: 5,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
@@ -485,7 +484,7 @@ describe('EnigmaCipher.ts', () => {
 				chargroup: 5,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')).toEqual(
 				'XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL',
@@ -524,7 +523,7 @@ describe('EnigmaCipher.ts', () => {
 				reflector,
 			};
 
-			const cipher = new EnigmaCipher(configuration);
+			const cipher = new Cipher(configuration);
 
 			expect(
 				cipher.encrypt(
