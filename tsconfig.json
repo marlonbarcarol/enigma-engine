@@ -33,6 +33,7 @@
 		"./.eslintrc.*",
 		"./jest.config.js",
 		"./src/**/*.ts",
+		"./*.d.ts",
 	],
 	"exclude": [
 		"./node_modules",

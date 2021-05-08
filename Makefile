@@ -38,9 +38,11 @@ build.pre:
 	$(MAKE) code.check
 	$(MAKE) type.check
 	$(MAKE) test
-	cp package*.json ./build
-	cp tsconfig*.json ./build
+	cp package.json ./build
 	cp ./*.md ./build
+	rsync --relative ./src/./**/*.d.ts ./build --verbose
+	echo '{ "compilerOptions": {"noEmit": true, "paths": { "@/*": ["./*"] }},"include": ["./**/*.ts"]}' > ./build/tsconfig.json
+
 
 # 🧹 Cleaning
 clean:
@@ -52,7 +54,7 @@ clean:
 # 🕵️‍♂️ Code standards
 code.check: pretty.check lint.check type.check
 
-code.fix: pretty lint pretty
+code.fix: pretty lint
 
 pretty:
 	node_modules/.bin/prettier '.' -w
