@@ -1,5 +1,4 @@
-import { EnigmaConfiguration } from '@/Configuration/EnigmaConfiguration';
-import { InvalidEnigmaAlphabetError } from '@/Error/InvalidEnigmaAlphabetError';
+import { EnigmaConfiguration, InvalidEnigmaAlphabetError } from './main';
 
 export class Cipher {
 	public readonly configuration: EnigmaConfiguration;

@@ -1,4 +1,4 @@
-import { Wiring } from '@/Configuration/Wiring/Wiring';
+import { Wiring } from './Wiring';
 
 /**
  * The order of the wiring process flow.

@@ -1,4 +1,4 @@
-import { Plugboard, Reflector, Rotor, Wheel } from '@/Configuration';
+import { Plugboard, Reflector, Rotor, Wheel } from '../main';
 
 export class InvalidEnigmaAlphabetError extends Error {
 	public static createForPlugboard(characters: string, plugboard: Plugboard): InvalidEnigmaAlphabetError {

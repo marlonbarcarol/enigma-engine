@@ -1,5 +1,5 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { Wiring } from '@/Configuration/Wiring/Wiring';
+import { Alphabet } from '../Alphabet/Alphabet';
+import { Wiring } from '../Wiring/Wiring';
 
 export enum RotorWiringDirectionEnum {
 	FORWARD = 0,

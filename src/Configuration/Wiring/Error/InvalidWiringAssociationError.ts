@@ -1,4 +1,4 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { Alphabet } from '../../Alphabet/Alphabet';
 
 export class InvalidWiringAssociationError extends Error {
 	public static create(input: Alphabet, output: Alphabet): InvalidWiringAssociationError {

@@ -4,14 +4,6 @@
 module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
-	moduleNameMapper: {
-		'^@/(.*)$': '<rootDir>/src/$1',
-	},
-	modulePathIgnorePatterns: ['<rootDir>/build', '<rootDir>/node_modules'],
 	cacheDirectory: '<rootDir>/.cache/jest',
-	globals: {
-		'ts-jest': {
-			tsconfig: './tsconfig.json',
-		},
-	},
+	modulePathIgnorePatterns: ['<rootDir>/build', '<rootDir>/node_modules']
 };

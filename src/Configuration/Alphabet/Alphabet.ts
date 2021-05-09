@@ -1,4 +1,4 @@
-import { UniqueAlphabetCharacterError } from '@/Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
+import { UniqueAlphabetCharacterError } from './Error/UniqueAlphabetCharacterError';
 
 export class Alphabet {
 	public characters: string;

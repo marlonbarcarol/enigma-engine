@@ -1,5 +1,5 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { UniqueAlphabetCharacterError } from '@/Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
+import { Alphabet } from './Alphabet';
+import { UniqueAlphabetCharacterError } from './Error/UniqueAlphabetCharacterError';
 
 describe('Alphabet.ts', () => {
 	describe('Can instantiate', () => {

@@ -1,7 +1,7 @@
-import { RotorRing } from '@/Configuration/Rotor/RotorRing';
-import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
-import { AbstractWiringProcessor, WiringProcessOrderEnum } from '@/Configuration/Wiring/AbstractWiringProcessor';
-import { Nullable } from '@/types/type';
+import { Nullable } from '../../types/type';
+import { AbstractWiringProcessor, WiringProcessOrderEnum } from '../Wiring/AbstractWiringProcessor';
+import { RotorRing } from './RotorRing';
+import { RotorWiring, RotorWiringDirectionEnum } from './RotorWiring';
 
 export interface RotorHistory {
 	wiring: {

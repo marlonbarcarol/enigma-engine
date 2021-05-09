@@ -2,8 +2,8 @@
 	"name": "@enigmaciphy/engine",
 	"version": "0.0.3",
 	"description": "An implementation of the enigma machine",
-	"main": "index.js",
-	"types": "types/index.d.ts",
+	"main": "main.js",
+	"types": "main.d.ts",
 	"scripts": {
 		"code": "make code.fix",
 		"test": "make test",

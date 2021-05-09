@@ -1,7 +1,7 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { InvalidWiringAssociationError } from '@/Configuration/Wiring/Error/InvalidWiringAssociationError';
-import { InvalidWiringLengthError } from '@/Configuration/Wiring/Error/InvalidWiringLengthError';
-import { Wiring } from '@/Configuration/Wiring/Wiring';
+import { Alphabet } from '../Alphabet/Alphabet';
+import { InvalidWiringAssociationError } from './Error/InvalidWiringAssociationError';
+import { InvalidWiringLengthError } from './Error/InvalidWiringLengthError';
+import { Wiring } from './Wiring';
 
 describe('Wiring.ts', () => {
 	describe('Cannot instantiate', () => {

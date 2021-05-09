@@ -62,15 +62,16 @@ B maps A
 
 ```ts
 // Encrypting
-import *{
+import {
 	Alphabet,
+	Cipher,
+	EnigmaConfiguration,
 	Plugboard,
 	Reflector,
 	Rotor,
 	RotorWiring,
 	Wheel,
 	Wiring,
-  Cipher,
 } from '@enigmaciphy/engine';
 
 const alphabet = Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ');

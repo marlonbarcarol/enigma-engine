@@ -1,6 +1,6 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { Rotor } from '@/Configuration/Rotor/Rotor';
-import { RotorWiring } from '@/Configuration/Rotor/RotorWiring';
+import { Alphabet } from '../Alphabet/Alphabet';
+import { Rotor } from './Rotor';
+import { RotorWiring } from './RotorWiring';
 
 describe('Rotor.ts', () => {
 	test('Can configure wiring', () => {

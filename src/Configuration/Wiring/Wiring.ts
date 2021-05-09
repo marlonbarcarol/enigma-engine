@@ -1,6 +1,6 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { InvalidWiringAssociationError } from '@/Configuration/Wiring/Error/InvalidWiringAssociationError';
-import { InvalidWiringLengthError } from '@/Configuration/Wiring/Error/InvalidWiringLengthError';
+import { Alphabet } from '../Alphabet/Alphabet';
+import { InvalidWiringAssociationError } from './Error/InvalidWiringAssociationError';
+import { InvalidWiringLengthError } from './Error/InvalidWiringLengthError';
 
 export class Wiring {
 	// The input associated with the output.

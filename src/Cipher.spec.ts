@@ -1,16 +1,13 @@
-import { Cipher } from '@/Cipher';
-import {
-	Alphabet,
-	EnigmaConfiguration,
-	Plugboard,
-	Reflector,
-	Rotor,
-	RotorRing,
-	RotorWiring,
-	Wheel,
-	Wiring,
-} from '@/Configuration';
-import { InvalidEnigmaAlphabetError } from '@/Error';
+import { Alphabet } from './Configuration/Alphabet/Alphabet';
+import { EnigmaConfiguration } from './Configuration/EnigmaConfiguration';
+import { Plugboard } from './Configuration/Plugboard/Plugboard';
+import { Reflector } from './Configuration/Reflector/Reflector';
+import { Rotor } from './Configuration/Rotor/Rotor';
+import { RotorRing } from './Configuration/Rotor/RotorRing';
+import { RotorWiring } from './Configuration/Rotor/RotorWiring';
+import { Wheel } from './Configuration/Wheel/Wheel';
+import { Wiring } from './Configuration/Wiring/Wiring';
+import { Cipher, InvalidEnigmaAlphabetError } from './main';
 
 describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {

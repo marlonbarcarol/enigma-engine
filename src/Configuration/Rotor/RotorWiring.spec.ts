@@ -1,5 +1,5 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
-import { RotorWiring, RotorWiringDirectionEnum } from '@/Configuration/Rotor/RotorWiring';
+import { Alphabet } from '../Alphabet/Alphabet';
+import { RotorWiring, RotorWiringDirectionEnum } from './RotorWiring';
 
 describe('RotorWiring.ts', () => {
 	test('Can shift wiring', () => {

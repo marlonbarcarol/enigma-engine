@@ -41,7 +41,6 @@ build.pre:
 	cp package.json ./build
 	cp ./*.md ./build
 	rsync --relative ./src/./**/*.d.ts ./build --verbose
-	echo '{ "compilerOptions": {"noEmit": true, "paths": { "@/*": ["./*"] }},"include": ["./**/*.ts"]}' > ./build/tsconfig.json
 
 
 # 🧹 Cleaning
@@ -54,7 +53,7 @@ clean:
 # 🕵️‍♂️ Code standards
 code.check: pretty.check lint.check type.check
 
-code.fix: pretty lint
+code.fix: pretty lint type.check
 
 pretty:
 	node_modules/.bin/prettier '.' -w

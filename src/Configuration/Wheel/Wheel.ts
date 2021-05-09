@@ -1,5 +1,5 @@
-import { AbstractWiringProcessor } from '@/Configuration/Wiring/AbstractWiringProcessor';
-import { Wiring } from '@/Configuration/Wiring/Wiring';
+import { Wiring } from '../../main';
+import { AbstractWiringProcessor } from '../Wiring/AbstractWiringProcessor';
 
 export class Wheel extends AbstractWiringProcessor {
 	public constructor(wiring: Wiring) {

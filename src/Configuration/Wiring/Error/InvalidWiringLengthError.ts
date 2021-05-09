@@ -1,4 +1,4 @@
-import { Alphabet } from '@/Configuration/Alphabet/Alphabet';
+import { Alphabet } from '../../Alphabet/Alphabet';
 
 export class InvalidWiringLengthError extends Error {
 	public static create(input: Alphabet, output: Alphabet): InvalidWiringLengthError {
