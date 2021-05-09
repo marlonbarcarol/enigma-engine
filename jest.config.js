@@ -5,5 +5,5 @@ module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
 	cacheDirectory: '<rootDir>/.cache/jest',
-	modulePathIgnorePatterns: ['<rootDir>/build', '<rootDir>/node_modules']
+	modulePathIgnorePatterns: ['<rootDir>/build', '<rootDir>/node_modules'],
 };
