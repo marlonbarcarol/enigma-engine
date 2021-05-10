@@ -2,6 +2,7 @@
 .PHONY: \
 	ci \
 	compile \
+	version.bump version.bump.preview \
 	changelog changelog.preview \
 	commitlint.main \
 	build build.ts build.exo \
@@ -35,6 +36,12 @@ compile:
 	@ echo "🎉 Compile complete 🎉"
 
 # ⬆️ Add changes to changelog
+
+version.bump:
+	npx standard-version
+
+version.bump.preview:
+	npx standard-version --dry-run
 
 changelog:
 	npx standard-version --skip.commit --skip.tag
@@ -101,10 +108,10 @@ test.watch:
 
 # 🗞 NPM
 
-npm.publish.dry-run:
+npm.publish.preview:
 	$(MAKE) compile
 	npm publish './build' --access public --tag beta --dry-run
 
 npm.publish:
 	$(MAKE) compile
-	npm publish './build' --access public --tag beta
+	npm publish './build' --access public
