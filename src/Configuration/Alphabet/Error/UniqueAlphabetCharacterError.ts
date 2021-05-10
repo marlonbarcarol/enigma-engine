@@ -4,6 +4,8 @@ export class UniqueAlphabetCharacterError extends Error {
 	}
 
 	public constructor(public characters: string) {
-		super(`Invalid alphabet provided "${characters}". Please make sure that all caracteres are unique.`);
+		super(
+			`Invalid alphabet provided "${characters}". Please make sure that all caracteres are unique.`,
+		);
 	}
 }

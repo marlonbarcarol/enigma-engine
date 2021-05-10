@@ -6,15 +6,24 @@ export class Cipher {
 	public constructor(configuration: EnigmaConfiguration) {
 		const characters = configuration.alphabet.order();
 
-		if (configuration.plugboard && characters.includes(configuration.plugboard.wiring.input.order()) === false) {
+		if (
+			configuration.plugboard &&
+			characters.includes(configuration.plugboard.wiring.input.order()) === false
+		) {
 			throw InvalidEnigmaAlphabetError.createForPlugboard(characters, configuration.plugboard);
 		}
 
-		if (configuration.entry && characters.includes(configuration.entry.wiring.input.order()) === false) {
+		if (
+			configuration.entry &&
+			characters.includes(configuration.entry.wiring.input.order()) === false
+		) {
 			throw InvalidEnigmaAlphabetError.createForEntry(characters, configuration.entry);
 		}
 
-		if (configuration.reflector && characters.includes(configuration.reflector.wiring.input.order()) === false) {
+		if (
+			configuration.reflector &&
+			characters.includes(configuration.reflector.wiring.input.order()) === false
+		) {
 			throw InvalidEnigmaAlphabetError.createForReflector(characters, configuration.reflector);
 		}
 

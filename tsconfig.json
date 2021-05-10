@@ -4,10 +4,7 @@
 		"module": "commonjs",
 		"moduleResolution": "node",
 
-		"types": [
-			"node",
-			"jest"
-		],
+		"types": ["node", "jest"],
 
 		"baseUrl": "./src",
 
@@ -26,14 +23,6 @@
 		"forceConsistentCasingInFileNames": true
 	},
 
-	"include": [
-		"./.eslintrc.*",
-		"./jest.config.js",
-		"./src/**/*.ts",
-		"./*.d.ts",
-	],
-	"exclude": [
-		"./node_modules",
-		"./build"
-	]
+	"include": ["./.eslintrc.*", "./jest.config.js", "./src/**/*.ts", "./*.d.ts"],
+	"exclude": ["./node_modules", "./build"]
 }
