@@ -1,7 +1,67 @@
-import { EnigmaConfiguration, InvalidEnigmaAlphabetError } from './main';
+import { Rotor } from './Configuration/Rotor/Rotor';
+import {
+	Alphabet,
+	EnigmaConfiguration,
+	InvalidEnigmaAlphabetError,
+	Plugboard,
+	Reflector,
+	RotorWiring,
+	Wheel,
+	Wiring,
+} from './main';
+import { Nullable } from './types/type';
+
+export interface CipherJSON {
+	alphabet: string;
+	plugboard?: { wiring: string };
+	entry?: { wiring: string };
+	rotors: Array<{
+		wiring: string;
+		position?: string;
+		notches?: string[];
+		lock?: boolean;
+	}>;
+	reflector?: { wiring: string };
+	chargroup?: Nullable<number>;
+}
 
 export class Cipher {
 	public readonly configuration: EnigmaConfiguration;
+
+	public static fromJSON(json: CipherJSON): Cipher {
+		const alphabet = new Alphabet(json.alphabet);
+		const plugboard = json.plugboard
+			? new Plugboard(new Wiring(alphabet, Alphabet.create(json.plugboard.wiring)))
+			: null;
+
+		const entry = json.entry
+			? new Wheel(new Wiring(alphabet, Alphabet.create(json.entry.wiring)))
+			: null;
+
+		const rotors = json.rotors.map((configuration) => {
+			return new Rotor({
+				wiring: new RotorWiring(alphabet, Alphabet.create(configuration.wiring)),
+				notches: configuration.notches,
+				position: configuration.position,
+				lock: configuration.lock,
+			});
+		});
+
+		const reflector = json.reflector
+			? new Reflector(new Wiring(alphabet, Alphabet.create(json.reflector.wiring)))
+			: null;
+
+		const chargroup = json.chargroup;
+
+		return new Cipher({
+			alphabet,
+			plugboard,
+			entry,
+			rotors,
+			reflector,
+			chargroup,
+		});
+	}
 
 	public constructor(configuration: EnigmaConfiguration) {
 		const characters = configuration.alphabet.order();

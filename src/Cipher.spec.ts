@@ -11,6 +11,26 @@ import { Cipher, InvalidEnigmaAlphabetError } from './main';
 
 describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {
+		test('from JSON', () => {
+			const cipher = Cipher.fromJSON({
+				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				plugboard: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+				rotors: [
+					{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+					{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
+					{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
+				],
+				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+				chargroup: 5,
+			});
+
+			expect(cipher).toBeInstanceOf(Cipher);
+
+			const text = cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+			expect(text).toEqual('ILFDF ARUBD ONVIS RUKOZ QMNDI YCOUH RLAWB RMPYL AZNYN GR');
+		});
+
 		test('with common configuration', () => {
 			const alphabet = Alphabet.createEnglish();
 
