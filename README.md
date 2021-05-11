@@ -61,73 +61,33 @@ B maps A
 ## Usage:
 
 ```ts
-// Encrypting
-import {
-	Alphabet,
-	Cipher,
-	EnigmaConfiguration,
-	Plugboard,
-	Reflector,
-	Rotor,
-	RotorWiring,
-	Wheel,
-	Wiring,
-} from '@enigmaciphy/engine';
+// -- ENCRYPTING
+import { Cipher, CipherJSON } from '@enigmaciphy/engine';
 
-const alphabet = Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-
-const rotors: Rotor[] = [
-  new Rotor({
-    position: 'A',
-    wiring: RotorWiring.create(
-        Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-        Alphabet.create('EKMFLGDQVZNTOWYHXUSPAIBRCJ')
-    ),
-    notches: ['Q'],
-    lock: false,
-  }),
-  new Rotor({
-    position: 'A',
-    wiring: RotorWiring.create(
-      Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-      Alphabet.create('AJDKSIRUXBLHWTMCQGZNPYFVOE')
-    ),
-    notches: ['E'],
-    lock: false,
-  }),
-  new Rotor({
-    position: 'A',
-    wiring: RotorWiring.create(
-      Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-      Alphabet.create('BDFHJLCPRTXVZNYEIWGAKMUSQO')
-    ),
-    notches: ['V'],
-    lock: false,
-  }),
-];
-
-const plugboard = new Plugboard(
-  Wiring.create(
-    Alphabet.create('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-    Alphabet.create('AQRIJFHGDEWLTNSXBCOMZVKPYU')
-  )
-);
-const entry = new Wheel(Wiring.withEnglish(Alphabet.createEnglish()));
-const reflector = new Reflector(Wiring.withEnglish(Alphabet.create('YRUHQSLDPXNGOKMIEBFZCWVJAT')));
-
-const configuration: EnigmaConfiguration = {
-  alphabet,
-  plugboard,
-  entry,
-  rotors,
-  reflector,
+const configuration: CipherJSON = {
+  alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
+  entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+  rotors: [
+    { wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
+    { wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
+    { wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+  ],
+  reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
   chargroup: 5,
 };
-
-const cipher = new Cipher(configuration);
+let cipher = Cipher.fromJSON(configuration);
 
 cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 // XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL
+
+// -- DECRYPTING
+
+// To decrypt the cipher is instantiated again so the rotors will be on their initial position.
+cipher = Cipher.fromJSON(configuration);
+
+cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
+// LOREM IPSUM DOLOR SITAM ETCON SECTE TURAD IPISC INGEL IT
 ```
 
 ---
