@@ -19,7 +19,7 @@ ci:
 	node --version
 	npm --version
 	npm ls
-	npm ci
+	npm ci --ignore-scripts
 	$(MAKE) compile
 
 compile:
