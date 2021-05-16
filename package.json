@@ -1,9 +1,12 @@
 {
 	"name": "@enigmaciphy/engine",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "An implementation of the enigma machine",
 	"main": "main.js",
 	"types": "main.d.ts",
+	"engines": {
+		"node": ">=14 <=16"
+	},
 	"scripts": {
 		"code": "make code.fix",
 		"test": "make test",
@@ -27,11 +30,14 @@
 	},
 	"homepage": "https://github.com/marlonbarcarol/enigma-engine#readme",
 	"devDependencies": {
+		"@commitlint/cli": "^12.1.4",
+		"@commitlint/config-conventional": "^12.1.4",
 		"@types/jest": "^26.0.22",
 		"@typescript-eslint/eslint-plugin": "^4.13.0",
 		"eslint": "^7.18.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^3.3.1",
+		"husky": "^6.0.0",
 		"jest": "^26.6.3",
 		"prettier": "^2.2.1",
 		"prettier-plugin-organize-imports": "^1.1.1",

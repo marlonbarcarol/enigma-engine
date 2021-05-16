@@ -69,7 +69,11 @@ describe('Rotor.ts', () => {
 				rotors[2].rotate();
 			}
 
-			expect([rotors[0].pointer, rotors[1].pointer, rotors[2].pointer]).toStrictEqual([2, 52, 1300]);
+			expect([rotors[0].pointer, rotors[1].pointer, rotors[2].pointer]).toStrictEqual([
+				2,
+				52,
+				1300,
+			]);
 
 			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[0].pointer % 26]).toBe('C');
 			expect('ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rotors[1].pointer % 26]).toBe('A');
