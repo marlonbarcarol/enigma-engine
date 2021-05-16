@@ -32,7 +32,7 @@ compile:
 	@ echo "👷 Building"
 	$(MAKE) build
 	@ echo "🌲 Build tree"
-	@ tree -s -h --du build
+	tree -s -h --du build
 	@ echo "🎉 Compile complete 🎉"
 
 # ⬆️ Add changes to changelog
@@ -72,7 +72,7 @@ clean:
 	rm -rf ./build/*
 	rm -rf ./.cache/*
 	rm -rf ./node_modules/.cache/*
-	echo "🧹 Marie Kondo finally found joy. All tidied up."
+	@ echo "🧹 Marie Kondo finally found joy. All tidied up."
 
 # 🕵️‍♂️ Code standards
 
@@ -83,8 +83,8 @@ code.check: pretty.check lint.check type.check
 code.fix: pretty lint type.check
 
 pretty:
-	@ node_modules/.bin/prettier --write --list-different '.'
-	@ $(MAKE) pretty.check -s
+	node_modules/.bin/prettier --write --list-different '.'
+	$(MAKE) pretty.check -s
 
 pretty.check:
 	node_modules/.bin/prettier --check '.'
