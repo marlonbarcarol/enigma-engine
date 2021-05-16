@@ -1,6 +1,9 @@
 
 .PHONY: \
+	ci \
 	compile \
+	changelog changelog.preview \
+	commitlint.main \
 	build build.ts build.exo \
 	clean \
 	checkup \
@@ -30,6 +33,19 @@ compile:
 	@ echo "🌲 Build tree"
 	@ tree -s -h --du build
 	@ echo "🎉 Compile complete 🎉"
+
+# ⬆️ Add changes to changelog
+
+changelog:
+	npx standard-version --skip.commit --skip.tag
+
+changelog.preview:
+	npx standard-version --skip.commit --skip.tag --dry-run
+
+# 🧐 Lint commits from current branch against main
+
+commitlint.main:
+	npx commitlint --verbose --from "origin/main"
 
 # 👷 Build
 
