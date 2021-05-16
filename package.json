@@ -4,6 +4,9 @@
 	"description": "An implementation of the enigma machine",
 	"main": "main.js",
 	"types": "main.d.ts",
+	"engines": {
+		"node": ">=14 <=16"
+	},
 	"scripts": {
 		"code": "make code.fix",
 		"test": "make test",
