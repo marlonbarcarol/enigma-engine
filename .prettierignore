@@ -5,3 +5,5 @@ workspace.code-workspace
 build
 package-lock.json
 node_modules
+
+CHANGELOG.md
