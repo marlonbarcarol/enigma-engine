@@ -22,8 +22,8 @@ default: ci
 ci:
 	node --version
 	npm --version
-	npm ls
 	npm ci --ignore-scripts
+	npm ls
 	$(MAKE) compile
 
 compile:
