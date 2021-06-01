@@ -69,16 +69,16 @@ npm install @enigmaciphy/engine
 import { Cipher, CipherJSON } from '@enigmaciphy/engine';
 
 const configuration: CipherJSON = {
-  alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
-  entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-  rotors: [
-    { wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
-    { wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
-    { wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
-  ],
-  reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
-  chargroup: 5,
+	alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
+	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+	rotors: [
+		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
+		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
+		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+	],
+	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+	chargroup: 5,
 };
 let cipher = Cipher.fromJSON(configuration);
 
