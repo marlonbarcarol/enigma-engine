@@ -2,7 +2,9 @@ name: Checkup
 
 on:
   pull_request: ~
-  push: ~
+  push:
+    branches:
+      - main
 
 jobs:
   build:
