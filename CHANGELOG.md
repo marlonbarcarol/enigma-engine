@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.5...v0.0.7) (2022-01-10)
+
+* updating dependencies
+  * [bump typescript from 4.3.2 to 4.5.4](https://github.com/marlonbarcarol/enigma-engine/pull/2)
+  * [bump husky from 6.0.0 to 7.0.4](https://github.com/marlonbarcarol/enigma-engine/pull/3)
+  * [bump eslint-plugin-prettier from 3.4.0 to 4.0.0](https://github.com/marlonbarcarol/enigma-engine/pull/4)
+  * [bump eslint from 7.27.0 to 8.6.0](https://github.com/marlonbarcarol/enigma-engine/pull/5)
+  * [bump @typescript-eslint/eslint-plugin from 4.26.0 to 5.9.1](https://github.com/marlonbarcarol/enigma-engine/pull/6)
+
+### Features
+
+* added factory method for cipher instantiation from JSON, and added more exports ([633e494](https://github.com/marlonbarcarol/enigma-engine/commit/633e494b374b9ad130ff4c85b0fd59b9e8b92c75))
+* adding commitlint and husky to enforce it ([4d02510](https://github.com/marlonbarcarol/enigma-engine/commit/4d025102bdc80fe8690609c5c224b4faf6f235f5))
+* adding versioning as well as commitlint make commands. ([818acef](https://github.com/marlonbarcarol/enigma-engine/commit/818acefcbc13e03da890dd7c9a63e74cd25e9c27))
+
 ### [0.0.6](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.5...v0.0.6) (2021-06-01)
 
 
