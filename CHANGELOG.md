@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.5...v0.0.8) (2022-01-11)
+
+* updating vulnerable dependencies
+
+### Features
+
+* added factory method for cipher instantiation from JSON, and added more exports ([633e494](https://github.com/marlonbarcarol/enigma-engine/commit/633e494b374b9ad130ff4c85b0fd59b9e8b92c75))
+* adding commitlint and husky to enforce it ([4d02510](https://github.com/marlonbarcarol/enigma-engine/commit/4d025102bdc80fe8690609c5c224b4faf6f235f5))
+* adding versioning as well as commitlint make commands. ([818acef](https://github.com/marlonbarcarol/enigma-engine/commit/818acefcbc13e03da890dd7c9a63e74cd25e9c27))
+
 ### [0.0.7](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.5...v0.0.7) (2022-01-10)
 
 * updating dependencies

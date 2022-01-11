@@ -108,10 +108,16 @@ test.watch:
 
 # 🗞 NPM
 
+# Recommended to run: make changelog.preview npm.publish.preview
 npm.publish.preview:
 	$(MAKE) compile
 	npm publish './build' --access public --tag beta --dry-run
 
+# Recommended to
+# - make changelog
+# - check changelog is good to go
+# - git commit -am 'chore: bumping version' && git push -u
+# - make npm.publish
 npm.publish:
 	$(MAKE) compile
 	npm publish './build' --access public

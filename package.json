@@ -1,6 +1,6 @@
 {
 	"name": "@enigmaciphy/engine",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "An implementation of the enigma machine",
 	"main": "main.js",
 	"types": "main.d.ts",
