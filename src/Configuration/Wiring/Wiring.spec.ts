@@ -9,14 +9,14 @@ describe('Wiring.ts', () => {
 			const input = new Alphabet('ABCDE');
 			const output = new Alphabet('ABCDEF');
 
-			expect(() => new Wiring(input, output)).toThrowError(InvalidWiringLengthError);
+			expect(() => new Wiring(input, output)).toThrow(InvalidWiringLengthError);
 		});
 
 		test('with longer output than input', () => {
 			const input = new Alphabet('ABCDEF');
 			const output = new Alphabet('ABCDE');
 
-			expect(() => new Wiring(input, output)).toThrowError(InvalidWiringLengthError);
+			expect(() => new Wiring(input, output)).toThrow(InvalidWiringLengthError);
 		});
 
 		test('with non associated characters', () => {
@@ -25,11 +25,11 @@ describe('Wiring.ts', () => {
 
 			input = new Alphabet('QIWUDC');
 			output = new Alphabet('ABCDEF');
-			expect(() => new Wiring(input, output)).toThrowError(InvalidWiringAssociationError);
+			expect(() => new Wiring(input, output)).toThrow(InvalidWiringAssociationError);
 
 			input = new Alphabet('ABDEFG');
 			output = new Alphabet('ABCDEF');
-			expect(() => new Wiring(input, output)).toThrowError(InvalidWiringAssociationError);
+			expect(() => new Wiring(input, output)).toThrow(InvalidWiringAssociationError);
 		});
 	});
 
@@ -68,7 +68,7 @@ describe('Wiring.ts', () => {
 	test('Cannot map from out of range output position', () => {
 		const wiring = new Wiring(new Alphabet('ABCDEF'), new Alphabet('CFAEBD'));
 
-		expect(wiring.getOutputMappedCharAt.bind(wiring, 6)).toThrowError();
+		expect(wiring.getOutputMappedCharAt.bind(wiring, 6)).toThrow();
 	});
 
 	test('Can map from output position', () => {

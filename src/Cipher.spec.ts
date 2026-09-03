@@ -80,7 +80,7 @@ describe('Cipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrow(InvalidEnigmaAlphabetError);
 		});
 
 		test('with entry alphabet not matching configuration alphabet', () => {
@@ -104,7 +104,7 @@ describe('Cipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrow(InvalidEnigmaAlphabetError);
 		});
 
 		test('with reflector alphabet not matching configuration alphabet', () => {
@@ -128,7 +128,7 @@ describe('Cipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrow(InvalidEnigmaAlphabetError);
 		});
 
 		test('with rotor alphabet not matching configuration alphabet', () => {
@@ -154,7 +154,7 @@ describe('Cipher.ts', () => {
 				reflector,
 			};
 
-			expect(() => new Cipher(configuration)).toThrowError(InvalidEnigmaAlphabetError);
+			expect(() => new Cipher(configuration)).toThrow(InvalidEnigmaAlphabetError);
 		});
 	});
 

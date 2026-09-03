@@ -22,7 +22,7 @@ describe('Alphabet.ts', () => {
 
 	describe('Cannot instantiate', () => {
 		test('with same characters', () => {
-			expect(() => new Alphabet('AABBCCDDDEEEE')).toThrowError(UniqueAlphabetCharacterError);
+			expect(() => new Alphabet('AABBCCDDDEEEE')).toThrow(UniqueAlphabetCharacterError);
 		});
 	});
 
