@@ -7,12 +7,12 @@ import { RotorRing } from './Configuration/Rotor/RotorRing';
 import { RotorWiring } from './Configuration/Rotor/RotorWiring';
 import { Wheel } from './Configuration/Wheel/Wheel';
 import { Wiring } from './Configuration/Wiring/Wiring';
-import { Cipher, CipherJSON, InvalidEnigmaAlphabetError } from './main';
+import { Cipher, CipherOptions, InvalidEnigmaAlphabetError } from './main';
 
 describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {
 		test('from JSON', () => {
-			const cipher = Cipher.fromJSON({
+			const cipher = Cipher.create({
 				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 				plugboard: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
 				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -320,7 +320,7 @@ describe('Cipher.ts', () => {
 		});
 
 		test('with ring settings from JSON', () => {
-			const cipher = Cipher.fromJSON({
+			const cipher = Cipher.create({
 				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 				plugboard: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
 				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -336,7 +336,7 @@ describe('Cipher.ts', () => {
 		});
 
 		test('with reflector position from JSON', () => {
-			const cipher = Cipher.fromJSON({
+			const cipher = Cipher.create({
 				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 				rotors: [],
 				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'D' },
@@ -603,7 +603,7 @@ describe('Cipher.ts', () => {
 		});
 
 		test('README.md example', () => {
-			const configuration: CipherJSON = {
+			const configuration: CipherOptions = {
 				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 				plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
 				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -615,7 +615,7 @@ describe('Cipher.ts', () => {
 				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
 				chargroup: 5,
 			};
-			const cipher = Cipher.fromJSON(configuration);
+			const cipher = Cipher.create(configuration);
 
 			// prettier-ignore
 			expect(cipher.encrypt(
@@ -674,7 +674,7 @@ describe('Cipher.ts', () => {
 		});
 
 		test('README.md example', () => {
-			const configuration: CipherJSON = {
+			const configuration: CipherOptions = {
 				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 				plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
 				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -686,7 +686,7 @@ describe('Cipher.ts', () => {
 				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
 				chargroup: 5,
 			};
-			const cipher = Cipher.fromJSON(configuration);
+			const cipher = Cipher.create(configuration);
 
 			// prettier-ignore
 			expect(cipher.encrypt(

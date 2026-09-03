@@ -12,7 +12,7 @@ import {
 } from './main';
 import { Nullable } from './types/type';
 
-export interface CipherJSON {
+export interface CipherOptions {
 	alphabet: string;
 	plugboard?: { wiring: string };
 	entry?: { wiring: string };
@@ -30,17 +30,17 @@ export interface CipherJSON {
 export class Cipher {
 	public readonly configuration: EnigmaConfiguration;
 
-	public static fromJSON(json: CipherJSON): Cipher {
-		const alphabet = new Alphabet(json.alphabet);
-		const plugboard = json.plugboard
-			? new Plugboard(new Wiring(alphabet, Alphabet.create(json.plugboard.wiring)))
+	public static create(options: CipherOptions): Cipher {
+		const alphabet = new Alphabet(options.alphabet);
+		const plugboard = options.plugboard
+			? new Plugboard(new Wiring(alphabet, Alphabet.create(options.plugboard.wiring)))
 			: null;
 
-		const entry = json.entry
-			? new Wheel(new Wiring(alphabet, Alphabet.create(json.entry.wiring)))
+		const entry = options.entry
+			? new Wheel(new Wiring(alphabet, Alphabet.create(options.entry.wiring)))
 			: null;
 
-		const rotors = json.rotors.map((configuration) => {
+		const rotors = options.rotors.map((configuration) => {
 			return new Rotor({
 				wiring: new RotorWiring(alphabet, Alphabet.create(configuration.wiring)),
 				notches: configuration.notches,
@@ -52,14 +52,14 @@ export class Cipher {
 			});
 		});
 
-		const reflector = json.reflector
+		const reflector = options.reflector
 			? new Reflector(
-					new Wiring(alphabet, Alphabet.create(json.reflector.wiring)),
-					json.reflector.position ? alphabet.positionOf(json.reflector.position) : undefined,
+					new Wiring(alphabet, Alphabet.create(options.reflector.wiring)),
+					options.reflector.position ? alphabet.positionOf(options.reflector.position) : undefined,
 			  )
 			: null;
 
-		const chargroup = json.chargroup;
+		const chargroup = options.chargroup;
 
 		return new Cipher({
 			alphabet,

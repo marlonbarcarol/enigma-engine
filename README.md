@@ -66,9 +66,9 @@ npm install @enigmaciphy/engine
 
 ```ts
 // -- ENCRYPTING
-import { Cipher, CipherJSON } from '@enigmaciphy/engine';
+import { Cipher, CipherOptions } from '@enigmaciphy/engine';
 
-const configuration: CipherJSON = {
+const configuration: CipherOptions = {
 	alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
 	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -80,7 +80,7 @@ const configuration: CipherJSON = {
 	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'A' },
 	chargroup: 5,
 };
-let cipher = Cipher.fromJSON(configuration);
+let cipher = Cipher.create(configuration);
 
 cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 // XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL
@@ -88,7 +88,7 @@ cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 // -- DECRYPTING
 
 // To decrypt the cipher is instantiated again so the rotors will be on their initial position.
-cipher = Cipher.fromJSON(configuration);
+cipher = Cipher.create(configuration);
 
 cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
 // LOREM IPSUM DOLOR SITAM ETCON SECTE TURAD IPISC INGEL IT

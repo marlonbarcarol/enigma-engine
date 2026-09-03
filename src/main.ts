@@ -1,4 +1,4 @@
-import { Cipher, CipherJSON } from './Cipher';
+import { Cipher, CipherOptions } from './Cipher';
 import { Alphabet } from './Configuration/Alphabet/Alphabet';
 import { UniqueAlphabetCharacterError } from './Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
 import { EnigmaConfiguration } from './Configuration/EnigmaConfiguration';
@@ -16,7 +16,7 @@ import { InvalidEnigmaAlphabetError } from './Error/InvalidEnigmaAlphabetError';
 
 export {
 	Cipher,
-	CipherJSON,
+	CipherOptions,
 	EnigmaConfiguration,
 	Alphabet,
 	Wiring,
