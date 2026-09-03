@@ -5,6 +5,7 @@ import {
 	InvalidEnigmaAlphabetError,
 	Plugboard,
 	Reflector,
+	RotorRing,
 	RotorWiring,
 	Wheel,
 	Wiring,
@@ -20,8 +21,9 @@ export interface CipherJSON {
 		position?: string;
 		notches?: string[];
 		lock?: boolean;
+		ring?: string; // Ring setting (Ringstellung), as a letter. Defaults to the first character of the alphabet.
 	}>;
-	reflector?: { wiring: string };
+	reflector?: { wiring: string; position?: string }; // `position` defaults to the first character of the alphabet.
 	chargroup?: Nullable<number>;
 }
 
@@ -44,11 +46,17 @@ export class Cipher {
 				notches: configuration.notches,
 				position: configuration.position,
 				lock: configuration.lock,
+				ring: configuration.ring
+					? new RotorRing(alphabet.positionOf(configuration.ring))
+					: undefined,
 			});
 		});
 
 		const reflector = json.reflector
-			? new Reflector(new Wiring(alphabet, Alphabet.create(json.reflector.wiring)))
+			? new Reflector(
+					new Wiring(alphabet, Alphabet.create(json.reflector.wiring)),
+					json.reflector.position ? alphabet.positionOf(json.reflector.position) : undefined,
+			  )
 			: null;
 
 		const chargroup = json.chargroup;

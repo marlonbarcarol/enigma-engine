@@ -42,7 +42,7 @@ The output D from the wiring shift, which is at alphabet position 3 will be subt
 
 ## Reflector
 
-Works like a bi-directional map. The reflector is usually fixed, meaning it does not rotates as oposed to the rotors.
+Works like a bi-directional map. Unlike the rotors, the reflector does not turn as letters are processed, but its wiring can be given a starting offset (`position`), similar to the four-rotor M4 machine's repositionable thin reflector.
 
 ```
 A maps B then
@@ -73,11 +73,11 @@ const configuration: CipherJSON = {
 	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
 	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
 	rotors: [
-		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
-		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
-		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'], ring: 'A' },
+		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'], ring: 'A' },
+		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'], ring: 'A' },
 	],
-	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'A' },
 	chargroup: 5,
 };
 let cipher = Cipher.fromJSON(configuration);
@@ -100,8 +100,6 @@ The code output has been tested against the following existing machines:
 
 - Universal Enigma: http://people.physik.hu-berlin.de/~palloks/js/enigma/enigma-u_v25_en.html
 - Cryptii enigma machine: https://cryptii.com/pipes/enigma-machine
-
-**Note:** This application currently does not support ring settings.
 
 ### Sources:
 

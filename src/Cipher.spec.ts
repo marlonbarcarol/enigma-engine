@@ -278,8 +278,7 @@ describe('Cipher.ts', () => {
 			);
 		});
 
-		// TODO
-		xtest('with ring settings', () => {
+		test('with ring settings', () => {
 			const alphabet = Alphabet.createEnglish();
 
 			const ringA = new RotorRing(alphabet.positionOf('A'));
@@ -316,7 +315,35 @@ describe('Cipher.ts', () => {
 
 			const cipher = new Cipher(configuration);
 
-			expect(cipher.encrypt('AAAAA')).toEqual('?????');
+			// Verified against an independent, formula-based Enigma reference implementation.
+			expect(cipher.encrypt('AAAAA')).toEqual('GGFEB');
+		});
+
+		test('with ring settings from JSON', () => {
+			const cipher = Cipher.fromJSON({
+				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				plugboard: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+				entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+				rotors: [
+					{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', ring: 'A' },
+					{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', ring: 'B' },
+					{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', ring: 'C' },
+				],
+				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+			});
+
+			expect(cipher.encrypt('AAAAA')).toEqual('GGFEB');
+		});
+
+		test('with reflector position from JSON', () => {
+			const cipher = Cipher.fromJSON({
+				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				rotors: [],
+				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'D' },
+			});
+
+			// Verified against an independent, formula-based Enigma reference implementation.
+			expect(cipher.encrypt('AQZ')).toEqual('EWR');
 		});
 
 		test('with locked rotors', () => {
