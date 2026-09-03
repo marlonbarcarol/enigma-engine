@@ -5,7 +5,10 @@ export class InvalidWiringLengthError extends Error {
 		return new InvalidWiringLengthError(input.characters, output.characters);
 	}
 
-	public constructor(public input: string, public output: string) {
+	public constructor(
+		public input: string,
+		public output: string,
+	) {
 		super(
 			`Invalid alphabet provided. Please make sure that the input (${input}) and output (${output}) alphabets have the same length.`,
 		);

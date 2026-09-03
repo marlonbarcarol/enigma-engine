@@ -56,7 +56,7 @@ export class Cipher {
 			? new Reflector(
 					new Wiring(alphabet, Alphabet.create(options.reflector.wiring)),
 					options.reflector.position ? alphabet.positionOf(options.reflector.position) : undefined,
-			  )
+				)
 			: null;
 
 		const chargroup = options.chargroup;
