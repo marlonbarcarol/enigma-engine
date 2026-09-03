@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.8...v0.1.0) (2026-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* CipherJSON is now CipherOptions, and Cipher.fromJSON
+is now Cipher.create. Update imports and call sites accordingly:
+
+  import { Cipher, CipherOptions } from '@enigmaciphy/engine';
+  const cipher = Cipher.create(options);
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VAaLNZr6D5dmVW8WBFjr2M
+
+### Features
+
+* expose rotor ring settings and reflector position via CipherJSON ([506d51b](https://github.com/marlonbarcarol/enigma-engine/commit/506d51b9dc8ab25908a68510a304bd882342c320))
+
+
+### Bug Fixes
+
+* escape special regex characters in alphabet sanitizer ([a5b2ec7](https://github.com/marlonbarcarol/enigma-engine/commit/a5b2ec78294ce410add7eac479a2266421cc850f))
+
+
+* rename CipherJSON/fromJSON to CipherOptions/create ([a527f74](https://github.com/marlonbarcarol/enigma-engine/commit/a527f74e10029ac22926e65189fc97f912a7a06c))
+
 ### [0.0.8](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.5...v0.0.8) (2022-01-11)
 
 * updating vulnerable dependencies
