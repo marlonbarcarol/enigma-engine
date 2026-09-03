@@ -103,7 +103,10 @@ export class Cipher {
 	public encrypt(plaintext: string): string {
 		let text: string = plaintext.toUpperCase();
 
-		const regex = new RegExp(`[^${this.configuration.alphabet.characters}]+`, 'gm');
+		// Escape characters that carry special meaning inside a regex character class,
+		// since the alphabet may contain any user-chosen characters.
+		const escapedAlphabet = this.configuration.alphabet.characters.replace(/[-\\^\]]/g, '\\$&');
+		const regex = new RegExp(`[^${escapedAlphabet}]+`, 'gm');
 		text = text.replace(regex, '');
 
 		if (text.length === 0) {

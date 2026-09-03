@@ -1,8 +1,8 @@
 import { UniqueAlphabetCharacterError } from './Error/UniqueAlphabetCharacterError';
 
 export class Alphabet {
-	public characters: string;
-	public length: number;
+	public readonly characters: string;
+	public readonly length: number;
 
 	public static createEnglish(): Alphabet {
 		return new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ');

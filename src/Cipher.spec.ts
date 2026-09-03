@@ -429,6 +429,19 @@ describe('Cipher.ts', () => {
 			expect(cipher.encrypt('ÆAAAA')).toEqual('BDZG');
 		});
 
+		test('with alphabet containing regex-special characters — sanitizes without corrupting the character class', () => {
+			const alphabet = new Alphabet('AB]C^D-E\\F');
+
+			const configuration: EnigmaConfiguration = {
+				alphabet,
+				rotors: [],
+			};
+
+			const cipher = new Cipher(configuration);
+
+			expect(cipher.encrypt('AB]C^D-E\\FXYZ123')).toEqual('AB]C^D-E\\F');
+		});
+
 		test('with only rotors', () => {
 			const alphabet = Alphabet.createEnglish();
 

@@ -30,7 +30,6 @@ export class Rotor extends AbstractWiringProcessor {
 	public readonly ring: RotorRing;
 	public connection: RotorConnection;
 	public readonly locked: boolean;
-	private configured: boolean;
 
 	public constructor(configuration: RotorConfiguration) {
 		super(configuration.wiring);
@@ -44,7 +43,6 @@ export class Rotor extends AbstractWiringProcessor {
 			previous: null,
 			next: null,
 		};
-		this.configured = false;
 	}
 
 	/**
@@ -123,10 +121,6 @@ export class Rotor extends AbstractWiringProcessor {
 	 * The core of a rotor is processing a letter.
 	 */
 	public process(letter: string): string {
-		if (this.configured === false) {
-			this.configured = false;
-		}
-
 		if (this.shouldRotate()) {
 			this.rotate();
 		}
@@ -192,7 +186,6 @@ export class Rotor extends AbstractWiringProcessor {
 		}
 
 		this.wiring = wiringRotations[wiringRotations.length - 1];
-		this.configured = true;
 
 		const history: RotorHistory = {
 			wiring: {
