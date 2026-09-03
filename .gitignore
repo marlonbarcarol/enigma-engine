@@ -2,6 +2,7 @@
 node_modules
 build/*
 .cache
+*.tsbuildinfo
 
 # Local env files
 .env.local

@@ -21,12 +21,6 @@
 		"forceConsistentCasingInFileNames": true
 	},
 
-	"include": [
-		"./.eslintrc.*",
-		"./jest.config.js",
-		"./commitlint.config.js",
-		"./src/**/*.ts",
-		"./*.d.ts"
-	],
+	"include": ["./src/**/*.ts", "./*.d.ts"],
 	"exclude": ["./node_modules", "./build"]
 }
