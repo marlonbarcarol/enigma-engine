@@ -1,0 +1,70 @@
+name: Deploy Demo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'demo/**'
+      - 'src/**'
+      - '.github/workflows/deploy-demo.yml'
+  workflow_dispatch: ~
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Build the engine
+        run: |
+          npm ci --ignore-scripts
+          make build
+
+      - name: Install demo dependencies
+        working-directory: demo
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: demo
+        run: npx playwright install --with-deps chromium
+
+      - name: Run demo unit tests
+        working-directory: demo
+        run: npm test
+
+      # `npm run e2e` runs Playwright, whose webServer command (see
+      # playwright.config.ts) is `npm run build && npm run preview`, so this
+      # single step both builds demo/dist and tests against it -- no
+      # separate build step needed here, and `npx playwright test` alone
+      # keeps working the same way for local development.
+      - name: Run e2e suite (builds demo/dist as part of its webServer step)
+        working-directory: demo
+        run: npm run e2e
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: demo/dist
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
