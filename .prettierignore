@@ -7,3 +7,9 @@ package-lock.json
 node_modules
 
 CHANGELOG.md
+
+# Planning artifacts contain code fragments deliberately indented to match
+# their eventual position in a real file (not full standalone units) --
+# Prettier's embedded-code formatting would flatten that indentation and
+# corrupt the fragments.
+docs/superpowers/
