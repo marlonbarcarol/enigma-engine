@@ -49,9 +49,7 @@ describe('Machine', () => {
 		renderMachine({ highlightedComponent: { component: 'rotor', index: 1 } });
 
 		expect(screen.getByTestId('rotor-1').getAttribute('class')).toContain('rotor--highlighted');
-		expect(screen.getByTestId('rotor-0').getAttribute('class')).not.toContain(
-			'rotor--highlighted',
-		);
+		expect(screen.getByTestId('rotor-0').getAttribute('class')).not.toContain('rotor--highlighted');
 	});
 
 	test('lights exactly the lamp for the enciphered letter', () => {

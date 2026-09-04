@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { CipherTraceStep } from '@enigmaciphy/engine';
+import { useEffect, useState } from 'react';
 
 interface DebugPanelProps {
 	trace: CipherTraceStep[] | null;

@@ -45,7 +45,7 @@ function currentRotorPositions(cipher: Cipher): string[] {
  *
  * The message is the source of truth rather than an append-only log, so editing
  * it (backspacing, pasting, clearing) re-runs the machine from its starting
- * position — which is what "encipher this text with these settings" means, and
+ * position. That is what "encipher this text with these settings" means, and
  * what makes deleting a character behave the way anyone would expect.
  */
 function encipher(message: string, settings: MachineSettings): EncipherResult {

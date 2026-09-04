@@ -18,15 +18,15 @@ test('the machine is laid out within the page, not overflowing it', async ({ pag
 	await page.goto('/');
 
 	// The case renders as a bounded panel rather than sprawling across the
-	// viewport — this is what a stray unconstrained element would break.
+	// viewport. This is what a stray unconstrained element would break.
 	const machine = page.getByTestId('machine');
 	const box = await machine.boundingBox();
 
 	expect(box).not.toBeNull();
 	expect(box!.width).toBeLessThanOrEqual(800);
-	expect(
-		await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth),
-	).toBe(false);
+	expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(
+		false,
+	);
 });
 
 test('clicking a key on the machine enciphers that letter and lights its lamp', async ({
@@ -160,7 +160,9 @@ test('the page explains how the machine works and how to use the library', async
 	await page.goto('/');
 
 	await expect(page.getByTestId('explainer')).toBeVisible();
-	await expect(page.getByTestId('explainer')).toContainText('no letter can ever encipher to itself');
+	await expect(page.getByTestId('explainer')).toContainText(
+		'no letter can ever encipher to itself',
+	);
 	await expect(page.getByTestId('explainer')).toContainText('Naval M4');
 
 	await expect(page.getByTestId('library-guide')).toBeVisible();
@@ -187,10 +189,7 @@ test('the header credits the library and links to its npm page', async ({ page }
 	await expect(link).toBeVisible();
 	await expect(link).toBeInViewport();
 	await expect(link).toContainText('@enigmaciphy/engine');
-	await expect(link).toHaveAttribute(
-		'href',
-		'https://www.npmjs.com/package/@enigmaciphy/engine',
-	);
+	await expect(link).toHaveAttribute('href', 'https://www.npmjs.com/package/@enigmaciphy/engine');
 });
 
 test('the page ships a favicon that resolves under the deployed base path', async ({
@@ -199,7 +198,7 @@ test('the page ships a favicon that resolves under the deployed base path', asyn
 }) => {
 	await page.goto('/');
 
-	// A favicon href is only useful if it actually resolves — under a project
+	// A favicon href is only useful if it actually resolves. Under a project
 	// Pages base path a root-absolute path would 404.
 	const icons = await page
 		.locator('link[rel="icon"], link[rel="apple-touch-icon"]')

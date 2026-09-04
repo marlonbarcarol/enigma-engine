@@ -1,5 +1,5 @@
 :root {
-	/* Shared palette — defined here rather than on .machine so panels rendered
+	/* Shared palette, defined here rather than on .machine so panels rendered
 	   outside the case (the debug trace) resolve them too. */
 	--case-dark: #1c1512;
 	--case-mid: #3a2a20;
@@ -18,9 +18,7 @@
 
 body {
 	margin: 0;
-	background:
-		radial-gradient(1200px 600px at 50% -10%, #241c16, transparent),
-		#0f0d0c;
+	background: radial-gradient(1200px 600px at 50% -10%, #241c16, transparent), #0f0d0c;
 	color: #e8e2d4;
 }
 

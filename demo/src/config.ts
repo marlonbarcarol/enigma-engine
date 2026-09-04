@@ -3,7 +3,7 @@ import { CipherOptions } from '@enigmaciphy/engine';
 export const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /**
- * The Enigma's keyboard, lampboard and plugboard all share this layout — the
+ * The Enigma's keyboard, lampboard and plugboard all share this layout: the
  * German QWERTZ arrangement, not QWERTY.
  */
 export const QWERTZ_ROWS: readonly (readonly string[])[] = [
@@ -42,9 +42,9 @@ export const REFLECTOR_CATALOG: readonly ReflectorSpec[] = [
 export interface MachineSettings {
 	/** Rotor ids, left to right as mounted in the machine. */
 	rotorIds: string[];
-	/** Ringstellung — the ring setting for each rotor. */
+	/** Ringstellung, the ring setting for each rotor. */
 	ringSettings: string[];
-	/** Grundstellung — the starting position for each rotor. */
+	/** Grundstellung, the starting position for each rotor. */
 	positions: string[];
 	reflectorId: string;
 	plugboardPairs: [string, string][];

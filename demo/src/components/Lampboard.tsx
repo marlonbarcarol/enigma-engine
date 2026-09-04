@@ -13,7 +13,7 @@ function Lampboard({ litLetter }: LampboardProps) {
 	return (
 		<section data-testid="lampboard" className="lampboard">
 			<header className="panel__header">
-				<h2 className="panel__title">Glühlampenfeld — Lampboard</h2>
+				<h2 className="panel__title">Glühlampenfeld / Lampboard</h2>
 				<p className="panel__hint">The enciphered letter lights up here</p>
 			</header>
 

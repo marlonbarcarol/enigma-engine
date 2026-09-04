@@ -1,7 +1,7 @@
+import { CipherTraceStep } from '@enigmaciphy/engine';
 import { act, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import DebugPanel from './DebugPanel';
-import { CipherTraceStep } from '@enigmaciphy/engine';
 
 const sampleTrace: CipherTraceStep[] = [
 	{ component: 'plugboard', direction: 'in', input: 'N', output: 'N' },

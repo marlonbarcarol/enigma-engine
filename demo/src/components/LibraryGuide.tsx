@@ -29,7 +29,7 @@ const { output, trace } = cipher.encryptWithTrace('A');
 
 /**
  * A short pointer to the library this page is built on. Deliberately a
- * quickstart rather than full API docs — the README is the canonical
+ * quickstart rather than full API docs. The README is the canonical
  * reference, and duplicating the whole surface here would only drift.
  */
 function LibraryGuide() {
@@ -39,8 +39,8 @@ function LibraryGuide() {
 
 			<p>
 				This page is a demonstration of <code>{PACKAGE}</code>, an open-source TypeScript
-				implementation of the Enigma cipher. Everything the machine above does is the library
-				doing the work — there is no separate implementation behind the UI.
+				implementation of the Enigma cipher. Everything the machine above does is the library doing
+				the work. There is no separate implementation behind the UI.
 			</p>
 
 			<h3 className="prose__subtitle">Install</h3>
@@ -53,8 +53,8 @@ function LibraryGuide() {
 
 			<p>
 				Configure a machine, then call <code>encrypt()</code>. Because the cipher is its own
-				inverse, decrypting is the same call on a freshly-created machine with identical
-				settings — there is no separate decrypt method.
+				inverse, decrypting is the same call on a freshly-created machine with identical settings.
+				There is no separate decrypt method.
 			</p>
 
 			<pre className="prose__code">
@@ -63,15 +63,15 @@ function LibraryGuide() {
 
 			<p className="prose__note">
 				Rotor position is stateful: each character advances the machine. Create a new{' '}
-				<code>Cipher</code> when you want to start again from the configured position, exactly
-				as an operator would wind the rotors back.
+				<code>Cipher</code> when you want to start again from the configured position, exactly as an
+				operator would wind the rotors back.
 			</p>
 
 			<h3 className="prose__subtitle">Tracing the signal path</h3>
 
 			<p>
-				<code>encryptWithTrace()</code> enciphers a single character and additionally returns
-				every stage it passed through. It's what powers the debug mode above.
+				<code>encryptWithTrace()</code> enciphers a single character and additionally returns every
+				stage it passed through. It's what powers the debug mode above.
 			</p>
 
 			<pre className="prose__code">
@@ -81,7 +81,7 @@ function LibraryGuide() {
 			<h3 className="prose__subtitle">Full documentation</h3>
 
 			<p>
-				The README covers the configuration options in full — rotor wirings and notches, ring
+				The README covers the configuration options in full: rotor wirings and notches, ring
 				settings, the reflector, the plugboard, character grouping, and the errors thrown for
 				invalid configurations.
 			</p>

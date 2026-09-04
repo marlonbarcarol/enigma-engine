@@ -44,7 +44,7 @@ function Plugboard({ pairs, onChange, highlighted }: PlugboardProps) {
 			className={highlighted ? 'plugboard plugboard--highlighted' : 'plugboard'}
 		>
 			<header className="panel__header">
-				<h2 className="panel__title">Steckerbrett — Plugboard</h2>
+				<h2 className="panel__title">Steckerbrett / Plugboard</h2>
 				<p className="panel__hint">
 					{pendingLetter
 						? `Pick a second letter to pair with ${pendingLetter}`

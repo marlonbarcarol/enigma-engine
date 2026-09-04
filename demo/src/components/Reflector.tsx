@@ -3,15 +3,15 @@ interface ReflectorProps {
 }
 
 /**
- * The reflector (Umkehrwalze) sits fixed at the left end of the rotor stack —
- * it never turns, so it shows a label rather than a position window.
+ * The reflector (Umkehrwalze) sits fixed at the left end of the rotor stack.
+ * It never turns, so it shows a label rather than a position window.
  */
 function Reflector({ highlighted }: ReflectorProps) {
 	return (
 		<div
 			data-testid="reflector"
 			className={highlighted ? 'reflector reflector--highlighted' : 'reflector'}
-			title="Reflector (Umkehrwalze) — fixed, does not rotate"
+			title="Reflector (Umkehrwalze). Fixed, does not rotate"
 		>
 			<span className="fixed-wheel__abbr">UKW</span>
 			<svg className="reflector__wiring" viewBox="0 0 40 28" aria-hidden="true">

@@ -62,7 +62,7 @@ An interactive visualizer that lets you type on a virtual Enigma machine and wat
 
 ### Decrypting
 
-Feeding the ciphertext back through a machine on the same settings returns the original message — the reflector makes the cipher its own inverse.
+Feeding the ciphertext back through a machine on the same settings returns the original message. The reflector makes the cipher its own inverse.
 
 ![Decrypting "GYDJNFS" back into "TESTING" on the same machine settings](https://raw.githubusercontent.com/marlonbarcarol/enigma-engine/main/docs/images/decrypting.png)
 

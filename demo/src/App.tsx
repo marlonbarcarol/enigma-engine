@@ -38,8 +38,7 @@ function App() {
 			<header className="app__header">
 				<h1 className="app__title">Enigma Machine</h1>
 				<p className="app__subtitle">
-					Type on the right, or click the keys — the rotors step and a lamp lights for each
-					letter.
+					Type on the right, or click the keys. The rotors step and a lamp lights for each letter.
 				</p>
 				<p className="app__byline">
 					Powered by{' '}
@@ -51,8 +50,8 @@ function App() {
 						rel="noreferrer"
 					>
 						<code>@enigmaciphy/engine</code>
-					</a>{' '}
-					— an open-source TypeScript implementation of the Enigma cipher.
+					</a>
+					, an open-source TypeScript implementation of the Enigma cipher.
 				</p>
 				<nav className="app__nav">
 					<a className="app__nav-link" href="#how-it-works">
@@ -125,7 +124,7 @@ function App() {
 								onChange={(event) => setDebugMode(event.target.checked)}
 								data-testid="debug-toggle"
 							/>
-							Debug mode — trace the last keypress through the machine
+							Debug mode: trace the last keypress through the machine
 						</label>
 
 						{debugMode && <DebugPanel trace={lastTrace} onStepChange={handleStepChange} />}

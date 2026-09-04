@@ -14,7 +14,7 @@ function Keys({ onKeyPress, pressedLetter }: KeysProps) {
 	return (
 		<section data-testid="keyboard" className="keys">
 			<header className="panel__header">
-				<h2 className="panel__title">Tastatur — Keyboard</h2>
+				<h2 className="panel__title">Tastatur / Keyboard</h2>
 				<p className="panel__hint">Click a key to encipher that letter</p>
 			</header>
 

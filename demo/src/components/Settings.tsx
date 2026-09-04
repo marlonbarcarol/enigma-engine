@@ -28,7 +28,7 @@ function Settings({ settings, onChange }: SettingsProps) {
 	return (
 		<section data-testid="settings" className="settings">
 			<header className="panel__header">
-				<h2 className="panel__title">Schlüssel — Settings</h2>
+				<h2 className="panel__title">Schlüssel / Settings</h2>
 				<p className="panel__hint">The daily key: rotor order, rings, and start positions</p>
 			</header>
 
