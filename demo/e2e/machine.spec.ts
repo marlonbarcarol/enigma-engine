@@ -10,6 +10,49 @@ test('the machine renders with all its components', async ({ page }) => {
 	await expect(page.getByTestId('rotor-1')).toBeVisible();
 	await expect(page.getByTestId('rotor-2')).toBeVisible();
 	await expect(page.getByTestId('reflector')).toBeVisible();
+	await expect(page.getByTestId('lampboard')).toBeVisible();
+	await expect(page.getByTestId('keyboard')).toBeVisible();
+});
+
+test('the machine is laid out within the page, not overflowing it', async ({ page }) => {
+	await page.goto('/');
+
+	// The case renders as a bounded panel rather than sprawling across the
+	// viewport — this is what a stray unconstrained element would break.
+	const machine = page.getByTestId('machine');
+	const box = await machine.boundingBox();
+
+	expect(box).not.toBeNull();
+	expect(box!.width).toBeLessThanOrEqual(800);
+	expect(
+		await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth),
+	).toBe(false);
+});
+
+test('clicking a key on the machine enciphers that letter and lights its lamp', async ({
+	page,
+}) => {
+	await page.goto('/');
+
+	await page.getByTestId('key-A').click();
+
+	// 'A' is the first letter of the reference phrase's machine state, so this
+	// is the same substitution the engine's own tests pin down.
+	await expect(page.getByTestId('ciphertext-output')).toHaveText('Q');
+	await expect(page.getByTestId('lamp-Q')).toHaveClass(/lamp--lit/);
+	await expect(page.getByTestId('lamp-A')).not.toHaveClass(/lamp--lit/);
+});
+
+test('the rotor window advances as keys are struck', async ({ page }) => {
+	await page.goto('/');
+
+	await expect(page.getByTestId('rotor-2')).toHaveText(/A/);
+
+	await page.getByTestId('key-A').click();
+	await expect(page.getByTestId('rotor-2')).toHaveText(/B/);
+
+	await page.getByTestId('key-A').click();
+	await expect(page.getByTestId('rotor-2')).toHaveText(/C/);
 });
 
 test('typing a full phrase produces the correct ciphertext, including a stripped space', async ({

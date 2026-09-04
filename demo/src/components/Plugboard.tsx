@@ -1,19 +1,53 @@
+import { PLUGBOARD_PAIRS, PLUGGED_LETTERS, QWERTZ_ROWS } from '../config';
+
 interface PlugboardProps {
 	highlighted?: boolean;
 }
 
+/**
+ * The Steckerbrett on the front of the machine: a double socket per letter,
+ * with patch cables swapping the pairs configured in the wiring.
+ */
 function Plugboard({ highlighted }: PlugboardProps) {
 	return (
-		<g
+		<section
 			data-testid="plugboard"
 			className={highlighted ? 'plugboard plugboard--highlighted' : 'plugboard'}
-			transform="translate(60, 220)"
 		>
-			<rect x="-50" y="-20" width="220" height="40" rx="6" className="plugboard__body" />
-			{Array.from({ length: 6 }, (_, socket) => (
-				<circle key={socket} cx={-30 + socket * 40} cy="0" r="6" className="plugboard__socket" />
-			))}
-		</g>
+			<h2 className="panel__title">Steckerbrett — Plugboard</h2>
+
+			<div className="plugboard__sockets">
+				{QWERTZ_ROWS.map((row, rowIndex) => (
+					<div className="plugboard__row" key={rowIndex}>
+						{row.map((letter) => (
+							<div
+								className={
+									PLUGGED_LETTERS.has(letter)
+										? 'plugboard__socket plugboard__socket--plugged'
+										: 'plugboard__socket'
+								}
+								key={letter}
+							>
+								<span className="plugboard__letter">{letter}</span>
+								<span className="plugboard__holes" aria-hidden="true">
+									<span className="plugboard__hole" />
+									<span className="plugboard__hole" />
+								</span>
+							</div>
+						))}
+					</div>
+				))}
+			</div>
+
+			<p className="plugboard__cables">
+				<span className="plugboard__cables-label">Cables:</span>
+				{PLUGBOARD_PAIRS.map(([from, to]) => (
+					<span className="plugboard__cable" key={`${from}${to}`}>
+						{from}&#8202;–&#8202;{to}
+					</span>
+				))}
+			</p>
+		</section>
 	);
 }
 

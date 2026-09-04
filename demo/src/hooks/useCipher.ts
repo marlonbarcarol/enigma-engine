@@ -9,6 +9,10 @@ export interface UseCipherResult {
 	setDebugMode: (value: boolean) => void;
 	lastTrace: CipherTraceStep[] | null;
 	rotorPositions: string[];
+	/** The key just pressed, for the keyboard's pressed state. */
+	lastInput: string | null;
+	/** The letter just enciphered, for the lampboard's lit lamp. */
+	lastOutput: string | null;
 	pressKey: (letter: string) => void;
 }
 
@@ -29,6 +33,8 @@ export function useCipher(): UseCipherResult {
 	const [rotorPositions, setRotorPositions] = useState<string[]>(() =>
 		Array(ROTOR_COUNT).fill('A'),
 	);
+	const [lastInput, setLastInput] = useState<string | null>(null);
+	const [lastOutput, setLastOutput] = useState<string | null>(null);
 
 	const pressKey = useCallback(
 		(letter: string) => {
@@ -40,6 +46,8 @@ export function useCipher(): UseCipherResult {
 					setCiphertext((previous) => previous + output);
 					setLastTrace(trace);
 					setRotorPositions(currentRotorPositions(cipher));
+					setLastInput(letter.toUpperCase());
+					setLastOutput(output);
 					return;
 				} catch (error) {
 					if (!(error instanceof InvalidTraceLetterError)) {
@@ -60,6 +68,8 @@ export function useCipher(): UseCipherResult {
 
 			setCiphertext((previous) => previous + output);
 			setRotorPositions(currentRotorPositions(cipher));
+			setLastInput(letter.toUpperCase());
+			setLastOutput(output);
 		},
 		[debugMode],
 	);
@@ -72,8 +82,19 @@ export function useCipher(): UseCipherResult {
 			setDebugMode,
 			lastTrace,
 			rotorPositions,
+			lastInput,
+			lastOutput,
 			pressKey,
 		}),
-		[ciphertext, skippedCount, debugMode, lastTrace, rotorPositions, pressKey],
+		[
+			ciphertext,
+			skippedCount,
+			debugMode,
+			lastTrace,
+			rotorPositions,
+			lastInput,
+			lastOutput,
+			pressKey,
+		],
 	);
 }
