@@ -27,7 +27,7 @@ function isHighlighted(
 
 function Machine({ rotorPositions, highlightedComponent }: MachineProps) {
 	return (
-		<svg data-testid="machine" viewBox="0 0 420 280" role="img" aria-label="Enigma machine">
+		<svg className="machine" data-testid="machine" viewBox="0 0 420 280" role="img" aria-label="Enigma machine">
 			<EntryWheel highlighted={isHighlighted(highlightedComponent, 'entry')} />
 			{rotorPositions.map((position, index) => (
 				<Rotor

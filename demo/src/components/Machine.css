@@ -76,3 +76,27 @@
 	stroke: #ffcc00;
 	stroke-width: 3;
 }
+
+.debug-panel {
+	list-style: none;
+	margin: 0;
+	padding: 0.5rem;
+	max-width: 480px;
+	border: 1px solid #888;
+	border-radius: 4px;
+	background: #2a2a2a;
+}
+
+.trace-step {
+	padding: 0.4rem 0.6rem;
+	color: #f0f0f0;
+	font-family: monospace;
+	font-size: 14px;
+}
+
+.trace-step--active {
+	background: #ffcc00;
+	color: #1a1a1a;
+	border-radius: 3px;
+	font-weight: bold;
+}

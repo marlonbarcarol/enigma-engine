@@ -45,7 +45,7 @@ function DebugPanel({ trace, onStepChange }: DebugPanelProps) {
 	}
 
 	return (
-		<ol data-testid="debug-panel">
+		<ol className="debug-panel" data-testid="debug-panel">
 			{trace.map((step, index) => (
 				<li
 					key={index}
