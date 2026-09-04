@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.0...v0.1.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* run rotor ring-wiring setup once per instance, not per encrypt() call ([36650f3](https://github.com/marlonbarcarol/enigma-engine/commit/36650f32b53fca887e814c1812182452434ddc9f))
+
 ## [0.1.0](https://github.com/marlonbarcarol/enigma-engine/compare/v0.0.8...v0.1.0) (2026-09-03)
 
 
