@@ -17,7 +17,7 @@ function currentRotorPositions(cipher: Cipher): string[] {
 }
 
 export function useCipher(): UseCipherResult {
-	const cipherRef = useRef<Cipher>();
+	const cipherRef = useRef<Cipher | undefined>(undefined);
 	if (!cipherRef.current) {
 		cipherRef.current = Cipher.create(MACHINE_CONFIG);
 	}
