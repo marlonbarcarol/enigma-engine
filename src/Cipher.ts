@@ -3,6 +3,7 @@ import {
 	Alphabet,
 	EnigmaConfiguration,
 	InvalidEnigmaAlphabetError,
+	InvalidTraceLetterError,
 	Plugboard,
 	Reflector,
 	RotorRing,
@@ -183,9 +184,7 @@ export class Cipher {
 		text = text.replace(regex, '');
 
 		if (text.length !== 1) {
-			throw new Error(
-				`encryptWithTrace() requires exactly one character from the alphabet "${this.configuration.alphabet.characters}", received "${letter}".`,
-			);
+			throw InvalidTraceLetterError.create(letter, this.configuration.alphabet.characters);
 		}
 
 		const { output, trace } = this.processCharacterWithTrace(text, true);

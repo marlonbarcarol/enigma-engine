@@ -13,6 +13,7 @@ import { InvalidWiringAssociationError } from './Configuration/Wiring/Error/Inva
 import { InvalidWiringLengthError } from './Configuration/Wiring/Error/InvalidWiringLengthError';
 import { Wiring } from './Configuration/Wiring/Wiring';
 import { InvalidEnigmaAlphabetError } from './Error/InvalidEnigmaAlphabetError';
+import { InvalidTraceLetterError } from './Error/InvalidTraceLetterError';
 
 export {
 	AbstractWiringProcessor,
@@ -23,6 +24,7 @@ export {
 	CipherTraceStep,
 	EnigmaConfiguration,
 	InvalidEnigmaAlphabetError,
+	InvalidTraceLetterError,
 	InvalidWiringAssociationError,
 	InvalidWiringLengthError,
 	Plugboard,

@@ -7,7 +7,12 @@ import { RotorRing } from './Configuration/Rotor/RotorRing';
 import { RotorWiring } from './Configuration/Rotor/RotorWiring';
 import { Wheel } from './Configuration/Wheel/Wheel';
 import { Wiring } from './Configuration/Wiring/Wiring';
-import { Cipher, CipherOptions, InvalidEnigmaAlphabetError } from './main';
+import {
+	Cipher,
+	CipherOptions,
+	InvalidEnigmaAlphabetError,
+	InvalidTraceLetterError,
+} from './main';
 
 describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {
@@ -822,6 +827,12 @@ describe('Cipher.ts', () => {
 			expect(() => cipher.encryptWithTrace('')).toThrow();
 			expect(() => cipher.encryptWithTrace('AB')).toThrow();
 			expect(() => cipher.encryptWithTrace('1')).toThrow();
+		});
+
+		test('throws InvalidTraceLetterError when given more than one character', () => {
+			const cipher = Cipher.create(traceConfiguration);
+
+			expect(() => cipher.encryptWithTrace('AB')).toThrow(InvalidTraceLetterError);
 		});
 	});
 });
