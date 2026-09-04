@@ -3,6 +3,7 @@ node_modules
 build/*
 .cache
 *.tsbuildinfo
+.superpowers/
 
 # Local env files
 .env.local
