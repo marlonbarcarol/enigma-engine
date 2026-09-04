@@ -1,5 +1,9 @@
 This is an implementation of the enigma machine encryption algorithm. The cipher heavily relies on substitution.
 
+### Demo
+
+An interactive visualizer that lets you type on a virtual Enigma machine and watch the rotors, reflector and plugboard react in real time (with an optional debug mode showing the signal's step-by-step path) is live at https://marlonbarcarol.github.io/enigma-engine/.
+
 ## Rotor
 
 It substitutes an alphabet letter, representing the wiring of the rotor, the offset of the ring may be positioned in a different position of the alphabet. A letter may go through substitution throughout many rotors. Each time a letter is substited the rotor turns to the next letter.
@@ -93,6 +97,23 @@ cipher = Cipher.create(configuration);
 cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
 // LOREM IPSUM DOLOR SITAM ETCON SECTE TURAD IPISC INGEL IT
 ```
+
+```ts
+// -- TRACING A SINGLE CHARACTER
+import { Cipher, CipherOptions } from '@enigmaciphy/engine';
+
+const configuration: CipherOptions = {
+	/* ...same shape as above... */
+};
+const cipher = Cipher.create(configuration);
+
+const { output, trace } = cipher.encryptWithTrace('A');
+```
+
+`encryptWithTrace()` behaves like `encrypt()`, but only accepts exactly one character from the configured alphabet and returns `{ output, trace }` instead of a plain string:
+
+- `output` is the resulting ciphertext letter, same as what `encrypt()` would produce for that character.
+- `trace` is an ordered array of `CipherTraceStep` objects, one per stage the signal passes through on its way from plugboard to reflector and back (plugboard -> entry -> rotors (reverse) -> reflector -> rotors (forward) -> entry -> plugboard). Each step has a `component` (`'plugboard' | 'entry' | 'rotor' | 'reflector'`), the `input`/`output` letters at that stage, and, where relevant, an `index` (which rotor), a `direction` (`'in' | 'out' | 'reverse' | 'forward'`) and `rotorPosition` (the rotor's current-position letter).
 
 ---
 
