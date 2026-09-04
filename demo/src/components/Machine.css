@@ -1,0 +1,78 @@
+.machine {
+	max-width: 480px;
+}
+
+.rotor__body {
+	fill: #3a3a3a;
+	stroke: #888;
+	stroke-width: 2;
+}
+
+.rotor__inner {
+	fill: #2a2a2a;
+}
+
+.rotor__tick {
+	stroke: #666;
+	stroke-width: 1;
+}
+
+.rotor__dial {
+	transition: transform 0.3s ease-out;
+	transform-origin: center;
+}
+
+.rotor__letter {
+	fill: #f0f0f0;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.rotor--highlighted .rotor__body {
+	stroke: #ffcc00;
+	stroke-width: 3;
+}
+
+.reflector__body {
+	fill: #4a3a2a;
+	stroke: #888;
+	stroke-width: 2;
+}
+
+.reflector__wiring {
+	fill: none;
+	stroke: #ccaa66;
+	stroke-width: 2;
+}
+
+.reflector--highlighted .reflector__body {
+	stroke: #ffcc00;
+	stroke-width: 3;
+}
+
+.plugboard__body {
+	fill: #2a2a3a;
+	stroke: #888;
+	stroke-width: 2;
+}
+
+.plugboard__socket {
+	fill: #111;
+	stroke: #999;
+}
+
+.plugboard--highlighted .plugboard__body {
+	stroke: #ffcc00;
+	stroke-width: 3;
+}
+
+.entry-wheel__body {
+	fill: #3a3a4a;
+	stroke: #888;
+	stroke-width: 2;
+}
+
+.entry-wheel--highlighted .entry-wheel__body {
+	stroke: #ffcc00;
+	stroke-width: 3;
+}
