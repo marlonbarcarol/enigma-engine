@@ -5,7 +5,7 @@
 		"moduleResolution": "bundler",
 		"strict": true,
 		"composite": true,
-		"types": ["node"]
+		"outDir": "./node_modules/.tsbuildcache"
 	},
 	"include": ["vite.config.ts", "playwright.config.ts"]
 }
