@@ -626,6 +626,30 @@ describe('Cipher.ts', () => {
 				'XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL',
 			);
 		});
+
+		test('repeated encrypt() calls on the same instance do not corrupt ring-shifted wiring', () => {
+			const configuration: CipherOptions = {
+				alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				rotors: [
+					{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'], ring: 'B' },
+					{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
+					{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+				],
+				reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+			};
+
+			const wholeStringCipher = Cipher.create(configuration);
+			const wholeStringResult = wholeStringCipher.encrypt('AAAA');
+
+			const perCharacterCipher = Cipher.create(configuration);
+			let perCharacterResult = '';
+			for (const letter of 'AAAA') {
+				perCharacterResult += perCharacterCipher.encrypt(letter);
+			}
+
+			expect(perCharacterResult).toEqual(wholeStringResult);
+			expect(wholeStringResult).toEqual('ZOMW');
+		});
 	});
 
 	describe('Can decrypt', () => {

@@ -102,6 +102,14 @@ export class Cipher {
 		}
 
 		this.configuration = configuration;
+
+		for (const [index, rotor] of configuration.rotors.entries()) {
+			const previous = configuration.rotors[index - 1] ?? null;
+			const next = configuration.rotors[index + 1] ?? null;
+
+			rotor.connect(previous, next);
+			rotor.configureRingWiring();
+		}
 	}
 
 	/**
@@ -119,14 +127,6 @@ export class Cipher {
 
 		if (text.length === 0) {
 			return '';
-		}
-
-		for (const [index, rotor] of this.configuration.rotors.entries()) {
-			const previous = this.configuration.rotors[index - 1] ?? null;
-			const next = this.configuration.rotors[index + 1] ?? null;
-
-			rotor.connect(previous, next);
-			rotor.configureRingWiring();
 		}
 
 		let characters: string[] = Array.from(text);
