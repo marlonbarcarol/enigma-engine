@@ -1,14 +1,70 @@
 This is an implementation of the enigma machine encryption algorithm. The cipher heavily relies on substitution.
 
-### Demo
+## Usage:
+
+```
+npm install @enigmaciphy/engine
+```
+
+```ts
+// -- ENCRYPTING
+import { Cipher, CipherOptions } from '@enigmaciphy/engine';
+
+const configuration: CipherOptions = {
+	alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
+	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+	rotors: [
+		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'], ring: 'A' },
+		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'], ring: 'A' },
+		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'], ring: 'A' },
+	],
+	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'A' },
+	chargroup: 5,
+};
+let cipher = Cipher.create(configuration);
+
+cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+// XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL
+
+// -- DECRYPTING
+
+// To decrypt the cipher is instantiated again so the rotors will be on their initial position.
+cipher = Cipher.create(configuration);
+
+cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
+// LOREM IPSUM DOLOR SITAM ETCON SECTE TURAD IPISC INGEL IT
+```
+
+### Tracing a single character
+
+```ts
+import { Cipher, CipherOptions } from '@enigmaciphy/engine';
+
+const configuration: CipherOptions = {/* ...same shape as above... */};
+const cipher = Cipher.create(configuration);
+
+const { output, trace } = cipher.encryptWithTrace('A');
+```
+
+`encryptWithTrace()` behaves like `encrypt()`, but only accepts exactly one character from the configured alphabet and returns `{ output, trace }` instead of a plain string:
+
+- `output` is the resulting ciphertext letter, same as what `encrypt()` would produce for that character.
+- `trace` is an ordered array of `CipherTraceStep` objects, one per stage the signal passes through on its way from plugboard to reflector and back (plugboard -> entry -> rotors (reverse) -> reflector -> rotors (forward) -> entry -> plugboard). Each step has a `component` (`'plugboard' | 'entry' | 'rotor' | 'reflector'`), the `input`/`output` letters at that stage, and, where relevant, an `index` (which rotor), a `direction` (`'in' | 'out' | 'reverse' | 'forward'`) and `rotorPosition` (the rotor's current-position letter).
+
+## Demo
 
 An interactive visualizer that lets you type on a virtual Enigma machine and watch the rotors, reflector and plugboard react in real time (with an optional debug mode showing the signal's step-by-step path) is live at https://marlonbarcarol.github.io/enigma-engine/.
 
-#### Cryptographing
-<img width="1496" height="815" alt="image" src="https://github.com/user-attachments/assets/51472343-608c-4aca-88e7-d249a8d3f779" />
+### Encrypting
 
-#### Decryptographing
-<img width="1496" height="817" alt="image" src="https://github.com/user-attachments/assets/90a03e8c-e629-4fe2-94a7-91b8323fb16c" />
+![Encrypting "TESTING" into "GYDJNFS", with debug mode showing the signal path for the last keypress](docs/images/encrypting.png)
+
+### Decrypting
+
+Feeding the ciphertext back through a machine on the same settings returns the original message — the reflector makes the cipher its own inverse.
+
+![Decrypting "GYDJNFS" back into "TESTING" on the same machine settings](docs/images/decrypting.png)
 
 ## Rotor
 
@@ -67,57 +123,6 @@ Maps a letter to another letter for its substitution, same property seem by the 
 A maps B then
 B maps A
 ```
-
-## Usage:
-
-```
-npm install @enigmaciphy/engine
-```
-
-```ts
-// -- ENCRYPTING
-import { Cipher, CipherOptions } from '@enigmaciphy/engine';
-
-const configuration: CipherOptions = {
-	alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
-	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-	rotors: [
-		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'], ring: 'A' },
-		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'], ring: 'A' },
-		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'], ring: 'A' },
-	],
-	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT', position: 'A' },
-	chargroup: 5,
-};
-let cipher = Cipher.create(configuration);
-
-cipher.encrypt('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-// XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL
-
-// -- DECRYPTING
-
-// To decrypt the cipher is instantiated again so the rotors will be on their initial position.
-cipher = Cipher.create(configuration);
-
-cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
-// LOREM IPSUM DOLOR SITAM ETCON SECTE TURAD IPISC INGEL IT
-```
-
-```ts
-// -- TRACING A SINGLE CHARACTER
-import { Cipher, CipherOptions } from '@enigmaciphy/engine';
-
-const configuration: CipherOptions = {/* ...same shape as above... */};
-const cipher = Cipher.create(configuration);
-
-const { output, trace } = cipher.encryptWithTrace('A');
-```
-
-`encryptWithTrace()` behaves like `encrypt()`, but only accepts exactly one character from the configured alphabet and returns `{ output, trace }` instead of a plain string:
-
-- `output` is the resulting ciphertext letter, same as what `encrypt()` would produce for that character.
-- `trace` is an ordered array of `CipherTraceStep` objects, one per stage the signal passes through on its way from plugboard to reflector and back (plugboard -> entry -> rotors (reverse) -> reflector -> rotors (forward) -> entry -> plugboard). Each step has a `component` (`'plugboard' | 'entry' | 'rotor' | 'reflector'`), the `input`/`output` letters at that stage, and, where relevant, an `index` (which rotor), a `direction` (`'in' | 'out' | 'reverse' | 'forward'`) and `rotorPosition` (the rotor's current-position letter).
 
 ---
 
