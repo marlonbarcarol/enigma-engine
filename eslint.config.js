@@ -9,7 +9,7 @@ const globals = require('globals');
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = [
 	{
-		ignores: ['build/**'],
+		ignores: ['build/**', 'demo/**'],
 	},
 	js.configs.recommended,
 	...tseslint.configs['flat/recommended'],

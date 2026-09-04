@@ -13,3 +13,8 @@ CHANGELOG.md
 # Prettier's embedded-code formatting would flatten that indentation and
 # corrupt the fragments.
 docs/superpowers/
+
+# demo/ is an independent subproject with its own toolchain (lint, format,
+# test), fully decoupled from the engine's own -- see
+# docs/superpowers/specs/2026-09-04-enigma-visualizer-design.md.
+demo/
