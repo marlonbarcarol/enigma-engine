@@ -1,8 +1,11 @@
-This is an implementation of the enigma machine encryption algorithm. The cipher heavily relies on substitution.
+<img width="1272" height="777" alt="image" src="https://github.com/user-attachments/assets/8ab521b2-56bc-4d19-9f03-e46ff6c028a4" />This is an implementation of the enigma machine encryption algorithm. The cipher heavily relies on substitution.
 
 ### Demo
 
 An interactive visualizer that lets you type on a virtual Enigma machine and watch the rotors, reflector and plugboard react in real time (with an optional debug mode showing the signal's step-by-step path) is live at https://marlonbarcarol.github.io/enigma-engine/.
+
+<img width="1496" height="815" alt="image" src="https://github.com/user-attachments/assets/51472343-608c-4aca-88e7-d249a8d3f779" />
+<img width="1496" height="817" alt="image" src="https://github.com/user-attachments/assets/90a03e8c-e629-4fe2-94a7-91b8323fb16c" />
 
 ## Rotor
 
