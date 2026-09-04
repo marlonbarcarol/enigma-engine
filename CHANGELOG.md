@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.1...v0.1.2) (2026-09-04)
+
+
+### Features
+
+* add Cipher.encryptWithTrace() for per-character signal-path tracing ([4b74e5a](https://github.com/marlonbarcarol/enigma-engine/commit/4b74e5a69783a30b73d84b3ef1ec74d035dcb9fe))
+
 ### [0.1.1](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.0...v0.1.1) (2026-09-04)
 
 
