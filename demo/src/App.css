@@ -337,3 +337,28 @@ body {
 	display: flex;
 	gap: 14px;
 }
+
+.app__byline {
+	margin: 6px 0 0;
+	font-size: 12px;
+	color: #7a7263;
+}
+
+.app__byline code {
+	padding: 1px 5px;
+	border-radius: 4px;
+	background: #241c12;
+	border: 1px solid #3d342a;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 11px;
+	color: #e2cf94;
+}
+
+.app__byline-link {
+	text-decoration: none;
+}
+
+.app__byline-link:hover code {
+	border-color: var(--brass);
+	color: var(--lamp-lit);
+}

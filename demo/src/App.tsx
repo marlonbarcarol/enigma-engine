@@ -41,6 +41,19 @@ function App() {
 					Type on the right, or click the keys — the rotors step and a lamp lights for each
 					letter.
 				</p>
+				<p className="app__byline">
+					Powered by{' '}
+					<a
+						className="app__byline-link"
+						data-testid="npm-link"
+						href="https://www.npmjs.com/package/@enigmaciphy/engine"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<code>@enigmaciphy/engine</code>
+					</a>{' '}
+					— an open-source TypeScript implementation of the Enigma cipher.
+				</p>
 				<nav className="app__nav">
 					<a className="app__nav-link" href="#how-it-works">
 						How it works

@@ -178,3 +178,17 @@ test('the header links jump to the written sections', async ({ page }) => {
 	await expect(page).toHaveURL(/#library$/);
 	await expect(page.getByTestId('library-guide')).toBeInViewport();
 });
+
+test('the header credits the library and links to its npm page', async ({ page }) => {
+	await page.goto('/');
+
+	const link = page.getByTestId('npm-link');
+
+	await expect(link).toBeVisible();
+	await expect(link).toBeInViewport();
+	await expect(link).toContainText('@enigmaciphy/engine');
+	await expect(link).toHaveAttribute(
+		'href',
+		'https://www.npmjs.com/package/@enigmaciphy/engine',
+	);
+});
