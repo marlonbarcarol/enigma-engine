@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"composite": true,
+		"types": ["node"]
+	},
+	"include": ["vite.config.ts", "playwright.config.ts"]
+}
