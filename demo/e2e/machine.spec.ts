@@ -83,11 +83,16 @@ test('the whole machine fits a laptop viewport without scrolling', async ({ page
 	await page.goto('/');
 
 	// You have to be able to see the rotors and lamps while typing beside them.
-	expect(
-		await page.evaluate(() => document.body.scrollHeight <= window.innerHeight),
-	).toBe(true);
+	// The written sections below the fold are expected to extend the page, so
+	// this measures the machine itself rather than the whole document.
+	const machine = await page.getByTestId('machine').boundingBox();
+
+	expect(machine).not.toBeNull();
+	expect(machine!.y + machine!.height).toBeLessThanOrEqual(800);
+
 	await expect(page.getByTestId('plugboard')).toBeInViewport();
 	await expect(page.getByTestId('rotor-0')).toBeInViewport();
+	await expect(page.getByTestId('plaintext-input')).toBeInViewport();
 });
 
 test('deleting characters re-enciphers instead of leaving stale output', async ({ page }) => {
@@ -149,4 +154,27 @@ test('debug mode shows the full trace for a keypress', async ({ page }) => {
 
 	await expect(page.getByTestId('debug-panel')).toBeVisible();
 	await expect(page.getByTestId('trace-step')).toHaveCount(11);
+});
+
+test('the page explains how the machine works and how to use the library', async ({ page }) => {
+	await page.goto('/');
+
+	await expect(page.getByTestId('explainer')).toBeVisible();
+	await expect(page.getByTestId('explainer')).toContainText('no letter can ever encipher to itself');
+	await expect(page.getByTestId('explainer')).toContainText('Naval M4');
+
+	await expect(page.getByTestId('library-guide')).toBeVisible();
+	await expect(page.getByTestId('library-guide')).toContainText('npm install @enigmaciphy/engine');
+});
+
+test('the header links jump to the written sections', async ({ page }) => {
+	await page.goto('/');
+
+	await page.getByRole('link', { name: 'How it works' }).click();
+	await expect(page).toHaveURL(/#how-it-works$/);
+	await expect(page.getByTestId('explainer')).toBeInViewport();
+
+	await page.getByRole('link', { name: 'Using the library' }).click();
+	await expect(page).toHaveURL(/#library$/);
+	await expect(page.getByTestId('library-guide')).toBeInViewport();
 });

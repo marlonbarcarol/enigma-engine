@@ -58,13 +58,13 @@ An interactive visualizer that lets you type on a virtual Enigma machine and wat
 
 ### Encrypting
 
-![Encrypting "TESTING" into "GYDJNFS", with debug mode showing the signal path for the last keypress](docs/images/encrypting.png)
+![Encrypting "TESTING" into "GYDJNFS", with debug mode showing the signal path for the last keypress](https://raw.githubusercontent.com/marlonbarcarol/enigma-engine/main/docs/images/encrypting.png)
 
 ### Decrypting
 
 Feeding the ciphertext back through a machine on the same settings returns the original message — the reflector makes the cipher its own inverse.
 
-![Decrypting "GYDJNFS" back into "TESTING" on the same machine settings](docs/images/decrypting.png)
+![Decrypting "GYDJNFS" back into "TESTING" on the same machine settings](https://raw.githubusercontent.com/marlonbarcarol/enigma-engine/main/docs/images/decrypting.png)
 
 ## Rotor
 

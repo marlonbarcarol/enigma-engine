@@ -1,6 +1,8 @@
 import { CipherTraceStep } from '@enigmaciphy/engine';
 import { useState } from 'react';
 import DebugPanel from './components/DebugPanel';
+import Explainer from './components/Explainer';
+import LibraryGuide from './components/LibraryGuide';
 import Machine, { HighlightedComponent } from './components/Machine';
 import './components/Machine.css';
 import Settings from './components/Settings';
@@ -39,6 +41,14 @@ function App() {
 					Type on the right, or click the keys — the rotors step and a lamp lights for each
 					letter.
 				</p>
+				<nav className="app__nav">
+					<a className="app__nav-link" href="#how-it-works">
+						How it works
+					</a>
+					<a className="app__nav-link" href="#library">
+						Using the library
+					</a>
+				</nav>
 			</header>
 
 			<div className="app__columns">
@@ -109,6 +119,34 @@ function App() {
 					</section>
 				</aside>
 			</div>
+
+			<Explainer />
+
+			<LibraryGuide />
+
+			<footer className="app__footer">
+				<span>
+					Built on <code>@enigmaciphy/engine</code>
+				</span>
+				<span className="app__footer-links">
+					<a
+						className="prose__link"
+						href="https://github.com/marlonbarcarol/enigma-engine"
+						target="_blank"
+						rel="noreferrer"
+					>
+						GitHub
+					</a>
+					<a
+						className="prose__link"
+						href="https://www.npmjs.com/package/@enigmaciphy/engine"
+						target="_blank"
+						rel="noreferrer"
+					>
+						npm
+					</a>
+				</span>
+			</footer>
 		</main>
 	);
 }
