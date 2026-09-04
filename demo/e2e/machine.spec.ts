@@ -192,3 +192,23 @@ test('the header credits the library and links to its npm page', async ({ page }
 		'https://www.npmjs.com/package/@enigmaciphy/engine',
 	);
 });
+
+test('the page ships a favicon that resolves under the deployed base path', async ({
+	page,
+	request,
+}) => {
+	await page.goto('/');
+
+	// A favicon href is only useful if it actually resolves — under a project
+	// Pages base path a root-absolute path would 404.
+	const icons = await page
+		.locator('link[rel="icon"], link[rel="apple-touch-icon"]')
+		.evaluateAll((links) => links.map((link) => (link as HTMLLinkElement).href));
+
+	expect(icons.length).toBeGreaterThanOrEqual(2);
+
+	for (const href of icons) {
+		expect(href).toContain('/enigma-engine/');
+		expect((await request.get(href)).status()).toBe(200);
+	}
+});
