@@ -7,12 +7,7 @@ import { RotorRing } from './Configuration/Rotor/RotorRing';
 import { RotorWiring } from './Configuration/Rotor/RotorWiring';
 import { Wheel } from './Configuration/Wheel/Wheel';
 import { Wiring } from './Configuration/Wiring/Wiring';
-import {
-	Cipher,
-	CipherOptions,
-	InvalidEnigmaAlphabetError,
-	InvalidTraceLetterError,
-} from './main';
+import { Cipher, CipherOptions, InvalidEnigmaAlphabetError, InvalidTraceLetterError } from './main';
 
 describe('Cipher.ts', () => {
 	describe('Can instantiate', () => {

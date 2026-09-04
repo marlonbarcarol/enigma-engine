@@ -102,9 +102,7 @@ cipher.encrypt('XPJUP VYBRA QAJNY VAIXO UUWXO VVPDM LKVEK BHQIL DMAKH YL');
 // -- TRACING A SINGLE CHARACTER
 import { Cipher, CipherOptions } from '@enigmaciphy/engine';
 
-const configuration: CipherOptions = {
-	/* ...same shape as above... */
-};
+const configuration: CipherOptions = {/* ...same shape as above... */};
 const cipher = Cipher.create(configuration);
 
 const { output, trace } = cipher.encryptWithTrace('A');
