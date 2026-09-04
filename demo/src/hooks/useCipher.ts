@@ -1,4 +1,4 @@
-import { Cipher, CipherTraceStep } from '@enigmaciphy/engine';
+import { Cipher, CipherTraceStep, InvalidTraceLetterError } from '@enigmaciphy/engine';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { MACHINE_CONFIG, ROTOR_COUNT } from '../config';
 
@@ -41,7 +41,11 @@ export function useCipher(): UseCipherResult {
 					setLastTrace(trace);
 					setRotorPositions(currentRotorPositions(cipher));
 					return;
-				} catch {
+				} catch (error) {
+					if (!(error instanceof InvalidTraceLetterError)) {
+						throw error;
+					}
+
 					setSkippedCount((previous) => previous + 1);
 					return;
 				}
