@@ -1,4 +1,4 @@
-import { Rotor } from './Configuration/Rotor/Rotor';
+import { Rotor, RotorTraceHit } from './Configuration/Rotor/Rotor';
 import {
 	Alphabet,
 	EnigmaConfiguration,
@@ -25,6 +25,20 @@ export interface CipherOptions {
 	}>;
 	reflector?: { wiring: string; position?: string }; // `position` defaults to the first character of the alphabet.
 	chargroup?: Nullable<number>;
+}
+
+export interface CipherTraceStep {
+	component: 'plugboard' | 'entry' | 'rotor' | 'reflector';
+	index?: number; // rotor index, only present when component === 'rotor'
+	direction?: 'in' | 'out' | 'reverse' | 'forward';
+	input: string;
+	output: string;
+	rotorPosition?: string; // the rotor's current-position letter, only for component === 'rotor'
+}
+
+export interface CipherTraceResult {
+	output: string;
+	trace: CipherTraceStep[];
 }
 
 export class Cipher {
@@ -132,63 +146,142 @@ export class Cipher {
 		let characters: string[] = Array.from(text);
 
 		characters = characters.map((letter: string, index: number): string => {
-			let char: string = letter;
-
-			if (this.configuration.plugboard) {
-				char = this.configuration.plugboard.process(char);
-				this.configuration.plugboard.flipOrder();
-			}
-
-			if (this.configuration.entry) {
-				char = this.configuration.entry.process(char);
-				this.configuration.entry.flipOrder();
-			}
-
-			// Rotors are processed from reverse order
-			if (this.configuration.rotors.length > 0) {
-				char = this.configuration.rotors[this.configuration.rotors.length - 1].process(char);
-			}
-
-			this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
-
-			if (this.configuration.reflector) {
-				char = this.configuration.reflector.process(char);
-			}
-
-			if (this.configuration.rotors.length > 0) {
-				char = this.configuration.rotors[0].process(char);
-			}
-
-			if (this.configuration.entry) {
-				char = this.configuration.entry.process(char);
-				this.configuration.entry.flipOrder();
-			}
-
-			if (this.configuration.plugboard) {
-				char = this.configuration.plugboard.process(char);
-				this.configuration.plugboard.flipOrder();
-			}
-
-			this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
+			const { output } = this.processCharacterWithTrace(letter, false);
 
 			if (this.configuration.chargroup === undefined || this.configuration.chargroup === null) {
-				return char;
+				return output;
 			}
 
 			if (this.configuration.chargroup === 0) {
-				return char;
+				return output;
 			}
 
 			if ((index + 1) % this.configuration.chargroup === 0) {
-				return char.concat(' ');
+				return output.concat(' ');
 			}
 
-			return char;
+			return output;
 		});
 
 		text = characters.join('');
 		text = text.trim();
 
 		return text;
+	}
+
+	/**
+	 * Like `encrypt()`, but for exactly one character, returning the full
+	 * stage-by-stage trace of how that letter travelled through the machine:
+	 * plugboard -> entry -> rotors (reverse) -> reflector -> rotors (forward)
+	 * -> entry -> plugboard.
+	 */
+	public encryptWithTrace(letter: string): CipherTraceResult {
+		let text: string = letter.toUpperCase();
+
+		const escapedAlphabet = this.configuration.alphabet.characters.replace(/[-\\^\]]/g, '\\$&');
+		const regex = new RegExp(`[^${escapedAlphabet}]+`, 'gm');
+		text = text.replace(regex, '');
+
+		if (text.length !== 1) {
+			throw new Error(
+				`encryptWithTrace() requires exactly one character from the alphabet "${this.configuration.alphabet.characters}", received "${letter}".`,
+			);
+		}
+
+		const { output, trace } = this.processCharacterWithTrace(text, true);
+
+		return { output, trace: trace as CipherTraceStep[] };
+	}
+
+	/**
+	 * Runs a single letter through the full signal path, optionally collecting
+	 * a step-by-step trace. Shared by `encrypt()` (bulk, trace discarded) and
+	 * `encryptWithTrace()` (single character, trace returned), so the
+	 * plugboard/entry/rotor/reflector traversal logic lives in exactly one
+	 * place.
+	 */
+	private processCharacterWithTrace(
+		letter: string,
+		collectTrace: boolean,
+	): { output: string; trace: CipherTraceStep[] | null } {
+		const trace: CipherTraceStep[] | null = collectTrace ? [] : null;
+
+		let char: string = letter;
+
+		if (this.configuration.plugboard) {
+			const input = char;
+			char = this.configuration.plugboard.process(char);
+			this.configuration.plugboard.flipOrder();
+			trace?.push({ component: 'plugboard', direction: 'in', input, output: char });
+		}
+
+		if (this.configuration.entry) {
+			const input = char;
+			char = this.configuration.entry.process(char);
+			this.configuration.entry.flipOrder();
+			trace?.push({ component: 'entry', direction: 'in', input, output: char });
+		}
+
+		// Rotors are processed from reverse order
+		if (this.configuration.rotors.length > 0) {
+			const hits: RotorTraceHit[] = [];
+			char = this.configuration.rotors[this.configuration.rotors.length - 1].processWithTrace(
+				char,
+				collectTrace ? hits : undefined,
+			);
+
+			for (const hit of hits) {
+				trace?.push({
+					component: 'rotor',
+					index: this.configuration.rotors.indexOf(hit.rotor),
+					direction: 'reverse',
+					input: hit.input,
+					output: hit.output,
+					rotorPosition: hit.rotor.wiring.input.at(hit.rotor.cap()),
+				});
+			}
+		}
+
+		this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
+
+		if (this.configuration.reflector) {
+			const input = char;
+			char = this.configuration.reflector.process(char);
+			trace?.push({ component: 'reflector', input, output: char });
+		}
+
+		if (this.configuration.rotors.length > 0) {
+			const hits: RotorTraceHit[] = [];
+			char = this.configuration.rotors[0].processWithTrace(char, collectTrace ? hits : undefined);
+
+			for (const hit of hits) {
+				trace?.push({
+					component: 'rotor',
+					index: this.configuration.rotors.indexOf(hit.rotor),
+					direction: 'forward',
+					input: hit.input,
+					output: hit.output,
+					rotorPosition: hit.rotor.wiring.input.at(hit.rotor.cap()),
+				});
+			}
+		}
+
+		if (this.configuration.entry) {
+			const input = char;
+			char = this.configuration.entry.process(char);
+			this.configuration.entry.flipOrder();
+			trace?.push({ component: 'entry', direction: 'out', input, output: char });
+		}
+
+		if (this.configuration.plugboard) {
+			const input = char;
+			char = this.configuration.plugboard.process(char);
+			this.configuration.plugboard.flipOrder();
+			trace?.push({ component: 'plugboard', direction: 'out', input, output: char });
+		}
+
+		this.configuration.rotors.forEach((rotor) => rotor.flipOrder());
+
+		return { output: char, trace };
 	}
 }

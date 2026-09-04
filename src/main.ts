@@ -1,10 +1,10 @@
-import { Cipher, CipherOptions } from './Cipher';
+import { Cipher, CipherOptions, CipherTraceResult, CipherTraceStep } from './Cipher';
 import { Alphabet } from './Configuration/Alphabet/Alphabet';
 import { UniqueAlphabetCharacterError } from './Configuration/Alphabet/Error/UniqueAlphabetCharacterError';
 import { EnigmaConfiguration } from './Configuration/EnigmaConfiguration';
 import { Plugboard } from './Configuration/Plugboard/Plugboard';
 import { Reflector } from './Configuration/Reflector/Reflector';
-import { Rotor, RotorConfiguration } from './Configuration/Rotor/Rotor';
+import { Rotor, RotorConfiguration, RotorTraceHit } from './Configuration/Rotor/Rotor';
 import { RotorRing } from './Configuration/Rotor/RotorRing';
 import { RotorWiring, RotorWiringDirectionEnum } from './Configuration/Rotor/RotorWiring';
 import { Wheel } from './Configuration/Wheel/Wheel';
@@ -19,6 +19,8 @@ export {
 	Alphabet,
 	Cipher,
 	CipherOptions,
+	CipherTraceResult,
+	CipherTraceStep,
 	EnigmaConfiguration,
 	InvalidEnigmaAlphabetError,
 	InvalidWiringAssociationError,
@@ -28,6 +30,7 @@ export {
 	Rotor,
 	RotorConfiguration,
 	RotorRing,
+	RotorTraceHit,
 	RotorWiring,
 	RotorWiringDirectionEnum,
 	UniqueAlphabetCharacterError,

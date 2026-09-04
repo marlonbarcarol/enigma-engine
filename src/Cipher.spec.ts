@@ -722,4 +722,106 @@ describe('Cipher.ts', () => {
 			);
 		});
 	});
+
+	describe('Can trace', () => {
+		const traceConfiguration: CipherOptions = {
+			alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
+			entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+			rotors: [
+				{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
+				{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
+				{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
+			],
+			reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+		};
+
+		test('produces the exact trace for the first letter of a known phrase', () => {
+			const cipher = Cipher.create(traceConfiguration);
+
+			const { output, trace } = cipher.encryptWithTrace('N');
+
+			expect(output).toEqual('Y');
+			expect(trace).toEqual([
+				{ component: 'plugboard', direction: 'in', input: 'N', output: 'N' },
+				{ component: 'entry', direction: 'in', input: 'N', output: 'N' },
+				{
+					component: 'rotor',
+					index: 2,
+					direction: 'reverse',
+					input: 'N',
+					output: 'X',
+					rotorPosition: 'B',
+				},
+				{
+					component: 'rotor',
+					index: 1,
+					direction: 'reverse',
+					input: 'X',
+					output: 'V',
+					rotorPosition: 'A',
+				},
+				{
+					component: 'rotor',
+					index: 0,
+					direction: 'reverse',
+					input: 'V',
+					output: 'I',
+					rotorPosition: 'A',
+				},
+				{ component: 'reflector', input: 'I', output: 'P' },
+				{
+					component: 'rotor',
+					index: 0,
+					direction: 'forward',
+					input: 'P',
+					output: 'T',
+					rotorPosition: 'A',
+				},
+				{
+					component: 'rotor',
+					index: 1,
+					direction: 'forward',
+					input: 'T',
+					output: 'N',
+					rotorPosition: 'A',
+				},
+				{
+					component: 'rotor',
+					index: 2,
+					direction: 'forward',
+					input: 'N',
+					output: 'Y',
+					rotorPosition: 'B',
+				},
+				{ component: 'entry', direction: 'out', input: 'Y', output: 'Y' },
+				{ component: 'plugboard', direction: 'out', input: 'Y', output: 'Y' },
+			]);
+		});
+
+		test('matches encrypt() letter-by-letter across a full phrase', () => {
+			const bulkCipher = Cipher.create(traceConfiguration);
+			const tracedCipher = Cipher.create(traceConfiguration);
+
+			const plaintext = 'NEVERGONNAGIVEYOUUP';
+			let bulkResult = '';
+			let tracedResult = '';
+
+			for (const letter of plaintext) {
+				bulkResult += bulkCipher.encrypt(letter);
+				tracedResult += tracedCipher.encryptWithTrace(letter).output;
+			}
+
+			expect(bulkResult).toEqual('YQBUNEVTVMPZZWRISJW');
+			expect(tracedResult).toEqual(bulkResult);
+		});
+
+		test('throws when given anything other than exactly one alphabet character', () => {
+			const cipher = Cipher.create(traceConfiguration);
+
+			expect(() => cipher.encryptWithTrace('')).toThrow();
+			expect(() => cipher.encryptWithTrace('AB')).toThrow();
+			expect(() => cipher.encryptWithTrace('1')).toThrow();
+		});
+	});
 });

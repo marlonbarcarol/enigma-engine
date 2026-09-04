@@ -23,6 +23,12 @@ export interface RotorConfiguration {
 	lock?: boolean; // Defaults to false, when true prevents wheel rotation.
 }
 
+export interface RotorTraceHit {
+	rotor: Rotor;
+	input: string;
+	output: string;
+}
+
 export class Rotor extends AbstractWiringProcessor {
 	public wiring: RotorWiring;
 	public pointer: number;
@@ -121,15 +127,32 @@ export class Rotor extends AbstractWiringProcessor {
 	 * The core of a rotor is processing a letter.
 	 */
 	public process(letter: string): string {
+		return this.processWithTrace(letter);
+	}
+
+	/**
+	 * Same substitution/rotation logic as `process()`. Kept as a separate
+	 * method (rather than a second parameter on `process()`) because
+	 * `process()` overrides `AbstractWiringProcessor.process(letter, pointer:
+	 * number)`, and a second parameter there must stay assignable to
+	 * `number` -- it can't be repurposed for trace collection.
+	 *
+	 * `trace`, when provided, receives one entry per rotor visited during this
+	 * call's traversal (including rotors visited recursively via `connection`),
+	 * in the order they were actually processed.
+	 */
+	public processWithTrace(letter: string, trace?: RotorTraceHit[]): string {
 		if (this.shouldRotate()) {
 			this.rotate();
 		}
 
 		const char = super.process(letter, this.pointer);
 
+		trace?.push({ rotor: this, input: letter, output: char });
+
 		if (this.order === WiringProcessOrderEnum.INPUT_OUTPUT) {
 			if (this.connection.next !== null) {
-				return this.connection.next.process(char);
+				return this.connection.next.processWithTrace(char, trace);
 			}
 
 			return char;
@@ -137,7 +160,7 @@ export class Rotor extends AbstractWiringProcessor {
 
 		if (this.order === WiringProcessOrderEnum.OUTPUT_INPUT) {
 			if (this.connection.previous !== null) {
-				return this.connection.previous.process(char);
+				return this.connection.previous.processWithTrace(char, trace);
 			}
 
 			return char;
