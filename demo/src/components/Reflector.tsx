@@ -13,12 +13,13 @@ function Reflector({ highlighted }: ReflectorProps) {
 			className={highlighted ? 'reflector reflector--highlighted' : 'reflector'}
 			title="Reflector (Umkehrwalze) — fixed, does not rotate"
 		>
-			<span className="reflector__label">UKW</span>
+			<span className="fixed-wheel__abbr">UKW</span>
 			<svg className="reflector__wiring" viewBox="0 0 40 28" aria-hidden="true">
 				<path d="M 6 6 Q 20 20 34 8" />
 				<path d="M 6 14 Q 20 2 34 20" />
 				<path d="M 6 22 Q 20 12 34 14" />
 			</svg>
+			<span className="fixed-wheel__name">Reflector</span>
 		</div>
 	);
 }

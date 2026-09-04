@@ -46,6 +46,13 @@ function Machine({
 			<div className="machine__lid">
 				<span className="machine__badge">Enigma</span>
 
+				<header className="panel__header">
+					<h2 className="panel__title">Walzen — Rotors</h2>
+					<p className="panel__hint">
+						Each keypress steps the right-hand rotor, rewiring the whole path
+					</p>
+				</header>
+
 				<div className="machine__rotors">
 					<Reflector highlighted={isHighlighted(highlightedComponent, 'reflector')} />
 
@@ -67,7 +74,8 @@ function Machine({
 						}
 						title="Entry wheel (Eintrittswalze) — connects the plugboard to the rotor stack"
 					>
-						<span className="entry-wheel__label">ETW</span>
+						<span className="fixed-wheel__abbr">ETW</span>
+						<span className="fixed-wheel__name">Entry</span>
 					</div>
 				</div>
 			</div>

@@ -14,7 +14,10 @@ function Plugboard({ highlighted }: PlugboardProps) {
 			data-testid="plugboard"
 			className={highlighted ? 'plugboard plugboard--highlighted' : 'plugboard'}
 		>
-			<h2 className="panel__title">Steckerbrett — Plugboard</h2>
+			<header className="panel__header">
+				<h2 className="panel__title">Steckerbrett — Plugboard</h2>
+				<p className="panel__hint">Swaps letter pairs before and after the rotors</p>
+			</header>
 
 			<div className="plugboard__sockets">
 				{QWERTZ_ROWS.map((row, rowIndex) => (

@@ -12,6 +12,11 @@ interface LampboardProps {
 function Lampboard({ litLetter }: LampboardProps) {
 	return (
 		<section data-testid="lampboard" className="lampboard">
+			<header className="panel__header">
+				<h2 className="panel__title">Glühlampenfeld — Lampboard</h2>
+				<p className="panel__hint">The enciphered letter lights up here</p>
+			</header>
+
 			<div className="lampboard__rows">
 				{QWERTZ_ROWS.map((row, rowIndex) => (
 					<div className="lampboard__row" key={rowIndex}>

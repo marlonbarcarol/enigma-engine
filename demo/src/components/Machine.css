@@ -116,14 +116,25 @@
 	align-items: center;
 	justify-content: center;
 	gap: 3px;
-	width: 52px;
-	height: 74px;
+	width: 62px;
+	height: 82px;
 	border-radius: 6px;
 	background: linear-gradient(180deg, #443228, #2a1e18);
 	border: 1px solid #6b5138;
 	color: #cbb68a;
+}
+
+.fixed-wheel__abbr {
 	font-size: 10px;
+	font-weight: 600;
 	letter-spacing: 0.12em;
+	color: var(--brass);
+}
+
+.fixed-wheel__name {
+	font-size: 9px;
+	letter-spacing: 0.04em;
+	color: #8d8571;
 }
 
 .reflector__wiring {
@@ -239,14 +250,24 @@
 	box-shadow: inset 0 2px 10px rgb(0 0 0 / 55%);
 }
 
+.panel__header {
+	margin-bottom: 10px;
+	text-align: center;
+}
+
 .panel__title {
-	margin: 0 0 10px;
+	margin: 0;
 	font-size: 10px;
 	font-weight: 600;
 	letter-spacing: 0.2em;
 	text-transform: uppercase;
 	color: #9a8a5e;
-	text-align: center;
+}
+
+.panel__hint {
+	margin: 3px 0 0;
+	font-size: 11px;
+	color: #7a7263;
 }
 
 .plugboard__sockets {

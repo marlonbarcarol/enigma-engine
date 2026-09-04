@@ -13,6 +13,11 @@ interface KeysProps {
 function Keys({ onKeyPress, pressedLetter }: KeysProps) {
 	return (
 		<section data-testid="keyboard" className="keys">
+			<header className="panel__header">
+				<h2 className="panel__title">Tastatur — Keyboard</h2>
+				<p className="panel__hint">Click a key to encipher that letter</p>
+			</header>
+
 			<div className="keys__rows">
 				{QWERTZ_ROWS.map((row, rowIndex) => (
 					<div className="keys__row" key={rowIndex}>
