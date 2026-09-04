@@ -1,9 +1,9 @@
 /* ---------------------------------------------------------------- The case */
 
 .machine {
-	max-width: 760px;
+	max-width: 720px;
 	margin: 0 auto;
-	padding: 18px;
+	padding: 10px;
 	border-radius: 10px;
 	background:
 		linear-gradient(160deg, var(--case-light), var(--case-mid) 45%, var(--case-dark)),
@@ -16,7 +16,7 @@
 
 .machine__lid {
 	position: relative;
-	padding: 14px 16px 16px;
+	padding: 10px 12px 12px;
 	border-radius: 8px;
 	background: linear-gradient(180deg, #241a15, #171110);
 	border: 1px solid #6b5138;
@@ -66,8 +66,8 @@
 .rotor__window {
 	display: grid;
 	place-items: center;
-	width: 34px;
-	height: 40px;
+	width: 30px;
+	height: 34px;
 	border-radius: 3px;
 	background: #0d0d0e;
 	border: 1px solid #000;
@@ -78,7 +78,7 @@
 
 .rotor__letter {
 	font-family: Georgia, 'Times New Roman', serif;
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: 700;
 	color: #f4efe2;
 	text-shadow: 0 0 10px rgb(255 240 200 / 25%);
@@ -116,8 +116,8 @@
 	align-items: center;
 	justify-content: center;
 	gap: 3px;
-	width: 62px;
-	height: 82px;
+	width: 56px;
+	height: 74px;
 	border-radius: 6px;
 	background: linear-gradient(180deg, #443228, #2a1e18);
 	border: 1px solid #6b5138;
@@ -158,8 +158,8 @@
 
 .lampboard,
 .keys {
-	margin-top: 14px;
-	padding: 12px 14px;
+	margin-top: 8px;
+	padding: 8px 12px;
 	border-radius: 8px;
 	background: var(--panel);
 	border: 1px solid #6b5138;
@@ -171,20 +171,20 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 8px;
+	gap: 6px;
 }
 
 .lampboard__row,
 .keys__row {
 	display: flex;
-	gap: 8px;
+	gap: 6px;
 }
 
 .lamp {
 	display: grid;
 	place-items: center;
-	width: 34px;
-	height: 34px;
+	width: 28px;
+	height: 28px;
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 30%, #3a3a38, #1a1a19);
 	border: 1px solid #4c4a44;
@@ -208,8 +208,8 @@
 }
 
 .key {
-	width: 36px;
-	height: 36px;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 28%, #4a4a4d, #1e1e20 70%);
 	border: 1px solid #6d6d70;
@@ -242,8 +242,8 @@
 /* ---------------------------------------------------------- The plugboard */
 
 .plugboard {
-	margin-top: 14px;
-	padding: 12px 14px 10px;
+	margin-top: 8px;
+	padding: 8px 12px 6px;
 	border-radius: 8px;
 	background: linear-gradient(180deg, #221a16, var(--panel));
 	border: 1px solid #6b5138;
@@ -251,7 +251,7 @@
 }
 
 .panel__header {
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 	text-align: center;
 }
 
@@ -279,7 +279,7 @@
 
 .plugboard__row {
 	display: flex;
-	gap: 7px;
+	gap: 5px;
 }
 
 .plugboard__socket {
@@ -287,11 +287,30 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 2px;
-	width: 32px;
+	width: 28px;
 	padding: 3px 0 4px;
 	border-radius: 4px;
 	background: #191512;
 	border: 1px solid #3d342a;
+	cursor: pointer;
+	transition:
+		border-color 120ms ease-out,
+		background 120ms ease-out;
+}
+
+.plugboard__socket:hover {
+	border-color: #9a8a5e;
+}
+
+.plugboard__socket--pending {
+	border-color: var(--lamp-lit);
+	background: #2e2413;
+	box-shadow: 0 0 10px rgb(255 210 87 / 45%);
+}
+
+.plugboard__cable-empty {
+	font-style: italic;
+	opacity: 0.7;
 }
 
 .plugboard__letter {
@@ -332,8 +351,8 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	gap: 6px;
-	margin: 10px 0 0;
+	gap: 5px;
+	margin: 7px 0 0;
 	font-size: 10px;
 	color: #8d8571;
 }
@@ -384,5 +403,89 @@
 .trace-step--active {
 	background: var(--lamp-lit);
 	color: #2a1f05;
+	font-weight: 700;
+}
+
+/* ------------------------------------------------------------- Key sheet */
+
+.settings {
+	padding: 12px 14px;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #221a16, var(--panel));
+	border: 1px solid #4a3d2c;
+}
+
+.settings__grid {
+	display: grid;
+	grid-template-columns: auto repeat(3, 1fr);
+	gap: 6px;
+	align-items: center;
+}
+
+.settings__slot,
+.settings__label {
+	font-size: 10px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #9a8a5e;
+}
+
+.settings__slot {
+	text-align: center;
+}
+
+.settings__select {
+	width: 100%;
+	padding: 4px 6px;
+	border-radius: 4px;
+	background: #14100e;
+	border: 1px solid #4a3d2c;
+	color: #e8e2d4;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 12px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.settings__select:focus {
+	outline: none;
+	border-color: var(--brass);
+}
+
+.settings__reflector {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 12px;
+	padding-top: 10px;
+	border-top: 1px solid #362c22;
+}
+
+.settings__reflector-options {
+	display: flex;
+	gap: 6px;
+}
+
+.settings__chip {
+	min-width: 30px;
+	padding: 4px 8px;
+	border-radius: 999px;
+	background: #14100e;
+	border: 1px solid #4a3d2c;
+	color: #b6ac95;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.settings__chip:hover {
+	border-color: #9a8a5e;
+}
+
+.settings__chip--active {
+	background: #2e2413;
+	border-color: var(--brass);
+	color: var(--lamp-lit);
 	font-weight: 700;
 }

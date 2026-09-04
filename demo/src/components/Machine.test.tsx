@@ -5,17 +5,22 @@ import Machine from './Machine';
 function renderMachine(overrides: Partial<Parameters<typeof Machine>[0]> = {}) {
 	const onKeyPress = vi.fn();
 
+	const onPlugboardChange = vi.fn();
+
 	render(
 		<Machine
 			rotorPositions={['A', 'B', 'C']}
+			rotorIds={['I', 'II', 'III']}
 			litLetter={null}
 			pressedLetter={null}
 			onKeyPress={onKeyPress}
+			plugboardPairs={[]}
+			onPlugboardChange={onPlugboardChange}
 			{...overrides}
 		/>,
 	);
 
-	return { onKeyPress };
+	return { onKeyPress, onPlugboardChange };
 }
 
 describe('Machine', () => {
@@ -62,5 +67,22 @@ describe('Machine', () => {
 		fireEvent.click(screen.getByTestId('key-G'));
 
 		expect(onKeyPress).toHaveBeenCalledWith('G');
+	});
+
+	test('clicking two plugboard sockets patches a cable between them', () => {
+		const { onPlugboardChange } = renderMachine();
+
+		fireEvent.click(screen.getByTestId('socket-A'));
+		fireEvent.click(screen.getByTestId('socket-B'));
+
+		expect(onPlugboardChange).toHaveBeenCalledWith([['A', 'B']]);
+	});
+
+	test('clicking a cabled socket pulls that cable out', () => {
+		const { onPlugboardChange } = renderMachine({ plugboardPairs: [['A', 'B']] });
+
+		fireEvent.click(screen.getByTestId('socket-A'));
+
+		expect(onPlugboardChange).toHaveBeenCalledWith([]);
 	});
 });

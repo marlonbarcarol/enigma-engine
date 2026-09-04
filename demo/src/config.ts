@@ -1,18 +1,6 @@
 import { CipherOptions } from '@enigmaciphy/engine';
 
-export const MACHINE_CONFIG: CipherOptions = {
-	alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	plugboard: { wiring: 'AQRIJFHGDEWLTNSXBCOMZVKPYU' },
-	entry: { wiring: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
-	rotors: [
-		{ wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notches: ['Q'] },
-		{ wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notches: ['E'] },
-		{ wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notches: ['V'] },
-	],
-	reflector: { wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
-};
-
-export const ROTOR_COUNT = MACHINE_CONFIG.rotors.length;
+export const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /**
  * The Enigma's keyboard, lampboard and plugboard all share this layout — the
@@ -24,26 +12,107 @@ export const QWERTZ_ROWS: readonly (readonly string[])[] = [
 	['P', 'Y', 'X', 'C', 'V', 'B', 'N', 'M', 'L'],
 ];
 
-/**
- * The letter pairs physically cross-patched on the plugboard, derived from the
- * configured wiring. Self-mapped letters (no cable) are omitted, and each pair
- * appears once rather than twice.
- */
-export const PLUGBOARD_PAIRS: readonly (readonly [string, string])[] = (() => {
-	const alphabet = MACHINE_CONFIG.alphabet;
-	const wiring = MACHINE_CONFIG.plugboard?.wiring ?? alphabet;
-	const pairs: [string, string][] = [];
+export interface RotorSpec {
+	id: string;
+	wiring: string;
+	notch: string;
+}
 
-	for (const [index, letter] of Array.from(alphabet).entries()) {
-		const mapped = wiring[index];
+/** The five rotors issued with the Wehrmacht Enigma I. */
+export const ROTOR_CATALOG: readonly RotorSpec[] = [
+	{ id: 'I', wiring: 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', notch: 'Q' },
+	{ id: 'II', wiring: 'AJDKSIRUXBLHWTMCQGZNPYFVOE', notch: 'E' },
+	{ id: 'III', wiring: 'BDFHJLCPRTXVZNYEIWGAKMUSQO', notch: 'V' },
+	{ id: 'IV', wiring: 'ESOVPZJAYQUIRHXLNFTGKDCMWB', notch: 'J' },
+	{ id: 'V', wiring: 'VZBRGITYUPSDNHLXAWMJQOFECK', notch: 'Z' },
+];
 
-		if (mapped !== letter && letter < mapped) {
-			pairs.push([letter, mapped]);
-		}
+export interface ReflectorSpec {
+	id: string;
+	wiring: string;
+}
+
+/** The reflectors (Umkehrwalzen) available on the same machine. */
+export const REFLECTOR_CATALOG: readonly ReflectorSpec[] = [
+	{ id: 'A', wiring: 'EJMZALYXVBWFCRQUONTSPIKHGD' },
+	{ id: 'B', wiring: 'YRUHQSLDPXNGOKMIEBFZCWVJAT' },
+	{ id: 'C', wiring: 'FVPJIAOYEDRZXWGCTKUQSBNMHL' },
+];
+
+export interface MachineSettings {
+	/** Rotor ids, left to right as mounted in the machine. */
+	rotorIds: string[];
+	/** Ringstellung — the ring setting for each rotor. */
+	ringSettings: string[];
+	/** Grundstellung — the starting position for each rotor. */
+	positions: string[];
+	reflectorId: string;
+	plugboardPairs: [string, string][];
+}
+
+export const DEFAULT_SETTINGS: MachineSettings = {
+	rotorIds: ['I', 'II', 'III'],
+	ringSettings: ['A', 'A', 'A'],
+	positions: ['A', 'A', 'A'],
+	reflectorId: 'B',
+	// The pairs encoded by the original demo's fixed plugboard wiring.
+	plugboardPairs: [
+		['B', 'Q'],
+		['C', 'R'],
+		['D', 'I'],
+		['E', 'J'],
+		['G', 'H'],
+		['K', 'W'],
+		['M', 'T'],
+		['O', 'S'],
+		['P', 'X'],
+		['U', 'Z'],
+	],
+};
+
+export const ROTOR_COUNT = DEFAULT_SETTINGS.rotorIds.length;
+
+function rotorSpec(id: string): RotorSpec {
+	return ROTOR_CATALOG.find((rotor) => rotor.id === id) ?? ROTOR_CATALOG[0];
+}
+
+function reflectorSpec(id: string): ReflectorSpec {
+	return REFLECTOR_CATALOG.find((reflector) => reflector.id === id) ?? REFLECTOR_CATALOG[1];
+}
+
+/** Expands plugboard pairs into the full 26-character substitution wiring. */
+export function plugboardWiring(pairs: readonly (readonly [string, string])[]): string {
+	const wiring = Array.from(ALPHABET);
+
+	for (const [from, to] of pairs) {
+		wiring[ALPHABET.indexOf(from)] = to;
+		wiring[ALPHABET.indexOf(to)] = from;
 	}
 
-	return pairs;
-})();
+	return wiring.join('');
+}
 
-/** Every letter that has a plugboard cable attached to it. */
-export const PLUGGED_LETTERS: ReadonlySet<string> = new Set(PLUGBOARD_PAIRS.flat());
+/** Translates the operator-facing settings into the engine's configuration. */
+export function buildCipherOptions(settings: MachineSettings): CipherOptions {
+	return {
+		alphabet: ALPHABET,
+		plugboard: { wiring: plugboardWiring(settings.plugboardPairs) },
+		entry: { wiring: ALPHABET },
+		rotors: settings.rotorIds.map((id, index) => {
+			const spec = rotorSpec(id);
+
+			return {
+				wiring: spec.wiring,
+				notches: [spec.notch],
+				ring: settings.ringSettings[index],
+				position: settings.positions[index],
+			};
+		}),
+		reflector: { wiring: reflectorSpec(settings.reflectorId).wiring },
+	};
+}
+
+/** Every letter that currently has a plugboard cable attached to it. */
+export function pluggedLetters(pairs: readonly (readonly [string, string])[]): ReadonlySet<string> {
+	return new Set(pairs.flat());
+}

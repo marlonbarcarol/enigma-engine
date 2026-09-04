@@ -11,10 +11,13 @@ export interface HighlightedComponent {
 
 interface MachineProps {
 	rotorPositions: string[];
+	rotorIds: string[];
 	highlightedComponent?: HighlightedComponent | null;
 	litLetter: string | null;
 	pressedLetter: string | null;
 	onKeyPress: (letter: string) => void;
+	plugboardPairs: [string, string][];
+	onPlugboardChange: (pairs: [string, string][]) => void;
 }
 
 function isHighlighted(
@@ -36,10 +39,13 @@ function isHighlighted(
  */
 function Machine({
 	rotorPositions,
+	rotorIds,
 	highlightedComponent,
 	litLetter,
 	pressedLetter,
 	onKeyPress,
+	plugboardPairs,
+	onPlugboardChange,
 }: MachineProps) {
 	return (
 		<div data-testid="machine" className="machine" role="img" aria-label="Enigma machine">
@@ -60,6 +66,7 @@ function Machine({
 						<Rotor
 							key={index}
 							index={index}
+							name={rotorIds[index] ?? String(index + 1)}
 							position={position}
 							highlighted={isHighlighted(highlightedComponent, 'rotor', index)}
 						/>
@@ -84,7 +91,11 @@ function Machine({
 
 			<Keys onKeyPress={onKeyPress} pressedLetter={pressedLetter} />
 
-			<Plugboard highlighted={isHighlighted(highlightedComponent, 'plugboard')} />
+			<Plugboard
+				pairs={plugboardPairs}
+				onChange={onPlugboardChange}
+				highlighted={isHighlighted(highlightedComponent, 'plugboard')}
+			/>
 		</div>
 	);
 }

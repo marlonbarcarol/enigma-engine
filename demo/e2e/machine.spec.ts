@@ -78,6 +78,69 @@ test('encrypt/decrypt symmetry holds through the rendered UI', async ({ page, co
 	await expect(decryptPage.getByTestId('ciphertext-output')).toHaveText('NEVERGONNAGIVEYOUUP');
 });
 
+test('the whole machine fits a laptop viewport without scrolling', async ({ page }) => {
+	await page.setViewportSize({ width: 1440, height: 800 });
+	await page.goto('/');
+
+	// You have to be able to see the rotors and lamps while typing beside them.
+	expect(
+		await page.evaluate(() => document.body.scrollHeight <= window.innerHeight),
+	).toBe(true);
+	await expect(page.getByTestId('plugboard')).toBeInViewport();
+	await expect(page.getByTestId('rotor-0')).toBeInViewport();
+});
+
+test('deleting characters re-enciphers instead of leaving stale output', async ({ page }) => {
+	await page.goto('/');
+
+	const input = page.getByTestId('plaintext-input');
+	await input.fill('ENIGMA');
+	const full = await page.getByTestId('ciphertext-output').innerText();
+
+	await input.fill('ENI');
+
+	await expect(page.getByTestId('ciphertext-output')).toHaveText(full.slice(0, 3));
+});
+
+test('reset clears the message and winds the rotors back', async ({ page }) => {
+	await page.goto('/');
+
+	await page.getByTestId('plaintext-input').fill('ENIGMA');
+	await expect(page.getByTestId('rotor-2')).not.toHaveText(/A/);
+
+	await page.getByTestId('reset').click();
+
+	await expect(page.getByTestId('plaintext-input')).toHaveValue('');
+	await expect(page.getByTestId('ciphertext-output')).toHaveText('');
+	await expect(page.getByTestId('rotor-2')).toHaveText(/A/);
+});
+
+test('changing the key settings re-enciphers the same message', async ({ page }) => {
+	await page.goto('/');
+
+	await page.getByTestId('plaintext-input').fill('ENIGMA');
+	const withDefaults = await page.getByTestId('ciphertext-output').innerText();
+
+	await page.getByTestId('setting-rotor-0').selectOption('IV');
+
+	await expect(page.getByTestId('ciphertext-output')).not.toHaveText(withDefaults);
+	await expect(page.getByTestId('rotor-0')).toContainText('IV');
+});
+
+test('patching a plugboard cable changes the output', async ({ page }) => {
+	await page.goto('/');
+
+	await page.getByTestId('plaintext-input').fill('ENIGMA');
+	const before = await page.getByTestId('ciphertext-output').innerText();
+
+	// 'A' has no cable in the default key sheet, so pairing it with 'N' is a real change.
+	await page.getByTestId('socket-A').click();
+	await page.getByTestId('socket-N').click();
+
+	await expect(page.getByTestId('ciphertext-output')).not.toHaveText(before);
+	await expect(page.getByTestId('socket-A')).toHaveClass(/plugboard__socket--plugged/);
+});
+
 test('debug mode shows the full trace for a keypress', async ({ page }) => {
 	await page.goto('/');
 

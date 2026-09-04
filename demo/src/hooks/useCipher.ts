@@ -1,100 +1,119 @@
-import { Cipher, CipherTraceStep, InvalidTraceLetterError } from '@enigmaciphy/engine';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { MACHINE_CONFIG, ROTOR_COUNT } from '../config';
+import { Cipher, CipherTraceStep } from '@enigmaciphy/engine';
+import { useCallback, useMemo, useState } from 'react';
+import { ALPHABET, buildCipherOptions, DEFAULT_SETTINGS, MachineSettings } from '../config';
 
 export interface UseCipherResult {
+	/** The plaintext as typed, including characters the machine can't encipher. */
+	message: string;
+	setMessage: (message: string) => void;
+	/** Strike a single key, as on the machine itself. */
+	pressKey: (letter: string) => void;
+	/** Clear the message and wind the rotors back to their starting positions. */
+	reset: () => void;
+
 	ciphertext: string;
 	skippedCount: number;
+	rotorPositions: string[];
+	/** The key most recently struck, for the keyboard's pressed state. */
+	lastInput: string | null;
+	/** The letter most recently enciphered, for the lampboard's lit lamp. */
+	lastOutput: string | null;
+	lastTrace: CipherTraceStep[] | null;
+
 	debugMode: boolean;
 	setDebugMode: (value: boolean) => void;
-	lastTrace: CipherTraceStep[] | null;
+
+	settings: MachineSettings;
+	setSettings: (settings: MachineSettings) => void;
+}
+
+interface EncipherResult {
+	ciphertext: string;
+	skippedCount: number;
 	rotorPositions: string[];
-	/** The key just pressed, for the keyboard's pressed state. */
 	lastInput: string | null;
-	/** The letter just enciphered, for the lampboard's lit lamp. */
 	lastOutput: string | null;
-	pressKey: (letter: string) => void;
+	lastTrace: CipherTraceStep[] | null;
 }
 
 function currentRotorPositions(cipher: Cipher): string[] {
 	return cipher.configuration.rotors.map((rotor) => rotor.wiring.input.at(rotor.cap()));
 }
 
-export function useCipher(): UseCipherResult {
-	const cipherRef = useRef<Cipher | undefined>(undefined);
-	if (!cipherRef.current) {
-		cipherRef.current = Cipher.create(MACHINE_CONFIG);
+/**
+ * Enciphers the whole message from a freshly-wound machine.
+ *
+ * The message is the source of truth rather than an append-only log, so editing
+ * it (backspacing, pasting, clearing) re-runs the machine from its starting
+ * position — which is what "encipher this text with these settings" means, and
+ * what makes deleting a character behave the way anyone would expect.
+ */
+function encipher(message: string, settings: MachineSettings): EncipherResult {
+	const cipher = Cipher.create(buildCipherOptions(settings));
+	const wantsTrace = message.length > 0;
+
+	let ciphertext = '';
+	let skippedCount = 0;
+	let lastInput: string | null = null;
+	let lastOutput: string | null = null;
+	let lastTrace: CipherTraceStep[] | null = null;
+
+	for (const character of message.toUpperCase()) {
+		if (!ALPHABET.includes(character)) {
+			skippedCount += 1;
+			continue;
+		}
+
+		const { output, trace } = cipher.encryptWithTrace(character);
+
+		ciphertext += output;
+		lastInput = character;
+		lastOutput = output;
+		lastTrace = wantsTrace ? trace : null;
 	}
 
-	const [ciphertext, setCiphertext] = useState('');
-	const [skippedCount, setSkippedCount] = useState(0);
+	return {
+		ciphertext,
+		skippedCount,
+		rotorPositions: currentRotorPositions(cipher),
+		lastInput,
+		lastOutput,
+		lastTrace,
+	};
+}
+
+export function useCipher(): UseCipherResult {
+	const [message, setMessage] = useState('');
 	const [debugMode, setDebugMode] = useState(false);
-	const [lastTrace, setLastTrace] = useState<CipherTraceStep[] | null>(null);
-	const [rotorPositions, setRotorPositions] = useState<string[]>(() =>
-		Array(ROTOR_COUNT).fill('A'),
-	);
-	const [lastInput, setLastInput] = useState<string | null>(null);
-	const [lastOutput, setLastOutput] = useState<string | null>(null);
+	const [settings, setSettings] = useState<MachineSettings>(DEFAULT_SETTINGS);
 
-	const pressKey = useCallback(
-		(letter: string) => {
-			const cipher = cipherRef.current as Cipher;
+	const result = useMemo(() => encipher(message, settings), [message, settings]);
 
-			if (debugMode) {
-				try {
-					const { output, trace } = cipher.encryptWithTrace(letter);
-					setCiphertext((previous) => previous + output);
-					setLastTrace(trace);
-					setRotorPositions(currentRotorPositions(cipher));
-					setLastInput(letter.toUpperCase());
-					setLastOutput(output);
-					return;
-				} catch (error) {
-					if (!(error instanceof InvalidTraceLetterError)) {
-						throw error;
-					}
+	const pressKey = useCallback((letter: string) => {
+		setMessage((previous) => previous + letter.toUpperCase());
+	}, []);
 
-					setSkippedCount((previous) => previous + 1);
-					return;
-				}
-			}
-
-			const output = cipher.encrypt(letter);
-
-			if (output.length === 0) {
-				setSkippedCount((previous) => previous + 1);
-				return;
-			}
-
-			setCiphertext((previous) => previous + output);
-			setRotorPositions(currentRotorPositions(cipher));
-			setLastInput(letter.toUpperCase());
-			setLastOutput(output);
-		},
-		[debugMode],
-	);
+	const reset = useCallback(() => {
+		setMessage('');
+	}, []);
 
 	return useMemo(
 		() => ({
-			ciphertext,
-			skippedCount,
+			message,
+			setMessage,
+			pressKey,
+			reset,
+			ciphertext: result.ciphertext,
+			skippedCount: result.skippedCount,
+			rotorPositions: result.rotorPositions,
+			lastInput: result.lastInput,
+			lastOutput: result.lastOutput,
+			lastTrace: result.lastTrace,
 			debugMode,
 			setDebugMode,
-			lastTrace,
-			rotorPositions,
-			lastInput,
-			lastOutput,
-			pressKey,
+			settings,
+			setSettings,
 		}),
-		[
-			ciphertext,
-			skippedCount,
-			debugMode,
-			lastTrace,
-			rotorPositions,
-			lastInput,
-			lastOutput,
-			pressKey,
-		],
+		[message, pressKey, reset, result, debugMode, settings],
 	);
 }
