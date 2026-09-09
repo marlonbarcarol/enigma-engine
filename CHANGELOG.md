@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.2...v0.1.3) (2026-09-09)
+
+
+### Features
+
+* **demo:** add a favicon and page metadata ([16229e0](https://github.com/marlonbarcarol/enigma-engine/commit/16229e0423d0720b50bd170966959bb389471355))
+* **demo:** add debug-mode trace panel with sequential playback ([07b160a](https://github.com/marlonbarcarol/enigma-engine/commit/07b160a0f96856e46799493852f7f80612c36965))
+* **demo:** add SVG machine visualization components ([3b38d6b](https://github.com/marlonbarcarol/enigma-engine/commit/3b38d6bd81397fd7c621eabe4015b562762af260))
+* **demo:** add useCipher hook with the fixed v1 machine configuration ([996cda0](https://github.com/marlonbarcarol/enigma-engine/commit/996cda0e11da27f7ab6ed69424860e2d0ea81d69))
+* **demo:** credit the library in the header with a link to npm ([7364bd3](https://github.com/marlonbarcarol/enigma-engine/commit/7364bd36343877f07cf24e7836cff193833fccd6))
+* **demo:** explain how the machine works and how to use the library ([ba9009d](https://github.com/marlonbarcarol/enigma-engine/commit/ba9009dcf4c40f4829f4783596767072ae3aec24))
+* **demo:** label every part of the machine ([28f6350](https://github.com/marlonbarcarol/enigma-engine/commit/28f6350edbd4887afa9187dcb8bea116ae21075f))
+* **demo:** rebuild the visualizer to actually look like an Enigma machine ([0555028](https://github.com/marlonbarcarol/enigma-engine/commit/055502817ba10f27bf0a98b1d3a635fac63094c0))
+* **demo:** scaffold Vite + React + TypeScript visualizer app ([22cfea0](https://github.com/marlonbarcarol/enigma-engine/commit/22cfea097006bcb3d90c8a75c73b3f24bbf08fbc))
+* **demo:** two-column layout, working edits, and a configurable key sheet ([956f309](https://github.com/marlonbarcarol/enigma-engine/commit/956f30949d4f4392023885f721687b8fbbae2739))
+* **demo:** wire typing into the machine, with skipped-character count ([496c24a](https://github.com/marlonbarcarol/enigma-engine/commit/496c24a49cedc02a3e0f212c988c5ddc35e2bb74))
+
+
+### Bug Fixes
+
+* **cipher:** throw InvalidTraceLetterError instead of bare Error ([cdddcc6](https://github.com/marlonbarcarol/enigma-engine/commit/cdddcc656365256978297b6cdf3e98ded7f8fd4c))
+* **demo:** constrain machine width and style the debug playback highlight ([87e94b8](https://github.com/marlonbarcarol/enigma-engine/commit/87e94b85c5f59394e65f508bb94139a8d5158e04)), closes [#ffcc00](https://github.com/marlonbarcarol/enigma-engine/issues/ffcc00)
+* **demo:** exclude e2e/ from Vitest's test discovery ([2b96e17](https://github.com/marlonbarcarol/enigma-engine/commit/2b96e17a5fd559b8990fb37a4b9eb021c302766c))
+* **demo:** fix TypeScript config isolation and prevent stale config artifacts ([3a8ace1](https://github.com/marlonbarcarol/enigma-engine/commit/3a8ace1dc0e3d777ca8abadd56b8627a62b152bb))
+* **demo:** only treat InvalidTraceLetterError as a debug-mode skip ([f25262b](https://github.com/marlonbarcarol/enigma-engine/commit/f25262be395af5386489808252cf302f6716c5c7))
+
 ### [0.1.2](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.1...v0.1.2) (2026-09-04)
 
 
