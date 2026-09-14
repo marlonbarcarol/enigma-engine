@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.3...v0.2.0) (2026-09-14)
+
+
+### Chores
+
+* **deps:** update devDependencies to latest (`@types/node` patch bump); `typescript` stays pinned to `^6.0.3` because `@typescript-eslint` and `ts-jest` do not yet support TypeScript 7
+
 ### [0.1.3](https://github.com/marlonbarcarol/enigma-engine/compare/v0.1.2...v0.1.3) (2026-09-09)
 
 
